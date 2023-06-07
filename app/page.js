@@ -41,7 +41,7 @@ export default function Home() {
 
 
 
-      <div className={styles.grid}>
+      {/* <div className={styles.grid}>
         <div
           onClick={() => handleCardClick('about')}
           className={styles.card}
@@ -88,7 +88,7 @@ export default function Home() {
       {selectedCard === 'about' && <div>About section content...</div>}
       {selectedCard === 'projects' && <div>Projects section content...</div>}
       {selectedCard === 'experience' && <div>Experience section content...</div>}
-      {selectedCard === 'skills' && <div>Skills section content...</div>}
+      {selectedCard === 'skills' && <div>Skills section content...</div>} */}
     </main>
   )
 }
