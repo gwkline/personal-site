@@ -1,0 +1,32 @@
+{
+  "name": "personal-site",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@fontsource/fira-mono": "^4.5.10",
+    "@fontsource/space-mono": "^5.0.18",
+    "@sveltejs/adapter-vercel": "^5.1.0",
+    "@sveltejs/kit": "latest",
+    "@sveltejs/vite-plugin-svelte": "latest",
+    "@types/cookie": "^0.5.1",
+    "@vercel/speed-insights": "^1.0.10",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "svelte": "next",
+    "svelte-check": "^2.9.2",
+    "tailwindcss": "^3.4.1",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.3",
+    "vite": "latest"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+  },
+  "type": "module",
+  "dependencies": {
+    "svelte-icons-pack": "^2.1.0"
+  }
+}
