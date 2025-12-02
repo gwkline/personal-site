@@ -25,7 +25,6 @@ export function AuthDialog() {
 		try {
 			await authClient.signIn.social({
 				provider: "google",
-				callbackURL: window.location.href,
 			});
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Failed to sign in");
