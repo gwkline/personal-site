@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, Mail } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 
 export const Route = createFileRoute("/about")({
 	component: AboutPage,
@@ -12,16 +12,27 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
 	return (
 		<div className="space-y-12">
-			<header className="space-y-4">
-				<h1 className="text-4xl tracking-tight md:text-5xl">About</h1>
-			</header>
+			<PageHeader
+				description="I'm a software engineer who cares deeply about the craft of building products that matter."
+				title="About"
+			>
+				<div className="flex flex-wrap gap-3">
+					<Button asChild variant="outline">
+						<a href="mailto:hello@gavinkline.com">
+							<Mail className="size-4" />
+							Email me
+						</a>
+					</Button>
+					<Button asChild variant="outline">
+						<a download href="/resume.pdf">
+							<Download className="size-4" />
+							Download resume
+						</a>
+					</Button>
+				</div>
+			</PageHeader>
 
 			<div className="prose max-w-none">
-				<p className="text-lg text-muted-foreground">
-					I'm a software engineer who cares deeply about the craft of building
-					products that matter.
-				</p>
-
 				<h2>Background</h2>
 				<p>
 					I graduated from Syracuse University with a B.S. in Computer Science
@@ -70,26 +81,6 @@ function AboutPage() {
 					))}
 				</div>
 			</div>
-
-			<Separator />
-
-			<section className="space-y-4">
-				<h2 className="text-xl">Get in touch</h2>
-				<div className="flex flex-wrap gap-3">
-					<Button asChild variant="outline">
-						<a href="mailto:hello@gavinkline.com">
-							<Mail className="size-4" />
-							Email me
-						</a>
-					</Button>
-					<Button asChild variant="outline">
-						<a download href="/resume.pdf">
-							<Download className="size-4" />
-							Download resume
-						</a>
-					</Button>
-				</div>
-			</section>
 		</div>
 	);
 }

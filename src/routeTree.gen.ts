@@ -12,10 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WritingIndexRouteImport } from './routes/writing/index'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
-import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
+import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
+import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const PlaygroundRoute = PlaygroundRouteImport.update({
   id: '/playground',
@@ -32,19 +33,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WritingIndexRoute = WritingIndexRouteImport.update({
-  id: '/writing/',
-  path: '/writing/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const WorkIndexRoute = WorkIndexRouteImport.update({
   id: '/work/',
   path: '/work/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WritingSlugRoute = WritingSlugRouteImport.update({
-  id: '/writing/$slug',
-  path: '/writing/$slug',
+const PostsIndexRoute = PostsIndexRouteImport.update({
+  id: '/posts/',
+  path: '/posts/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkSlugRoute = WorkSlugRouteImport.update({
@@ -52,34 +48,47 @@ const WorkSlugRoute = WorkSlugRouteImport.update({
   path: '/work/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PostsSlugRoute = PostsSlugRouteImport.update({
+  id: '/posts/$slug',
+  path: '/posts/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
+  '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
-  '/writing/$slug': typeof WritingSlugRoute
+  '/posts': typeof PostsIndexRoute
   '/work': typeof WorkIndexRoute
-  '/writing': typeof WritingIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
+  '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
-  '/writing/$slug': typeof WritingSlugRoute
+  '/posts': typeof PostsIndexRoute
   '/work': typeof WorkIndexRoute
-  '/writing': typeof WritingIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
+  '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
-  '/writing/$slug': typeof WritingSlugRoute
+  '/posts/': typeof PostsIndexRoute
   '/work/': typeof WorkIndexRoute
-  '/writing/': typeof WritingIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,38 +96,42 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/playground'
+    | '/posts/$slug'
     | '/work/$slug'
-    | '/writing/$slug'
+    | '/posts'
     | '/work'
-    | '/writing'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/playground'
+    | '/posts/$slug'
     | '/work/$slug'
-    | '/writing/$slug'
+    | '/posts'
     | '/work'
-    | '/writing'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/playground'
+    | '/posts/$slug'
     | '/work/$slug'
-    | '/writing/$slug'
+    | '/posts/'
     | '/work/'
-    | '/writing/'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   PlaygroundRoute: typeof PlaygroundRoute
+  PostsSlugRoute: typeof PostsSlugRoute
   WorkSlugRoute: typeof WorkSlugRoute
-  WritingSlugRoute: typeof WritingSlugRoute
+  PostsIndexRoute: typeof PostsIndexRoute
   WorkIndexRoute: typeof WorkIndexRoute
-  WritingIndexRoute: typeof WritingIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -144,13 +157,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/writing/': {
-      id: '/writing/'
-      path: '/writing'
-      fullPath: '/writing'
-      preLoaderRoute: typeof WritingIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/work/': {
       id: '/work/'
       path: '/work'
@@ -158,11 +164,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/writing/$slug': {
-      id: '/writing/$slug'
-      path: '/writing/$slug'
-      fullPath: '/writing/$slug'
-      preLoaderRoute: typeof WritingSlugRouteImport
+    '/posts/': {
+      id: '/posts/'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof PostsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/work/$slug': {
@@ -172,6 +178,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/posts/$slug': {
+      id: '/posts/$slug'
+      path: '/posts/$slug'
+      fullPath: '/posts/$slug'
+      preLoaderRoute: typeof PostsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -179,10 +199,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   PlaygroundRoute: PlaygroundRoute,
+  PostsSlugRoute: PostsSlugRoute,
   WorkSlugRoute: WorkSlugRoute,
-  WritingSlugRoute: WritingSlugRoute,
+  PostsIndexRoute: PostsIndexRoute,
   WorkIndexRoute: WorkIndexRoute,
-  WritingIndexRoute: WritingIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

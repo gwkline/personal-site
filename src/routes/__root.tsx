@@ -1,17 +1,25 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 import {
-	createRootRoute,
+	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import {
+	CommentSidebarProvider,
+	CommentsSidebar,
+	useCommentSidebar,
+} from "@/components/live-stats";
 import { Navbar } from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getServerTheme } from "@/lib/theme";
 import appCss from "../styles.css?url";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+	queryClient: QueryClient;
+}>()({
 	head: () => ({
 		meta: [
 			{
@@ -72,23 +80,33 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="flex min-h-screen flex-col antialiased">
+			<body className="h-screen overflow-hidden antialiased">
 				<ThemeProvider
 					defaultTheme="system"
 					serverTheme={serverTheme}
 					storageKey="vite-ui-theme"
 				>
-					<Navbar />
-					<main className="mx-auto w-full max-w-4xl flex-1 px-6 py-12">
-						{children}
-					</main>
-					<footer className="border-t py-8">
-						<div className="mx-auto max-w-4xl px-6">
-							<p className="text-center text-muted-foreground text-sm">
-								Built with care. © 2001–{new Date().getFullYear()} Gavin Kline
-							</p>
+					<CommentSidebarProvider>
+						<div className="flex h-screen">
+							<div className="flex flex-1 flex-col overflow-y-auto">
+								<Navbar />
+								<ContentWrapper>
+									<main className="mx-auto w-full max-w-4xl flex-1 px-6 py-12">
+										{children}
+									</main>
+									<footer className="border-t py-8">
+										<div className="mx-auto max-w-4xl px-6">
+											<p className="text-center text-muted-foreground text-sm">
+												Built with care. © 2001–{new Date().getFullYear()} Gavin
+												Kline
+											</p>
+										</div>
+									</footer>
+								</ContentWrapper>
+							</div>
+							<CommentsSidebar />
 						</div>
-					</footer>
+					</CommentSidebarProvider>
 				</ThemeProvider>
 				<TanStackDevtools
 					config={{
@@ -104,5 +122,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<Scripts />
 			</body>
 		</html>
+	);
+}
+
+function ContentWrapper({ children }: { children: React.ReactNode }) {
+	const { isOpen, width } = useCommentSidebar();
+
+	return (
+		<div
+			className="flex flex-1 flex-col transition-[margin] duration-300 ease-in-out"
+			style={{ marginRight: isOpen ? width : 0 }}
+		>
+			{children}
+		</div>
 	);
 }

@@ -1,3 +1,4 @@
+import { format, parseISO } from "date-fns";
 import { parseMarkdownFile } from "./markdown";
 
 export type Post = {
@@ -16,6 +17,15 @@ const WHITESPACE_REGEX = /\s+/;
 const HTML_TAG_REGEX = /<[^>]*>/g;
 const MD_EXTENSION_REGEX = /\.md$/;
 const SLUG_REGEX = /\/([^/]+)\.md$/;
+
+function formatDate(dateString: string): string {
+	try {
+		const date = parseISO(dateString);
+		return format(date, "MMM d, yyyy");
+	} catch {
+		return dateString;
+	}
+}
 
 type PostFrontmatter = {
 	title: string;
@@ -47,26 +57,30 @@ const allPosts: Post[] = Object.entries(postFiles)
 
 		const { data, html } = parseMarkdownFile(fileContents);
 		const frontmatter = data as Partial<PostFrontmatter>;
+		const rawDate = frontmatter.date as string;
 
 		return {
 			slug,
 			title: frontmatter.title as string,
-			date: frontmatter.date as string,
+			date: formatDate(rawDate),
+			rawDate,
 			description: frontmatter.description as string,
 			content: html,
 			tags: frontmatter.tags,
 			readingTime: calculateReadingTime(html),
 			status: frontmatter.status,
-		} satisfies Post;
+		};
 	})
 	// Filter out drafts
 	.filter((post) => post.status !== "draft")
 	// Sort by date descending (newest first)
 	.sort((a, b) => {
-		const dateA = new Date(a.date);
-		const dateB = new Date(b.date);
+		const dateA = new Date(a.rawDate);
+		const dateB = new Date(b.rawDate);
 		return dateB.getTime() - dateA.getTime();
-	});
+	})
+	// Remove rawDate from final output
+	.map(({ rawDate: _, ...post }) => post satisfies Post);
 
 export function getPosts(): Post[] {
 	return allPosts;

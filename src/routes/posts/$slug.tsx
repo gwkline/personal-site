@@ -1,11 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Comments } from "@/components/comments";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getAdjacentPosts, getPostBySlug } from "@/lib/posts";
 
-export const Route = createFileRoute("/writing/$slug")({
+export const Route = createFileRoute("/posts/$slug")({
 	component: PostPage,
 	loader: ({ params }) => {
 		const post = getPostBySlug(params.slug);
@@ -23,9 +24,9 @@ function PostPage() {
 	return (
 		<div className="space-y-8">
 			<Button asChild size="sm" variant="ghost">
-				<Link to="/writing">
+				<Link to="/posts">
 					<ArrowLeft className="size-4" />
-					Back to writing
+					Back to posts
 				</Link>
 			</Button>
 
@@ -58,10 +59,14 @@ function PostPage() {
 
 			<Separator />
 
+			<Comments postSlug={post.slug} />
+
+			<Separator />
+
 			<nav className="flex items-center justify-between gap-4">
 				{adjacent.prev ? (
 					<Button asChild size="sm" variant="ghost">
-						<Link params={{ slug: adjacent.prev.slug }} to="/writing/$slug">
+						<Link params={{ slug: adjacent.prev.slug }} to="/posts/$slug">
 							<ArrowLeft className="size-4" />
 							<span className="line-clamp-1">{adjacent.prev.title}</span>
 						</Link>
@@ -71,7 +76,7 @@ function PostPage() {
 				)}
 				{adjacent.next ? (
 					<Button asChild size="sm" variant="ghost">
-						<Link params={{ slug: adjacent.next.slug }} to="/writing/$slug">
+						<Link params={{ slug: adjacent.next.slug }} to="/posts/$slug">
 							<span className="line-clamp-1">{adjacent.next.title}</span>
 							<ArrowRight className="size-4" />
 						</Link>

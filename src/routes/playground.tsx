@@ -16,7 +16,7 @@ function PlaygroundPage() {
 					<h1 className="text-4xl tracking-tight md:text-5xl">Playground</h1>
 					<Badge variant="outline">Coming soon</Badge>
 				</div>
-				<p className="max-w-xl text-lg text-muted-foreground">
+				<p className="text-lg text-muted-foreground">
 					A space for experiments, interactive demos, and things that don't fit
 					anywhere else.
 				</p>

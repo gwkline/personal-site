@@ -21,7 +21,7 @@ function HomePage() {
 			<Hero />
 			<Separator />
 			<FeaturedWork projects={featuredProjects} />
-			<RecentWriting posts={recentPosts} />
+			<RecentPosts posts={recentPosts} />
 		</div>
 	);
 }
@@ -34,7 +34,7 @@ function Hero() {
 				<br />
 				<span className="text-muted-foreground italic">with intention</span>
 			</h1>
-			<p className="max-w-xl text-lg text-muted-foreground">
+			<p className="text-lg text-muted-foreground">
 				I'm Gavin, currently a Lead Software Engineer at GovDash. I specialize
 				in web development, and have a passion for backend systems, performance
 				optimization, and shipping products that drive real business impact.
@@ -78,7 +78,7 @@ function FeaturedWork({ projects }: { projects: Project[] }) {
 							<h3 className="font-medium font-sans">{project.title}</h3>
 							<Badge variant="outline">{project.type}</Badge>
 						</div>
-						<p className="line-clamp-2 text-muted-foreground text-sm">
+						<p className="line-clamp-4 text-muted-foreground text-xs">
 							{project.summary}
 						</p>
 					</Link>
@@ -88,14 +88,14 @@ function FeaturedWork({ projects }: { projects: Project[] }) {
 	);
 }
 
-function RecentWriting({ posts }: { posts: Post[] }) {
+function RecentPosts({ posts }: { posts: Post[] }) {
 	return (
 		<section className="space-y-6">
 			<div className="flex items-center justify-between">
-				<h2 className="text-2xl">Recent Writing</h2>
+				<h2 className="text-2xl">Recent Posts</h2>
 				<Link
 					className="text-muted-foreground text-sm hover:text-foreground"
-					to="/writing"
+					to="/posts"
 				>
 					View all →
 				</Link>
@@ -106,7 +106,7 @@ function RecentWriting({ posts }: { posts: Post[] }) {
 						className="group flex items-baseline justify-between gap-4 py-2"
 						key={post.slug}
 						params={{ slug: post.slug }}
-						to="/writing/$slug"
+						to="/posts/$slug"
 					>
 						<span className="font-medium transition-colors group-hover:text-muted-foreground">
 							{post.title}

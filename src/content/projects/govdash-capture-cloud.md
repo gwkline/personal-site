@@ -13,7 +13,7 @@ type: work
 highlighted: true
 ---
 
-Serving as lead engineer and product owner of the Capture Cloud, GovDash’s largest and fastest-growing product line, overseeing its transformation from an underutilized feature set to the company’s #1 driver of customer engagement and revenue.
+Serving as lead founding engineer and product owner of the Capture Cloud, GovDash’s largest and fastest-growing product line, overseeing its transformation from an underutilized feature set to the company’s #1 driver of customer engagement and revenue.
 
 Engineered an industry-leading ingestion pipeline with sub-5-minute latency from government data sources, coupled with personalized search and recommendation capabilities that give clients a measurable competitive edge.
 

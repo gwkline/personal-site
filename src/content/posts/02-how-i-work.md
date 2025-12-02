@@ -1,8 +1,10 @@
 ---
-title: "Hello, World!"
-date: "2025-12-01"
-description: ""
-status: published
+title: "How I Work"
+date: "2025-12-02"
+description: "How I think about working"
+tags:
+  - engineering
+status: draft
 ---
 
 Hi there!

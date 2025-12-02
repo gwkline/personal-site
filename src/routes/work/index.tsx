@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
+import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import type { Project } from "@/lib/projects";
 import { getProjects } from "@/lib/projects";
 
@@ -18,15 +18,10 @@ function WorkPage() {
 
 	return (
 		<div className="space-y-12">
-			<header className="space-y-4">
-				<h1 className="text-4xl tracking-tight md:text-5xl">Work</h1>
-				<p className="max-w-xl text-lg text-muted-foreground">
-					A collection of projects I've built, contributed to, and shipped over
-					the years.
-				</p>
-			</header>
-
-			<Separator />
+			<PageHeader
+				description="A collection of projects I've built, contributed to, and shipped over the years."
+				title="Work"
+			/>
 
 			{workProjects.length > 0 && (
 				<section className="space-y-6">
