@@ -34,5 +34,6 @@ export const createAuth = (
 			},
 		},
 		plugins: [convex()],
+		trustedOrigins: [siteUrl],
 	});
 };
