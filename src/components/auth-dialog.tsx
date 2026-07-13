@@ -15,7 +15,15 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authClient } from "@/lib/auth-client";
 
-export const AuthDialog = () => {
+export const AuthDialog = ({
+  description = "Sign in or create an account to join the conversation.",
+  title = "Welcome",
+  triggerLabel = "Sign in to comment",
+}: {
+  description?: string;
+  title?: string;
+  triggerLabel?: string;
+}) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -90,14 +98,12 @@ export const AuthDialog = () => {
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger render={<Button size="sm" variant="outline" />}>
         <LogIn className="size-4" />
-        Sign in to comment
+        {triggerLabel}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Welcome</DialogTitle>
-          <DialogDescription>
-            Sign in or create an account to join the conversation.
-          </DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">

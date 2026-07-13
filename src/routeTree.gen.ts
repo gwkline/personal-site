@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as R75HardRouteImport } from './routes/75-hard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
@@ -26,6 +27,11 @@ const PlaygroundRoute = PlaygroundRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R75HardRoute = R75HardRouteImport.update({
+  id: '/75-hard',
+  path: '/75-hard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,6 +67,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
   '/posts/$slug': typeof PostsSlugRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
   '/posts/$slug': typeof PostsSlugRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
   '/posts/$slug': typeof PostsSlugRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/75-hard'
     | '/about'
     | '/playground'
     | '/posts/$slug'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/75-hard'
     | '/about'
     | '/playground'
     | '/posts/$slug'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/75-hard'
     | '/about'
     | '/playground'
     | '/posts/$slug'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R75HardRoute: typeof R75HardRoute
   AboutRoute: typeof AboutRoute
   PlaygroundRoute: typeof PlaygroundRoute
   PostsSlugRoute: typeof PostsSlugRoute
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/75-hard': {
+      id: '/75-hard'
+      path: '/75-hard'
+      fullPath: '/75-hard'
+      preLoaderRoute: typeof R75HardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -197,6 +217,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R75HardRoute: R75HardRoute,
   AboutRoute: AboutRoute,
   PlaygroundRoute: PlaygroundRoute,
   PostsSlugRoute: PostsSlugRoute,

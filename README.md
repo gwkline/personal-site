@@ -23,7 +23,7 @@ bun run dev
 
 The site is served at [http://localhost:3000](http://localhost:3000).
 
-Convex creates the required local environment files during project setup. The application expects `VITE_CONVEX_URL` and `CONVEX_SITE_URL` when exercising data-backed or authentication routes.
+Convex creates the required local environment files during project setup. The application expects `VITE_CONVEX_URL` and `VITE_CONVEX_SITE_URL` when exercising data-backed or authentication routes. Set `OWNER_EMAIL` in the Convex deployment to the Better Auth email allowed to edit The Long Game tracker; all other visitors receive the public, read-only view.
 
 ## Scripts
 

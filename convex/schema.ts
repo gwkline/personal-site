@@ -20,6 +20,36 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_created", ["createdAt"])
     .index("by_parent", ["parentId"]),
+  hard75Challenges: defineTable({
+    createdAt: v.number(),
+    endDate: v.string(),
+    slug: v.string(),
+    startDate: v.string(),
+    timezone: v.string(),
+    title: v.string(),
+    totalDays: v.number(),
+  }).index("by_slug", ["slug"]),
+  hard75Days: defineTable({
+    challengeId: v.id("hard75Challenges"),
+    date: v.string(),
+    dayIndex: v.number(),
+    diet: v.boolean(),
+    note: v.optional(v.string()),
+    outdoors: v.boolean(),
+    photoPublic: v.boolean(),
+    photoStorageId: v.optional(v.id("_storage")),
+    // Whether a progress photo was taken (uploading it here stays optional).
+    progressPhoto: v.optional(v.boolean()),
+    publicPhotoStorageId: v.optional(v.id("_storage")),
+    reading: v.boolean(),
+    runMiles: v.optional(v.number()),
+    updatedAt: v.number(),
+    water: v.boolean(),
+    workoutOne: v.boolean(),
+    workoutTwo: v.boolean(),
+  })
+    .index("by_challenge", ["challengeId"])
+    .index("by_challenge_day", ["challengeId", "dayIndex"]),
   // Presence tracking for active users and unique sessions
   presence: defineTable({
     lastSeen: v.number(),
