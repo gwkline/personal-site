@@ -7,30 +7,30 @@ import { nitro } from "nitro/vite";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig(({ command, isPreview, mode }) => ({
-	plugins:
-		mode === "test"
-			? []
-			: [
-					devtools(),
-					// TanStack Start owns dev SSR; Nitro packages and previews production output.
-					...(command === "build" || isPreview ? [nitro()] : []),
-					tailwindcss(),
-					tanstackStart(),
-					viteReact(),
-					...(command === "build"
-						? [
-								babel({
-									presets: [reactCompilerPreset()],
-								}),
-							]
-						: []),
-				],
-	resolve: {
-		tsconfigPaths: true,
-	},
-	server: {
-		watch: {
-			usePolling: process.env.VITE_USE_POLLING === "true",
-		},
-	},
+  plugins:
+    mode === "test"
+      ? []
+      : [
+          devtools(),
+          // TanStack Start owns dev SSR; Nitro packages and previews production output.
+          ...(command === "build" || isPreview ? [nitro()] : []),
+          tailwindcss(),
+          tanstackStart(),
+          viteReact(),
+          ...(command === "build"
+            ? [
+                babel({
+                  presets: [reactCompilerPreset()],
+                }),
+              ]
+            : []),
+        ],
+  resolve: {
+    tsconfigPaths: true,
+  },
+  server: {
+    watch: {
+      usePolling: process.env.VITE_USE_POLLING === "true",
+    },
+  },
 }));
