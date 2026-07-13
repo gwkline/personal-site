@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+
 import { Comments } from "@/components/comments";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -53,7 +54,7 @@ function PostPage() {
 
 			<article
 				className="prose"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: this is my own markdown
+				// oxlint-disable-next-line react/no-danger -- Content comes from repository-owned Markdown.
 				dangerouslySetInnerHTML={{ __html: post.content }}
 			/>
 

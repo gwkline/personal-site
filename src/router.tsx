@@ -1,10 +1,15 @@
-import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
+import {
+	type AuthClient,
+	ConvexBetterAuthProvider,
+} from "@convex-dev/better-auth/react";
 import { ConvexQueryClient } from "@convex-dev/react-query";
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { routerWithQueryClient } from "@tanstack/react-router-with-query";
 import { ConvexReactClient } from "convex/react";
+
 import { authClient } from "@/lib/auth-client";
+
 import { routeTree } from "./routeTree.gen";
 
 export function getRouter() {
@@ -30,6 +35,9 @@ export function getRouter() {
 	});
 	convexQueryClient.connect(queryClient);
 
+	// Better Auth 1.6.23 currently widens the plugin client beyond the integration's public union.
+	const convexAuthClient = authClient as unknown as AuthClient;
+
 	const router = routerWithQueryClient(
 		createRouter({
 			routeTree,
@@ -41,7 +49,7 @@ export function getRouter() {
 			defaultNotFoundComponent: () => <p>not found</p>,
 			Wrap: ({ children }) => (
 				<ConvexBetterAuthProvider
-					authClient={authClient}
+					authClient={convexAuthClient}
 					client={convexQueryClient.convexClient}
 				>
 					{children}

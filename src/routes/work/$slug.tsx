@@ -1,5 +1,6 @@
+import SiGithub from "@icons-pack/react-simple-icons/icons/SiGithub.mjs";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -69,7 +70,7 @@ function ProjectDetailPage() {
 								rel="noopener noreferrer"
 								target="_blank"
 							>
-								<Github className="size-4" />
+								<SiGithub className="size-4" />
 								Source
 							</a>
 						</Button>
@@ -87,7 +88,7 @@ function ProjectDetailPage() {
 					<>
 						<h2>Details</h2>
 						<div
-							// biome-ignore lint/security/noDangerouslySetInnerHtml: this is my own markdown
+							// oxlint-disable-next-line react/no-danger -- Content comes from repository-owned Markdown.
 							dangerouslySetInnerHTML={{ __html: project.description }}
 						/>
 					</>

@@ -2,27 +2,30 @@
 
 import { createContext, useContext, useId, useMemo } from "react";
 import {
+	type DefaultLegendContentProps,
+	type DefaultTooltipContentProps,
 	Legend,
-	type LegendProps,
 	ResponsiveContainer,
 	Tooltip,
-	type TooltipProps,
+	type TooltipValueType,
 } from "recharts";
 
 import { cn } from "@/lib/utils";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
+type TooltipNameType = number | string;
 
-export type ChartConfig = {
-	[k in string]: {
+export type ChartConfig = Record<
+	string,
+	{
 		label?: React.ReactNode;
 		icon?: React.ComponentType;
 	} & (
 		| { color?: string; theme?: never }
 		| { color?: never; theme: Record<keyof typeof THEMES, string> }
-	);
-};
+	)
+>;
 
 type ChartContextProps = {
 	config: ChartConfig;
@@ -82,7 +85,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 
 	return (
 		<style
-			// biome-ignore lint/security/noDangerouslySetInnerHtml: CSS theme injection is safe and intentional
+			// oxlint-disable-next-line react/no-danger -- Generated CSS only contains chart configuration values.
 			dangerouslySetInnerHTML={{
 				__html: Object.entries(THEMES)
 					.map(
@@ -121,14 +124,17 @@ function ChartTooltipContent({
 	color,
 	nameKey,
 	labelKey,
-}: TooltipProps<number, string> &
+}: React.ComponentProps<typeof Tooltip> &
 	React.ComponentProps<"div"> & {
 		hideLabel?: boolean;
 		hideIndicator?: boolean;
 		indicator?: "line" | "dot" | "dashed";
 		nameKey?: string;
 		labelKey?: string;
-	}) {
+	} & Omit<
+		DefaultTooltipContentProps<TooltipValueType, TooltipNameType>,
+		"accessibilityLayer"
+	>) {
 	const { config } = useChart();
 
 	const tooltipLabel = useMemo(() => {
@@ -184,7 +190,7 @@ function ChartTooltipContent({
 			<div className="grid gap-1.5">
 				{payload
 					.filter((item) => item.type !== "none")
-					// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Chart tooltip requires complex conditional rendering
+					// oxlint-disable-next-line eslint/complexity -- Tooltip rendering handles several supported payload shapes.
 					.map((item, index) => {
 						const key = `${nameKey || item.name || item.dataKey || "value"}`;
 						const itemConfig = getPayloadConfigFromPayload(config, item, key);
@@ -196,7 +202,7 @@ function ChartTooltipContent({
 									"flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground",
 									indicator === "dot" && "items-center"
 								)}
-								key={item.dataKey}
+								key={String(item.dataKey ?? item.name ?? index)}
 							>
 								{Boolean(formatter) &&
 								item?.value !== undefined &&
@@ -285,7 +291,7 @@ function ChartLegendContent({
 	verticalAlign = "bottom",
 	nameKey,
 }: React.ComponentProps<"div"> &
-	Pick<LegendProps, "payload" | "verticalAlign"> & {
+	DefaultLegendContentProps & {
 		hideIcon?: boolean;
 		nameKey?: string;
 	}) {

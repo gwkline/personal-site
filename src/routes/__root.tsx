@@ -7,6 +7,7 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+
 import {
 	CommentSidebarProvider,
 	CommentsSidebar,
@@ -15,6 +16,7 @@ import {
 import { Navbar } from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getServerTheme } from "@/lib/theme";
+
 import appCss from "../styles.css?url";
 
 export const Route = createRootRouteWithContext<{

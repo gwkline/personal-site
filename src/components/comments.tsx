@@ -10,6 +10,7 @@ import {
 	Trash2,
 } from "lucide-react";
 import { useState } from "react";
+
 import { AuthDialog } from "@/components/auth-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 
@@ -223,6 +225,7 @@ type CommentItemProps = {
 	isReply?: boolean;
 };
 
+// oxlint-disable-next-line eslint/complexity -- Comment rendering covers replies, ownership, reactions, and compact mode.
 function CommentItem({
 	comment,
 	postSlug,
@@ -467,7 +470,9 @@ function ReactionBar({ commentId, compact }: ReactionBarProps) {
 	const [isToggling, setIsToggling] = useState<string | null>(null);
 
 	const handleToggle = async (emoji: string) => {
-		if (!session?.user || isToggling) return;
+		if (!session?.user || isToggling) {
+			return;
+		}
 
 		setIsToggling(emoji);
 		try {

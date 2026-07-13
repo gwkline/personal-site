@@ -5,6 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { getPosts } from "@/lib/posts";
+
 import { api } from "../../../convex/_generated/api";
 
 export const Route = createFileRoute("/posts/")({

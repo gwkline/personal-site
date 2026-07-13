@@ -2,6 +2,7 @@
 
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -70,8 +71,7 @@ function InputGroupAddon({
 	};
 
 	return (
-		// biome-ignore lint/a11y/noNoninteractiveElementInteractions: Interactive behavior is for UX, clicking addon focuses input
-		// biome-ignore lint/a11y/noStaticElementInteractions: Focus behavior is intentional
+		// oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-static-element-interactions -- Clicking the addon intentionally focuses its input.
 		<div
 			className={cn(inputGroupAddonVariants({ align }), className)}
 			data-align={align}

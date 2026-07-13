@@ -5,6 +5,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
+
 import { THEME_COOKIE_NAME, type Theme } from "@/lib/theme";
 
 type ThemeProviderProps = {

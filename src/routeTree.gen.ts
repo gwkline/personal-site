@@ -65,8 +65,8 @@ export interface FileRoutesByFullPath {
   '/playground': typeof PlaygroundRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
-  '/posts': typeof PostsIndexRoute
-  '/work': typeof WorkIndexRoute
+  '/posts/': typeof PostsIndexRoute
+  '/work/': typeof WorkIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
@@ -98,8 +98,8 @@ export interface FileRouteTypes {
     | '/playground'
     | '/posts/$slug'
     | '/work/$slug'
-    | '/posts'
-    | '/work'
+    | '/posts/'
+    | '/work/'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -160,14 +160,14 @@ declare module '@tanstack/react-router' {
     '/work/': {
       id: '/work/'
       path: '/work'
-      fullPath: '/work'
+      fullPath: '/work/'
       preLoaderRoute: typeof WorkIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/posts/': {
       id: '/posts/'
       path: '/posts'
-      fullPath: '/posts'
+      fullPath: '/posts/'
       preLoaderRoute: typeof PostsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }

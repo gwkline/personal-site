@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+
 import { mutation, query } from "./_generated/server";
 
 const ACTIVE_THRESHOLD_MS = 30_000; // Consider users active if seen in last 30 seconds

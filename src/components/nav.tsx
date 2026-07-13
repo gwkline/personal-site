@@ -1,15 +1,16 @@
+import SiGithub from "@icons-pack/react-simple-icons/icons/SiGithub.mjs";
+import SiX from "@icons-pack/react-simple-icons/icons/SiX.mjs";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-	Github,
-	Linkedin,
+	BriefcaseBusiness,
 	MailIcon,
 	Menu,
 	Moon,
 	Send,
 	Sun,
-	TwitterIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+
 import { LiveStatsNav } from "@/components/live-stats";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
@@ -45,17 +46,17 @@ const contactLinks = [
 	{
 		title: "GitHub",
 		href: "https://github.com/gwkline",
-		icon: Github,
+		icon: SiGithub,
 	},
 	{
 		title: "Twitter",
 		href: "https://x.com/washedkline",
-		icon: TwitterIcon,
+		icon: SiX,
 	},
 	{
 		title: "LinkedIn",
 		href: "https://linkedin.com/in/gavinkline",
-		icon: Linkedin,
+		icon: BriefcaseBusiness,
 	},
 	{
 		title: "Email",
@@ -94,7 +95,7 @@ export function Navbar() {
 			/>
 			<nav className="mx-auto flex h-14 max-w-4xl items-center justify-between px-6">
 				<div className="flex items-center gap-4 md:gap-8">
-					<MobileNav currentPath={currentPath} isActive={isActive} />
+					<MobileNav isActive={isActive} />
 
 					<Link
 						className="font-semibold tracking-tight transition-colors hover:text-muted-foreground"
@@ -160,13 +161,7 @@ export function Navbar() {
 	);
 }
 
-function MobileNav({
-	currentPath,
-	isActive,
-}: {
-	currentPath: string;
-	isActive: (path: string) => boolean;
-}) {
+function MobileNav({ isActive }: { isActive: (path: string) => boolean }) {
 	const [open, setOpen] = useState(false);
 
 	return (
