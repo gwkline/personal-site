@@ -13,11 +13,11 @@ const trackerDayVariants = cva(
     variants: {
       status: {
         complete:
-          "border-chart-2/40 bg-chart-2 text-white dark:text-background",
+          "border-success/50 bg-success text-white dark:text-background",
         future: "border-border/60 bg-muted/25 text-muted-foreground/50",
         high: "border-chart-4/50 bg-chart-4/80 text-foreground",
         partial: "border-chart-4/30 bg-chart-4/25 text-foreground",
-        unlogged: "border-border bg-card text-muted-foreground",
+        unlogged: "border-border bg-card/80 text-muted-foreground",
       },
     },
   }
@@ -65,8 +65,8 @@ export const TrackerGrid = ({
     <SectionHeader
       action={
         <div className="flex flex-wrap gap-2">
-          <Badge variant="outline">
-            <span className="size-2 rounded-sm bg-chart-2" />
+          <Badge variant="success">
+            <span className="size-2 rounded-sm bg-current" />
             Complete
           </Badge>
           <Badge variant="outline">
@@ -84,7 +84,7 @@ export const TrackerGrid = ({
       title="Daily log"
     />
 
-    <div className="grid grid-cols-5 gap-2 sm:grid-cols-10 md:grid-cols-15">
+    <div className="grid grid-cols-5 gap-2 sm:grid-cols-10 md:grid-cols-[repeat(15,minmax(0,1fr))]">
       {days.map((day) => (
         <button
           aria-label={`Day ${day.dayIndex}, ${formatChallengeDate(day.date, {
@@ -94,8 +94,9 @@ export const TrackerGrid = ({
           className={cn(
             trackerDayVariants({ status: getDayStatus(day) }),
             day.isToday &&
-              "ring-2 ring-foreground/80 ring-offset-2 ring-offset-background",
-            selectedDay === day.dayIndex && "z-10 shadow-md ring-2 ring-chart-2"
+              "ring-2 ring-primary/80 ring-offset-2 ring-offset-background",
+            selectedDay === day.dayIndex &&
+              "z-10 shadow-elevation-2 ring-2 ring-primary"
           )}
           disabled={day.isFuture}
           key={day.dayIndex}

@@ -5,15 +5,22 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const cardVariants = cva(
-  "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-sm text-card-foreground shadow-xs ring-1 ring-foreground/10 [--card-spacing:--spacing(6)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+  "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl border py-(--card-spacing) text-sm text-card-foreground [--card-spacing:--spacing(6)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
   {
     defaultVariants: {
       variant: "default",
     },
     variants: {
       variant: {
-        default: "bg-card",
-        muted: "bg-muted/30",
+        default: "bg-card shadow-elevation-1",
+        feature: "rounded-2xl bg-card shadow-elevation-2 ring-1 ring-primary/8",
+        glass:
+          "border-foreground/10 bg-card/78 shadow-elevation-2 backdrop-blur-xl",
+        interactive:
+          "bg-card shadow-elevation-1 transition-[transform,border-color,box-shadow,background-color] duration-200 ease-out hover:-translate-y-1 hover:border-primary/30 hover:shadow-elevation-2",
+        muted:
+          "bg-muted/45 shadow-[inset_0_1px_0_color-mix(in_oklch,var(--foreground),transparent_94%)]",
+        sunken: "bg-surface-sunken shadow-inner",
       },
     },
   }
@@ -53,8 +60,9 @@ const cardTitleVariants = cva("leading-normal", {
   variants: {
     variant: {
       default: "text-base font-medium group-data-[size=sm]/card:text-sm",
-      display: "font-serif text-4xl font-normal tracking-tight sm:text-5xl",
-      section: "font-serif text-2xl font-normal tracking-tight",
+      display:
+        "font-heading text-4xl font-semibold tracking-[-0.045em] sm:text-5xl",
+      section: "font-heading text-2xl font-semibold tracking-[-0.035em]",
     },
   },
 });

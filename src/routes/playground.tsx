@@ -1,39 +1,41 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Route as RouteIcon } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { cardVariants } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const PlaygroundPage = () => (
-  <div className="space-y-12">
-    <header className="space-y-4">
-      <div className="flex items-center gap-3">
-        <h1 className="text-4xl tracking-tight md:text-5xl">Playground</h1>
-        <Badge variant="outline">Experiments</Badge>
-      </div>
-      <p className="text-lg text-muted-foreground">
-        Interactive experiments, living data, and things that don&apos;t fit
-        anywhere else.
-      </p>
-    </header>
-
-    <Separator />
+  <div className="space-y-12 sm:space-y-16">
+    <PageHeader
+      action={<Badge variant="info">Experiments</Badge>}
+      description="Interactive experiments, living data, and things that don’t fit anywhere else."
+      eyebrow="Open lab"
+      title="Playground"
+    />
 
     <Link
-      className="group relative block overflow-hidden rounded-2xl border bg-[radial-gradient(circle_at_85%_15%,color-mix(in_oklch,var(--chart-2)_18%,transparent),transparent_35%),var(--card)] p-6 transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg sm:p-8"
+      className={cn(
+        cardVariants({ variant: "interactive" }),
+        "group relative block overflow-hidden rounded-2xl bg-[radial-gradient(circle_at_85%_15%,color-mix(in_oklch,var(--primary)_18%,transparent),transparent_38%),var(--card)] p-6 sm:p-8"
+      )}
       to="/75-hard"
     >
-      <div className="mb-16 flex items-start justify-between">
-        <span className="grid size-11 place-content-center rounded-full border bg-background/70 backdrop-blur">
-          <RouteIcon className="size-5 text-chart-2" />
+      <div className="absolute inset-x-8 top-0 h-px bg-linear-to-r from-transparent via-primary/70 to-transparent" />
+      <div className="mb-14 flex items-start justify-between sm:mb-20">
+        <span className="grid size-11 place-content-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/20 backdrop-blur">
+          <RouteIcon className="size-5" />
         </span>
-        <ArrowUpRight className="size-5 text-muted-foreground transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        <ArrowUpRight className="size-5 text-muted-foreground transition-[color,transform] duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
       </div>
-      <p className="mb-2 font-mono text-[10px] text-muted-foreground uppercase tracking-[0.22em]">
+      <p className="mb-2 font-mono text-[0.6875rem] font-medium text-primary uppercase tracking-[0.16em]">
         Live · July—September 2026
       </p>
-      <h2 className="text-4xl tracking-tight">The Long Game</h2>
-      <p className="mt-3 max-w-lg text-muted-foreground text-sm leading-relaxed">
+      <h2 className="font-heading text-3xl font-semibold tracking-[-0.04em] sm:text-4xl">
+        The Long Game
+      </h2>
+      <p className="mt-3 max-w-xl text-muted-foreground text-sm leading-relaxed sm:text-base">
         Seventy-five days of workouts, miles, water, reading, and showing up—on
         the road to a wedding and the New York City Marathon.
       </p>
@@ -42,4 +44,21 @@ const PlaygroundPage = () => (
 );
 export const Route = createFileRoute("/playground")({
   component: PlaygroundPage,
+  head: () => ({
+    meta: [
+      { title: "Playground — Gavin Kline" },
+      {
+        content:
+          "Interactive experiments, living data, and ongoing builds by Gavin Kline.",
+        name: "description",
+      },
+      { content: "Playground — Gavin Kline", property: "og:title" },
+      {
+        content:
+          "Interactive experiments, living data, and ongoing builds by Gavin Kline.",
+        property: "og:description",
+      },
+      { content: "website", property: "og:type" },
+    ],
+  }),
 });

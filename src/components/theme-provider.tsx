@@ -11,10 +11,12 @@ interface ThemeProviderProps {
   storageKey?: string;
 }
 interface ThemeProviderState {
+  resolvedTheme: "dark" | "light";
   theme: Theme;
   setTheme: (theme: Theme) => void;
 }
 const initialState: ThemeProviderState = {
+  resolvedTheme: "light",
   setTheme: () => null,
   theme: "system",
 };
@@ -29,7 +31,11 @@ const setThemeCookie = async (theme: Theme) => {
       sameSite: "lax",
       value: theme,
     });
+    return;
   }
+  // Cookie Store is not yet available in every supported browser.
+  // oxlint-disable-next-line unicorn/no-document-cookie
+  document.cookie = `${THEME_COOKIE_NAME}=${theme}; Max-Age=31536000; Path=/; SameSite=Lax`;
 };
 export const ThemeProvider = ({
   children,
@@ -37,33 +43,36 @@ export const ThemeProvider = ({
   serverTheme,
   storageKey = "vite-ui-theme",
 }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    // On server or initial render, use serverTheme if available
-    if (serverTheme) {
-      return serverTheme;
+  const [theme, setTheme] = useState<Theme>(serverTheme ?? defaultTheme);
+  const [systemTheme, setSystemTheme] = useState<"dark" | "light">("light");
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(storageKey);
+    if (stored === "dark" || stored === "light" || stored === "system") {
+      queueMicrotask(() => setTheme(stored));
     }
-    if (typeof window === "undefined") {
-      return defaultTheme;
-    }
-    // Check localStorage for backwards compatibility
-    const stored = window.localStorage.getItem(storageKey) as Theme | null;
-    return stored ?? defaultTheme;
-  });
+  }, [storageKey]);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const updateSystemTheme = () => {
+      setSystemTheme(media.matches ? "dark" : "light");
+    };
+    queueMicrotask(updateSystemTheme);
+    media.addEventListener("change", updateSystemTheme);
+    return () => media.removeEventListener("change", updateSystemTheme);
+  }, []);
+
+  const resolvedTheme = theme === "system" ? systemTheme : theme;
+
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
-      root.classList.add(systemTheme);
-      return;
-    }
-    root.classList.add(theme);
-  }, [theme]);
+    root.classList.add(resolvedTheme);
+  }, [resolvedTheme]);
   const value = useMemo(
     () => ({
+      resolvedTheme,
       setTheme: (newTheme: Theme) => {
         // Update both localStorage (for backwards compat) and cookie (for SSR)
         window.localStorage.setItem(storageKey, newTheme);
@@ -72,7 +81,7 @@ export const ThemeProvider = ({
       },
       theme,
     }),
-    [storageKey, theme]
+    [resolvedTheme, storageKey, theme]
   );
   return (
     <ThemeProviderContext.Provider value={value}>

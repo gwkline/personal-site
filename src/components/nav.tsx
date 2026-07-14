@@ -69,18 +69,26 @@ const useReadingProgress = (enabled: boolean) => {
     if (!enabled) {
       return;
     }
+    const scrollContainer = document.querySelector<HTMLElement>(
+      "#app-scroll-container"
+    );
+    if (!scrollContainer) {
+      return;
+    }
     const updateProgress = () => {
       const scrollable =
-        document.documentElement.scrollHeight - window.innerHeight;
+        scrollContainer.scrollHeight - scrollContainer.clientHeight;
       if (scrollable <= 0) {
         setProgress(0);
         return;
       }
-      setProgress((window.scrollY / scrollable) * 100);
+      setProgress((scrollContainer.scrollTop / scrollable) * 100);
     };
     updateProgress();
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    return () => window.removeEventListener("scroll", updateProgress);
+    scrollContainer.addEventListener("scroll", updateProgress, {
+      passive: true,
+    });
+    return () => scrollContainer.removeEventListener("scroll", updateProgress);
   }, [enabled]);
   return enabled ? progress : 0;
 };
@@ -94,7 +102,10 @@ const MobileNav = ({ isActive }: { isActive: (path: string) => boolean }) => {
         <Menu className="size-5" />
         <span className="sr-only">Open menu</span>
       </SheetTrigger>
-      <SheetContent className="w-72" side="left">
+      <SheetContent
+        className="w-80 border-r bg-card/95 backdrop-blur-xl"
+        side="left"
+      >
         <SheetHeader className="border-b pb-4">
           <SheetTitle className="flex items-center gap-2">
             <img alt="Gavin Kline" height="auto" src="/logo.png" width={20} />
@@ -110,9 +121,9 @@ const MobileNav = ({ isActive }: { isActive: (path: string) => boolean }) => {
               render={
                 <Link
                   className={cn(
-                    "rounded-md px-3 py-2.5 font-medium text-sm transition-colors",
+                    "rounded-lg px-3 py-2.5 font-semibold text-sm transition-colors",
                     isActive(item.path)
-                      ? "bg-accent text-accent-foreground"
+                      ? "bg-primary text-primary-foreground shadow-elevation-1"
                       : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                   )}
                   to={item.path}
@@ -232,7 +243,7 @@ export const Navbar = () => {
   const currentPath = routerState.location.pathname;
   const isWritingPage =
     currentPath.startsWith("/posts/") && currentPath !== "/posts/";
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const readingProgress = useReadingProgress(isWritingPage);
   const isActive = (path: string) => {
     if (path === "/") {
@@ -241,7 +252,7 @@ export const Navbar = () => {
     return currentPath.startsWith(path);
   };
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="sticky top-0 z-50 bg-background/82 backdrop-blur-xl supports-backdrop-filter:bg-background/72">
       <div
         className="absolute right-0 bottom-0 left-0 h-px border-border bg-border"
         style={{
@@ -251,15 +262,19 @@ export const Navbar = () => {
             "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
         }}
       />
-      <nav className="mx-auto flex h-14 max-w-4xl items-center justify-between px-6">
+      <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-4 md:gap-8">
           <MobileNav isActive={isActive} />
 
           <Link
-            className="font-semibold tracking-tight transition-colors hover:text-muted-foreground"
+            className="group flex items-center gap-2.5 font-semibold tracking-tight"
             to="/"
           >
-            <img alt="Gavin Kline" height="auto" src="/logo.png" width={20} />
+            <span className="flex size-8 items-center justify-center rounded-lg border bg-card shadow-elevation-1 transition-transform group-hover:-translate-y-0.5">
+              <img alt="" height="auto" src="/logo.png" width={18} />
+            </span>
+            <span className="hidden text-sm sm:inline">Gavin Kline</span>
+            <span className="sr-only sm:hidden">Gavin Kline</span>
           </Link>
 
           <ul className="hidden items-center gap-1 md:flex">
@@ -267,10 +282,10 @@ export const Navbar = () => {
               <li key={item.path}>
                 <Link
                   className={cn(
-                    "rounded-md px-3 py-2 text-sm transition-colors",
+                    "rounded-lg px-3 py-2 font-medium text-sm transition-[color,background-color,box-shadow]",
                     isActive(item.path)
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-card text-foreground shadow-elevation-1"
+                      : "text-muted-foreground hover:bg-muted/65 hover:text-foreground"
                   )}
                   to={item.path}
                 >
@@ -292,19 +307,19 @@ export const Navbar = () => {
             <TooltipTrigger
               render={
                 <Button
-                  onClick={() => {
-                    setTheme(theme === "light" ? "dark" : "light");
-                  }}
+                  onClick={() =>
+                    setTheme(resolvedTheme === "light" ? "dark" : "light")
+                  }
                   size="icon-sm"
                   variant="ghost"
                 />
               }
             >
-              {theme === "light" ? <Moon /> : <Sun />}
+              {resolvedTheme === "light" ? <Moon /> : <Sun />}
               <span className="sr-only">Toggle theme</span>
             </TooltipTrigger>
             <TooltipContent>
-              {theme === "light" ? "Dark mode" : "Light mode"}
+              {resolvedTheme === "light" ? "Dark mode" : "Light mode"}
             </TooltipContent>
           </Tooltip>
         </div>
@@ -312,7 +327,7 @@ export const Navbar = () => {
       <div className="relative h-px w-full bg-border">
         {isWritingPage ? (
           <div
-            className="absolute inset-y-0 left-0 bg-orange-500 transition-[width] duration-100 ease-out"
+            className="absolute inset-y-0 left-0 bg-primary shadow-[0_0_10px_color-mix(in_oklch,var(--primary),transparent_20%)] transition-[width] duration-100 ease-out"
             style={{ width: `${readingProgress}%` }}
           />
         ) : null}

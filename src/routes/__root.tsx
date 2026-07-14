@@ -16,7 +16,9 @@ import {
 } from "@/components/live-stats";
 import { Navbar } from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { getServerTheme } from "@/lib/theme";
 
 import appCss from "../styles.css?url";
@@ -24,10 +26,11 @@ import appCss from "../styles.css?url";
 const routeApi = getRouteApi("__root__");
 const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
   const { isOpen, width } = useCommentSidebar();
+  const isMobile = useIsMobile();
   return (
     <div
       className="flex flex-1 flex-col transition-[margin] duration-300 ease-in-out"
-      style={{ marginRight: isOpen ? width : 0 }}
+      style={{ marginRight: isOpen && !isMobile ? width : 0 }}
     >
       {children}
     </div>
@@ -42,9 +45,10 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => {
   const themeClass =
     serverTheme && serverTheme !== "system" ? serverTheme : undefined;
   return (
-    <html className={themeClass} lang="en">
+    <html className={themeClass} lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script src="/theme-init.js" />
       </head>
       <body className="h-screen overflow-hidden antialiased">
         <ThemeProvider
@@ -55,18 +59,21 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => {
           <TooltipProvider>
             <CommentSidebarProvider>
               <div className="flex h-screen">
-                <div className="flex flex-1 flex-col overflow-y-auto">
+                <div
+                  className="flex flex-1 flex-col overflow-y-auto"
+                  id="app-scroll-container"
+                >
                   <Navbar />
                   <ContentWrapper>
-                    <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-12">
+                    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
                       {children}
                     </main>
-                    <footer className="border-t py-8">
-                      <div className="mx-auto max-w-4xl px-6">
-                        <p className="text-center text-muted-foreground text-sm">
-                          Built with care. © 2001–{new Date().getFullYear()}{" "}
-                          Gavin Kline
+                    <footer className="mt-8 border-t bg-card/35 py-8">
+                      <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 text-muted-foreground text-xs sm:flex-row sm:items-center sm:justify-between">
+                        <p className="font-mono uppercase tracking-[0.14em]">
+                          Built with care
                         </p>
+                        <p>© 2001–{new Date().getFullYear()} Gavin Kline</p>
                       </div>
                     </footer>
                   </ContentWrapper>
@@ -75,18 +82,21 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => {
               </div>
             </CommentSidebarProvider>
           </TooltipProvider>
+          <Toaster />
         </ThemeProvider>
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+        {import.meta.env.DEV ? (
+          <TanStackDevtools
+            config={{
+              position: "bottom-right",
+            }}
+            plugins={[
+              {
+                name: "Tanstack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+        ) : null}
         <Scripts />
       </body>
     </html>
@@ -103,17 +113,8 @@ export const Route = createRootRouteWithContext<{
         rel: "stylesheet",
       },
       {
-        href: "https://fonts.googleapis.com",
-        rel: "preconnect",
-      },
-      {
-        crossOrigin: "anonymous",
-        href: "https://fonts.gstatic.com",
-        rel: "preconnect",
-      },
-      {
-        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap",
-        rel: "stylesheet",
+        href: "/manifest.json",
+        rel: "manifest",
       },
     ],
     meta: [
@@ -126,6 +127,15 @@ export const Route = createRootRouteWithContext<{
       },
       {
         title: "Gavin Kline",
+      },
+      {
+        content:
+          "Engineering leader and hands-on software builder working across AI, backend systems, and product architecture.",
+        name: "description",
+      },
+      {
+        content: "#f26a1b",
+        name: "theme-color",
       },
     ],
   }),

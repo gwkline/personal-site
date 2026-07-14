@@ -8,7 +8,6 @@ import { TrackerGrid } from "@/components/75-hard/tracker-grid";
 import {
   buildChallengeDays,
   DEFAULT_CHALLENGE,
-  formatChallengeDate,
   getChallengeStats,
   REQUIREMENT_COUNT,
 } from "@/lib/hard75";
@@ -32,7 +31,7 @@ export const LongRunPage = () => {
     days.find((day) => day.dayIndex === selectedDayIndex) ?? null;
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-16 pb-6 sm:space-y-20">
       <ChallengeHero
         days={days}
         equivalentDays={equivalentDays}
@@ -48,18 +47,6 @@ export const LongRunPage = () => {
       />
 
       <ProgressOverview days={days} />
-
-      <footer className="flex flex-col justify-between gap-2 border-t pt-6 text-muted-foreground text-xs sm:flex-row">
-        <p>Missed requirements remain in the record.</p>
-        <p>
-          Ends{" "}
-          {formatChallengeDate(challenge.endDate, {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-        </p>
-      </footer>
 
       <DayDetail
         day={selectedDay}

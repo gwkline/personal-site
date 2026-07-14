@@ -113,6 +113,7 @@ const sampleLengths = routeSamples.slice(1).map((sample, index) => {
   return Math.hypot(sample.x - previous.x, sample.y - previous.y);
 });
 const totalLength = sampleLengths.reduce((total, length) => total + length, 0);
+const roundCoordinate = (value: number) => Number(value.toFixed(4));
 
 const pointAtProgress = (progress: number): Point => {
   let remaining = Math.min(1, Math.max(0, progress)) * totalLength;
@@ -126,8 +127,8 @@ const pointAtProgress = (progress: number): Point => {
       }
       const ratio = length === 0 ? 0 : remaining / length;
       return {
-        x: start.x + (end.x - start.x) * ratio,
-        y: start.y + (end.y - start.y) * ratio,
+        x: roundCoordinate(start.x + (end.x - start.x) * ratio),
+        y: roundCoordinate(start.y + (end.y - start.y) * ratio),
       };
     }
     remaining -= length;
@@ -140,7 +141,7 @@ const getMarkerClass = (day: ChallengeDay) => {
     return "fill-background stroke-muted-foreground/35";
   }
   if (day.isComplete) {
-    return "fill-chart-2 stroke-chart-2";
+    return "fill-success stroke-success";
   }
   if (day.completedCount > 0) {
     return "fill-chart-4 stroke-chart-4";
@@ -234,7 +235,7 @@ export const MarathonCourseGraphic = ({
       </defs>
 
       <rect
-        className="fill-foreground/[0.025]"
+        className="fill-foreground/2.5"
         height="310"
         rx="10"
         width="540"
@@ -256,7 +257,7 @@ export const MarathonCourseGraphic = ({
       </g>
 
       <path
-        className="fill-chart-2/10 stroke-chart-2/30"
+        className="fill-primary/10 stroke-primary/30"
         d="M 365 262 C 372 257 386 256 394 261 L 395 297 C 387 303 374 304 366 299 Z"
         strokeWidth="1"
       />
@@ -295,7 +296,7 @@ export const MarathonCourseGraphic = ({
         strokeWidth="5"
       />
       <path
-        className="fill-none stroke-chart-2 transition-[stroke-dashoffset] duration-700 ease-in-out motion-reduce:transition-none"
+        className="fill-none stroke-primary transition-[stroke-dashoffset] duration-700 ease-in-out motion-reduce:transition-none"
         d={routePath}
         pathLength="100"
         strokeDasharray="100"
@@ -345,7 +346,7 @@ export const MarathonCourseGraphic = ({
             />
             {isHovered ? (
               <circle
-                className="fill-chart-2/15 stroke-chart-2/30"
+                className="fill-primary/15 stroke-primary/30"
                 cx={marker.x}
                 cy={marker.y}
                 r="7"
@@ -367,12 +368,12 @@ export const MarathonCourseGraphic = ({
       })}
 
       <g
-        className="text-chart-2 transition-transform duration-700 ease-in-out will-change-transform motion-reduce:transition-none"
+        className="text-primary transition-transform duration-700 ease-in-out will-change-transform motion-reduce:transition-none"
         filter="url(#runner-shadow)"
         style={{ transform: `translate(${runner.x}px, ${runner.y}px)` }}
       >
         <circle
-          className="origin-center animate-ping fill-current opacity-20 [transform-box:fill-box] motion-reduce:hidden"
+          className="origin-center animate-ping fill-current opacity-20 transform-fill motion-reduce:hidden"
           r="8"
         />
         <circle
@@ -384,7 +385,7 @@ export const MarathonCourseGraphic = ({
       </g>
 
       <g className="fill-muted-foreground font-mono text-[7px] uppercase tracking-wider">
-        <circle className="fill-chart-2" cx="48" cy="296" r="3" />
+        <circle className="fill-primary" cx="48" cy="296" r="3" />
         <text x="16" y="285">
           Start
         </text>

@@ -1,7 +1,8 @@
-import { Loader2, LogIn } from "lucide-react";
+import { Loader2, LockKeyhole, LogIn } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -95,18 +96,33 @@ export const AuthDialog = ({
     }
   };
   return (
-    <Dialog onOpenChange={setOpen} open={open}>
-      <DialogTrigger render={<Button size="sm" variant="outline" />}>
+    <Dialog
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+        if (!nextOpen) {
+          setError(null);
+        }
+      }}
+      open={open}
+    >
+      <DialogTrigger render={<Button size="sm" />}>
         <LogIn className="size-4" />
         {triggerLabel}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+      <DialogContent className="gap-5 overflow-hidden p-0 shadow-elevation-2 sm:max-w-md">
+        <DialogHeader className="border-b bg-muted/45 px-6 pt-6 pb-5">
+          <div className="mb-1 flex size-10 items-center justify-center rounded-xl bg-info/12 text-info ring-1 ring-info/18">
+            <LockKeyhole className="size-5" aria-hidden="true" />
+          </div>
+          <DialogTitle className="font-heading text-2xl font-semibold tracking-[-0.035em]">
+            {title}
+          </DialogTitle>
+          <DialogDescription className="leading-relaxed">
+            {description}
+          </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-5 px-6 pb-6">
           <Button
             className="w-full"
             disabled={isLoading}
@@ -138,19 +154,19 @@ export const AuthDialog = ({
             Continue with Google
           </Button>
 
-          <div className="relative">
+          <div aria-hidden="true" className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
+              <span className="bg-popover px-2 text-muted-foreground">
                 Or continue with email
               </span>
             </div>
           </div>
 
           <Tabs className="w-full" defaultValue="signin">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-2 bg-surface-sunken">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
@@ -160,6 +176,7 @@ export const AuthDialog = ({
                 <div className="space-y-2">
                   <Label htmlFor="signin-email">Email</Label>
                   <Input
+                    aria-invalid={Boolean(error)}
                     autoComplete="email"
                     id="signin-email"
                     name="email"
@@ -171,6 +188,7 @@ export const AuthDialog = ({
                 <div className="space-y-2">
                   <Label htmlFor="signin-password">Password</Label>
                   <Input
+                    aria-invalid={Boolean(error)}
                     autoComplete="current-password"
                     id="signin-password"
                     minLength={8}
@@ -193,6 +211,7 @@ export const AuthDialog = ({
                 <div className="space-y-2">
                   <Label htmlFor="signup-name">Name</Label>
                   <Input
+                    aria-invalid={Boolean(error)}
                     autoComplete="name"
                     id="signup-name"
                     name="name"
@@ -204,6 +223,7 @@ export const AuthDialog = ({
                 <div className="space-y-2">
                   <Label htmlFor="signup-email">Email</Label>
                   <Input
+                    aria-invalid={Boolean(error)}
                     autoComplete="email"
                     id="signup-email"
                     name="email"
@@ -215,6 +235,7 @@ export const AuthDialog = ({
                 <div className="space-y-2">
                   <Label htmlFor="signup-password">Password</Label>
                   <Input
+                    aria-invalid={Boolean(error)}
                     autoComplete="new-password"
                     id="signup-password"
                     minLength={8}
@@ -235,7 +256,17 @@ export const AuthDialog = ({
           </Tabs>
 
           {error ? (
-            <p className="text-center text-destructive text-sm">{error}</p>
+            <Card size="sm" variant="sunken">
+              <CardContent>
+                <p
+                  aria-live="polite"
+                  className="text-destructive text-sm leading-relaxed"
+                  role="alert"
+                >
+                  {error}
+                </p>
+              </CardContent>
+            </Card>
           ) : null}
         </div>
       </DialogContent>

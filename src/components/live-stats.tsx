@@ -9,7 +9,6 @@ import {
   Loader2,
   MessageCircle,
   Reply,
-  SmilePlus,
   Trash2,
   X,
 } from "lucide-react";
@@ -24,19 +23,16 @@ import {
 } from "react";
 
 import { AuthDialog } from "@/components/auth-dialog";
+import { ReactionBar } from "@/components/reaction-bar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
@@ -50,7 +46,6 @@ interface SidebarContextValue {
   toggle: () => void;
   close: () => void;
 }
-const REACTION_EMOJIS = ["👍", "👎", "❤️", "🔥", "😂", "🎉", "🤔"] as const;
 const MIN_WIDTH = 320;
 const MAX_WIDTH = 600;
 const DEFAULT_WIDTH = 400;
@@ -143,20 +138,22 @@ export const LiveStatsNav = () => {
         <TooltipContent>Users active in the last 30 seconds</TooltipContent>
       </Tooltip>
 
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <div className="flex cursor-help items-center gap-1.5 rounded-md px-2 py-1 text-muted-foreground text-xs" />
-          }
-        >
-          <Activity className="size-3" />
-          <span className="font-mono tabular-nums">
-            {stats?.totalSessions ?? 0}
-          </span>
-          <span className="hidden sm:inline">visitors</span>
-        </TooltipTrigger>
-        <TooltipContent>Total unique sessions all-time</TooltipContent>
-      </Tooltip>
+      <div className="hidden sm:block">
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <div className="flex cursor-help items-center gap-1.5 rounded-md px-2 py-1 text-muted-foreground text-xs" />
+            }
+          >
+            <Activity className="size-3" />
+            <span className="font-mono tabular-nums">
+              {stats?.totalSessions ?? 0}
+            </span>
+            <span className="hidden sm:inline">visitors</span>
+          </TooltipTrigger>
+          <TooltipContent>Total unique sessions all-time</TooltipContent>
+        </Tooltip>
+      </div>
 
       <Button
         className={cn(
@@ -207,85 +204,6 @@ const SidebarDeleteButton = ({
     </Button>
   );
 };
-const SidebarReactionBar = ({ commentId }: { commentId: Id<"comments"> }) => {
-  const { data: session } = authClient.useSession();
-  const reactions = useQuery(api.comments.getReactions, { commentId });
-  const toggleReaction = useMutation(api.comments.toggleReaction);
-  const [isToggling, setIsToggling] = useState<string | null>(null);
-  const handleToggle = async (emoji: string) => {
-    if (!session?.user || isToggling) {
-      return;
-    }
-    setIsToggling(emoji);
-    try {
-      await toggleReaction({ commentId, emoji });
-    } catch (error) {
-      console.error("Failed to toggle reaction:", error);
-    } finally {
-      setIsToggling(null);
-    }
-  };
-  const hasReactions = reactions && reactions.length > 0;
-  return (
-    <div className="flex items-center gap-0.5">
-      {/* Existing reactions */}
-      {hasReactions
-        ? reactions.map((data) => {
-            const hasReacted = session?.user?.id
-              ? data.userIds.includes(session.user.id)
-              : false;
-            return (
-              <button
-                className={cn(
-                  "flex items-center gap-0.5 rounded-full border px-1 py-0.5 text-[10px] transition-colors",
-                  hasReacted
-                    ? "border-primary/50 bg-primary/10"
-                    : "border-transparent bg-muted/50 hover:bg-muted",
-                  !session?.user && "cursor-default"
-                )}
-                disabled={!session?.user || isToggling === data.emoji}
-                key={data.emoji}
-                onClick={() => handleToggle(data.emoji)}
-                type="button"
-              >
-                <span className="text-xs">{data.emoji}</span>
-                <span className="font-mono text-muted-foreground">
-                  {data.count}
-                </span>
-              </button>
-            );
-          })
-        : null}
-
-      {/* Add reaction button */}
-      {session?.user ? (
-        <Popover>
-          <PopoverTrigger
-            render={<Button className="size-5" size="icon" variant="ghost" />}
-          >
-            <SmilePlus className="size-3" />
-            <span className="sr-only">Add reaction</span>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-1.5" side="top">
-            <div className="flex gap-0.5">
-              {REACTION_EMOJIS.map((emoji) => (
-                <button
-                  className="rounded p-1 text-base transition-colors hover:bg-muted"
-                  disabled={isToggling === emoji}
-                  key={emoji}
-                  onClick={() => handleToggle(emoji)}
-                  type="button"
-                >
-                  {emoji}
-                </button>
-              ))}
-            </div>
-          </PopoverContent>
-        </Popover>
-      ) : null}
-    </div>
-  );
-};
 const SidebarCommentActions = ({
   commentId,
   canReply,
@@ -306,7 +224,7 @@ const SidebarCommentActions = ({
   setShowReplies: (show: boolean) => void;
 }) => (
   <div className="flex flex-wrap items-center gap-1 px-3 pb-3 pl-12">
-    <SidebarReactionBar commentId={commentId} />
+    <ReactionBar commentId={commentId} compact />
     {canReply ? (
       <Button
         className="h-5 gap-1 px-1.5 text-[10px]"
@@ -443,7 +361,7 @@ const SidebarReplyItem = ({
         </div>
         <p className="text-xs leading-relaxed">{reply.content}</p>
         <div className="pt-1">
-          <SidebarReactionBar commentId={reply._id} />
+          <ReactionBar commentId={reply._id} compact />
         </div>
       </div>
       {session?.user?.id === reply.userId && (
@@ -508,15 +426,19 @@ const SidebarCommentItem = ({
     const path = comment.postSlug ? `/posts/${comment.postSlug}` : "/";
     await navigate({ to: path });
     setTimeout(() => {
-      const element = document.querySelector(`#comment-${comment._id}`);
+      const element =
+        document.querySelector(`#comment-${comment._id}`) ??
+        (comment.postSlug ? null : document.querySelector("#guestbook"));
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" });
-        element.classList.add("ring-2", "ring-primary", "ring-offset-2");
-        setTimeout(() => {
-          element.classList.remove("ring-2", "ring-primary", "ring-offset-2");
-        }, 2000);
+        if (element.id.startsWith("comment-")) {
+          element.classList.add("ring-2", "ring-primary", "ring-offset-2");
+          setTimeout(() => {
+            element.classList.remove("ring-2", "ring-primary", "ring-offset-2");
+          }, 2000);
+        }
       }
-    }, 100);
+    }, 300);
   };
   const canReply = Boolean(session?.user);
   const repliesArray = Array.isArray(replies) ? replies : [];
@@ -525,44 +447,48 @@ const SidebarCommentItem = ({
     ? `on "${formatPostSlug(comment.postSlug)}"`
     : "in Guestbook";
   return (
-    <div className="group w-full rounded-lg border bg-card text-left transition-colors hover:border-foreground/20 hover:bg-accent/50">
-      <button
-        className="flex w-full cursor-pointer items-start gap-2 p-3 text-left"
-        onClick={handleClick}
-        type="button"
-      >
-        <Avatar className="size-7 shrink-0">
-          <AvatarImage alt={comment.userName} src={comment.userImage} />
-          <AvatarFallback className="text-xs">
-            {getInitials(comment.userName)}
-          </AvatarFallback>
-        </Avatar>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
-            <span className="flex min-w-0 items-center gap-1.5">
-              <span className="truncate font-medium text-xs">
-                {comment.userName}
-              </span>
-              <span className="shrink-0 text-[10px] text-muted-foreground">
-                {formatDistanceToNow(new Date(comment.createdAt), {
-                  addSuffix: true,
-                })}
+    <div className="group w-full rounded-xl border bg-card text-left shadow-elevation-1 transition-[border-color,box-shadow] hover:border-primary/20 hover:shadow-elevation-2">
+      <div className="flex items-start">
+        <button
+          className="flex min-w-0 flex-1 cursor-pointer items-start gap-2 p-3 pr-1 text-left"
+          onClick={handleClick}
+          type="button"
+        >
+          <Avatar className="size-7 shrink-0">
+            <AvatarImage alt={comment.userName} src={comment.userImage} />
+            <AvatarFallback className="text-xs">
+              {getInitials(comment.userName)}
+            </AvatarFallback>
+          </Avatar>
+          <span className="min-w-0 flex-1">
+            <span className="flex items-center justify-between gap-2">
+              <span className="flex min-w-0 items-center gap-1.5">
+                <span className="truncate font-medium text-xs">
+                  {comment.userName}
+                </span>
+                <span className="shrink-0 text-[10px] text-muted-foreground">
+                  {formatDistanceToNow(new Date(comment.createdAt), {
+                    addSuffix: true,
+                  })}
+                </span>
               </span>
             </span>
-            <SidebarDeleteButton
-              isDeleting={deletingId === comment._id}
-              isOwner={session?.user?.id === comment.userId}
-              onDelete={handleDelete}
-            />
-          </div>
-          <p className="mt-1 text-left text-sm leading-relaxed">
-            {comment.content}
-          </p>
-          <span className="mt-1.5 block text-left text-primary/80 text-xs">
-            {locationLabel}
+            <span className="mt-1 block text-left text-sm leading-relaxed">
+              {comment.content}
+            </span>
+            <span className="mt-1.5 block text-left text-primary/80 text-xs">
+              {locationLabel}
+            </span>
           </span>
+        </button>
+        <div className="pt-3 pr-2">
+          <SidebarDeleteButton
+            isDeleting={deletingId === comment._id}
+            isOwner={session?.user?.id === comment.userId}
+            onDelete={handleDelete}
+          />
         </div>
-      </button>
+      </div>
 
       <SidebarCommentActions
         canReply={canReply}
@@ -638,6 +564,7 @@ export const CommentsSidebar = () => {
   const allComments = useQuery(api.comments.listRecent, { limit: 30 });
   const { isOpen, close, width, setWidth } = useCommentSidebar();
   const { data: session } = authClient.useSession();
+  const isMobile = useIsMobile();
   const isResizing = useRef(false);
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -668,22 +595,24 @@ export const CommentsSidebar = () => {
   return (
     <aside
       className={cn(
-        "fixed top-14 right-0 z-40 h-[calc(100vh-3.5rem)] border-l bg-background transition-transform duration-300 ease-in-out",
+        "fixed top-16 right-0 z-40 h-[calc(100vh-4rem)] border-l bg-card/96 shadow-elevation-3 backdrop-blur-xl transition-transform duration-300 ease-in-out",
         isOpen ? "translate-x-0" : "translate-x-full"
       )}
-      style={{ width }}
+      style={{ width: isMobile ? "100vw" : width }}
     >
       {/* Resize Handle */}
-      <button
-        aria-label="Resize sidebar"
-        className="-left-1.5 absolute top-0 z-50 flex h-full w-3 cursor-col-resize items-center justify-center"
-        onMouseDown={handleMouseDown}
-        type="button"
-      >
-        <span className="flex h-10 w-3 items-center justify-center rounded-full border bg-muted shadow-sm">
-          <GripVertical className="size-3 text-muted-foreground" />
-        </span>
-      </button>
+      {isMobile ? null : (
+        <button
+          aria-label="Resize sidebar"
+          className="-left-1.5 absolute top-0 z-50 flex h-full w-3 cursor-col-resize items-center justify-center"
+          onMouseDown={handleMouseDown}
+          type="button"
+        >
+          <span className="flex h-10 w-3 items-center justify-center rounded-full border bg-muted shadow-elevation-1">
+            <GripVertical className="size-3 text-muted-foreground" />
+          </span>
+        </button>
+      )}
 
       <div className="flex h-full flex-col">
         {/* Header */}

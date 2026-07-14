@@ -74,8 +74,8 @@ const ReadOnlyDay = ({ day }: { day: ChallengeDay }) => (
           className={cn(
             "flex min-h-11 items-center justify-between rounded-xl border px-3.5 py-2.5",
             day[requirement.key]
-              ? "border-chart-2/30 bg-chart-2/10"
-              : "bg-muted/25 text-muted-foreground"
+              ? "border-success/30 bg-success/10"
+              : "bg-surface-sunken text-muted-foreground"
           )}
           key={requirement.key}
         >
@@ -83,7 +83,8 @@ const ReadOnlyDay = ({ day }: { day: ChallengeDay }) => (
           <span
             className={cn(
               "grid size-6 place-content-center rounded-full",
-              day[requirement.key] && "bg-chart-2 text-white"
+              day[requirement.key] &&
+                "bg-success text-white dark:text-background"
             )}
           >
             {day[requirement.key] ? <Check className="size-3.5" /> : "—"}
@@ -92,7 +93,7 @@ const ReadOnlyDay = ({ day }: { day: ChallengeDay }) => (
       ))}
     </div>
     {day.runMiles !== undefined || day.note ? (
-      <div className="grid gap-4 rounded-xl border bg-muted/20 p-4">
+      <div className="grid gap-4 rounded-xl border bg-surface-sunken p-4">
         {day.runMiles === undefined ? null : (
           <div>
             <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
@@ -333,10 +334,10 @@ const OwnerDayEditor = ({ day }: { day: ChallengeDay }) => {
             <div className="overflow-hidden rounded-xl border">
               <img
                 alt={`Private progress from day ${day.dayIndex}`}
-                className="aspect-[4/3] w-full object-cover"
+                className="aspect-4/3 w-full object-cover"
                 src={day.progressPhotoUrl}
               />
-              <div className="flex items-center justify-between border-t bg-muted/20 p-2.5 text-muted-foreground text-xs">
+              <div className="flex items-center justify-between border-t bg-surface-sunken p-2.5 text-muted-foreground text-xs">
                 <span className="flex items-center gap-1.5">
                   <Lock className="size-3.5" />
                   Only you
@@ -352,7 +353,7 @@ const OwnerDayEditor = ({ day }: { day: ChallengeDay }) => {
               </div>
             </div>
           ) : (
-            <div className="grid min-h-32 place-content-center rounded-xl border border-dashed bg-muted/20 text-center">
+            <div className="grid min-h-32 place-content-center rounded-xl border border-dashed bg-surface-sunken text-center">
               <Camera className="mx-auto mb-2 size-5 text-muted-foreground" />
               <p className="text-muted-foreground text-xs">No progress photo</p>
             </div>
@@ -398,10 +399,10 @@ const OwnerDayEditor = ({ day }: { day: ChallengeDay }) => {
             <div className="overflow-hidden rounded-xl border">
               <img
                 alt={`Public update from day ${day.dayIndex}`}
-                className="aspect-[4/3] w-full object-cover"
+                className="aspect-4/3 w-full object-cover"
                 src={day.publicPhotoUrl}
               />
-              <div className="flex items-center justify-between border-t bg-muted/20 p-2.5 text-muted-foreground text-xs">
+              <div className="flex items-center justify-between border-t bg-surface-sunken p-2.5 text-muted-foreground text-xs">
                 <span className="flex items-center gap-1.5">
                   <Eye className="size-3.5" />
                   Public
@@ -417,7 +418,7 @@ const OwnerDayEditor = ({ day }: { day: ChallengeDay }) => {
               </div>
             </div>
           ) : (
-            <div className="grid min-h-32 place-content-center rounded-xl border border-dashed bg-muted/20 text-center">
+            <div className="grid min-h-32 place-content-center rounded-xl border border-dashed bg-surface-sunken text-center">
               <ImagePlus className="mx-auto mb-2 size-5 text-muted-foreground" />
               <p className="text-muted-foreground text-xs">No public photo</p>
             </div>
@@ -461,7 +462,7 @@ export const DayDetail = ({
                 <p className="mb-1 font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em]">
                   Day {day.dayIndex} of 75
                 </p>
-                <DrawerTitle className="font-serif text-3xl font-normal">
+                <DrawerTitle className="font-heading text-3xl font-semibold tracking-[-0.035em]">
                   {formatChallengeDate(day.date, {
                     day: "numeric",
                     month: "long",

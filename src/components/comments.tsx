@@ -6,19 +6,17 @@ import {
   Loader2,
   MessageCircle,
   Reply,
-  SmilePlus,
   Trash2,
 } from "lucide-react";
 import { useState } from "react";
 
 import { AuthDialog } from "@/components/auth-dialog";
+import { ReactionBar } from "@/components/reaction-bar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Card, CardContent } from "@/components/ui/card";
+import { SectionHeader } from "@/components/ui/section-header";
 import { Textarea } from "@/components/ui/textarea";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
@@ -52,11 +50,6 @@ interface ReplyFormProps {
   compact?: boolean;
   onClose: () => void;
 }
-interface ReactionBarProps {
-  commentId: Id<"comments">;
-  compact?: boolean;
-}
-const REACTION_EMOJIS = ["👍", "❤️", "🔥", "😂", "🎉", "🤔"] as const;
 const getInitials = (name: string) =>
   name
     .split(" ")
@@ -66,91 +59,6 @@ const getInitials = (name: string) =>
     .slice(0, 2);
 const handleSignOut = async () => {
   await authClient.signOut();
-};
-const ReactionBar = ({ commentId, compact }: ReactionBarProps) => {
-  const { data: session } = authClient.useSession();
-  const reactions = useQuery(api.comments.getReactions, { commentId });
-  const toggleReaction = useMutation(api.comments.toggleReaction);
-  const [isToggling, setIsToggling] = useState<string | null>(null);
-  const handleToggle = async (emoji: string) => {
-    if (!session?.user || isToggling) {
-      return;
-    }
-    setIsToggling(emoji);
-    try {
-      await toggleReaction({ commentId, emoji });
-    } catch (error) {
-      console.error("Failed to toggle reaction:", error);
-    } finally {
-      setIsToggling(null);
-    }
-  };
-  const hasReactions = reactions && reactions.length > 0;
-  return (
-    <div className="flex items-center gap-1">
-      {/* Existing reactions */}
-      {hasReactions &&
-        reactions.map((data) => {
-          const hasReacted = session?.user?.id
-            ? data.userIds.includes(session.user.id)
-            : false;
-          return (
-            <button
-              className={cn(
-                "flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 transition-colors",
-                compact ? "text-[10px]" : "text-xs",
-                hasReacted
-                  ? "border-primary/50 bg-primary/10"
-                  : "border-transparent bg-muted/50 hover:bg-muted",
-                !session?.user && "cursor-default"
-              )}
-              disabled={!session?.user || isToggling === data.emoji}
-              key={data.emoji}
-              onClick={() => handleToggle(data.emoji)}
-              type="button"
-            >
-              <span>{data.emoji}</span>
-              <span className="font-mono text-muted-foreground">
-                {data.count}
-              </span>
-            </button>
-          );
-        })}
-
-      {/* Add reaction button */}
-      {session?.user && (
-        <Popover>
-          <PopoverTrigger
-            render={
-              <Button
-                className={cn("size-6", compact && "size-5")}
-                size="icon"
-                variant="ghost"
-              />
-            }
-          >
-            <SmilePlus className={cn("size-3.5", compact && "size-3")} />
-            <span className="sr-only">Add reaction</span>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-2" side="top">
-            <div className="flex gap-1">
-              {REACTION_EMOJIS.map((emoji) => (
-                <button
-                  className="rounded p-1.5 text-lg transition-colors hover:bg-muted"
-                  disabled={isToggling === emoji}
-                  key={emoji}
-                  onClick={() => handleToggle(emoji)}
-                  type="button"
-                >
-                  {emoji}
-                </button>
-              ))}
-            </div>
-          </PopoverContent>
-        </Popover>
-      )}
-    </div>
-  );
 };
 const ReplyForm = ({
   parentId,
@@ -182,7 +90,10 @@ const ReplyForm = ({
     }
   };
   return (
-    <form className="space-y-2" onSubmit={handleSubmit}>
+    <form
+      className="space-y-2 rounded-lg bg-surface-sunken p-3"
+      onSubmit={handleSubmit}
+    >
       <Textarea
         autoFocus
         className={cn("resize-none", compact ? "min-h-12 text-xs" : "min-h-16")}
@@ -272,7 +183,7 @@ const CommentDeleteButton = ({
   }
   return (
     <Button
-      className="opacity-0 transition-opacity group-hover:opacity-100"
+      className="opacity-60 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
       disabled={isDeleting}
       onClick={onDelete}
       size="icon-sm"
@@ -327,9 +238,9 @@ const CommentItem = ({
   return (
     <article
       className={cn(
-        "group rounded-lg border bg-card transition-all hover:bg-accent/50",
+        "group rounded-xl border bg-card shadow-elevation-1 transition-[border-color,box-shadow] hover:border-primary/20 hover:shadow-elevation-2",
         styles.container,
-        isReply && "ml-8 border-l-2 border-l-primary/20"
+        isReply && "ml-8 border-l-2 border-l-info/35 bg-card/80"
       )}
       id={`comment-${comment._id}`}
     >
@@ -457,9 +368,11 @@ export const Comments = ({
                     )}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-sm">
+                <span className="text-muted-foreground text-sm">
                   Signed in as{" "}
-                  <strong>{session.user.name ?? session.user.email}</strong>
+                  <strong className="font-semibold text-foreground">
+                    {session.user.name ?? session.user.email}
+                  </strong>
                 </span>
               </div>
               <Button onClick={handleSignOut} size="sm" variant="ghost">
@@ -494,17 +407,16 @@ export const Comments = ({
       );
     }
     return (
-      <div
-        className={cn(
-          "rounded-lg border bg-muted/30 text-center",
-          compact ? "p-4" : "p-6"
-        )}
-      >
-        <p className="mb-4 text-muted-foreground text-sm">
-          Join the conversation! Sign in to leave a comment.
-        </p>
-        <AuthDialog />
-      </div>
+      <Card size="sm" variant="muted">
+        <CardContent
+          className={cn("text-center", compact ? "space-y-3" : "space-y-4")}
+        >
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            Join the conversation. Sign in to leave a comment.
+          </p>
+          <AuthDialog />
+        </CardContent>
+      </Card>
     );
   };
   const renderCommentsList = () => {
@@ -517,14 +429,18 @@ export const Comments = ({
     }
     if (comments.length === 0) {
       return (
-        <p
-          className={cn(
-            "text-center text-muted-foreground",
-            compact ? "py-4 text-sm" : "py-8"
-          )}
-        >
-          No comments yet. Be the first to share your thoughts!
-        </p>
+        <Card size="sm" variant="sunken">
+          <CardContent>
+            <p
+              className={cn(
+                "text-center text-muted-foreground",
+                compact ? "py-1 text-xs" : "py-3 text-sm"
+              )}
+            >
+              No comments yet. Be the first to share your thoughts.
+            </p>
+          </CardContent>
+        </Card>
       );
     }
     return comments.map((comment) => (
@@ -539,15 +455,24 @@ export const Comments = ({
   return (
     <section className={cn("space-y-6", compact && "space-y-4")}>
       {!compact && (
-        <div className="flex items-center gap-2">
-          <MessageCircle className="size-5" />
-          <h2 className="font-serif text-2xl">{title}</h2>
-          {comments ? (
-            <span className="text-muted-foreground text-sm">
-              ({comments.length})
+        <SectionHeader
+          action={
+            comments ? (
+              <Badge size="sm" variant="info">
+                {comments.length}{" "}
+                {comments.length === 1 ? "comment" : "comments"}
+              </Badge>
+            ) : null
+          }
+          eyebrow={
+            <span className="inline-flex items-center gap-1.5">
+              <MessageCircle className="size-3.5" />
+              Discussion
             </span>
-          ) : null}
-        </div>
+          }
+          size="compact"
+          title={title}
+        />
       )}
 
       {renderAuthSection()}
