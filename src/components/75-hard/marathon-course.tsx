@@ -141,7 +141,7 @@ const getMarkerClass = (day: ChallengeDay) => {
     return "fill-background stroke-muted-foreground/35";
   }
   if (day.isComplete) {
-    return "fill-success stroke-success";
+    return "fill-info stroke-info";
   }
   if (day.completedCount > 0) {
     return "fill-chart-4 stroke-chart-4";
@@ -368,12 +368,15 @@ export const MarathonCourseGraphic = ({
       })}
 
       <g
-        className="text-primary transition-transform duration-700 ease-in-out will-change-transform motion-reduce:transition-none"
+        className="pointer-events-none text-primary transition-transform duration-700 ease-in-out will-change-transform motion-reduce:transition-none"
         filter="url(#runner-shadow)"
         style={{ transform: `translate(${runner.x}px, ${runner.y}px)` }}
       >
         <circle
-          className="origin-center animate-ping fill-current opacity-20 transform-fill motion-reduce:hidden"
+          className={cn(
+            "origin-center fill-current opacity-20 transform-fill motion-reduce:hidden",
+            hoveredDay ? "hidden" : "animate-ping"
+          )}
           r="8"
         />
         <circle

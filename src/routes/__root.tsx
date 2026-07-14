@@ -20,10 +20,20 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getServerTheme } from "@/lib/theme";
+import type { Theme } from "@/lib/theme";
 
 import appCss from "../styles.css?url";
 
 const routeApi = getRouteApi("__root__");
+const getThemeClass = (serverTheme?: Theme) => {
+  if (serverTheme === undefined) {
+    return "dark";
+  }
+  if (serverTheme === "system") {
+    return;
+  }
+  return serverTheme;
+};
 const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
   const { isOpen, width } = useCommentSidebar();
   const isMobile = useIsMobile();
@@ -38,12 +48,8 @@ const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
 };
 const RootDocument = ({ children }: { children: React.ReactNode }) => {
   const { serverTheme } = routeApi.useLoaderData();
-  // Determine the class to apply on the server
-  // If no cookie, we default to no class (CSS will use prefers-color-scheme)
-  // If cookie is "system", we also use no class
-  // If cookie is "dark" or "light", we apply that class
-  const themeClass =
-    serverTheme && serverTheme !== "system" ? serverTheme : undefined;
+  // Default new visitors to dark while preserving an explicit theme choice.
+  const themeClass = getThemeClass(serverTheme);
   return (
     <html className={themeClass} lang="en" suppressHydrationWarning>
       <head>
@@ -52,7 +58,7 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => {
       </head>
       <body className="h-screen overflow-hidden antialiased">
         <ThemeProvider
-          defaultTheme="system"
+          defaultTheme="dark"
           serverTheme={serverTheme}
           storageKey="vite-ui-theme"
         >

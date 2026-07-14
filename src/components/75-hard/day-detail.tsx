@@ -74,7 +74,7 @@ const ReadOnlyDay = ({ day }: { day: ChallengeDay }) => (
           className={cn(
             "flex min-h-11 items-center justify-between rounded-xl border px-3.5 py-2.5",
             day[requirement.key]
-              ? "border-success/30 bg-success/10"
+              ? "border-info/30 bg-info/10"
               : "bg-surface-sunken text-muted-foreground"
           )}
           key={requirement.key}
@@ -83,8 +83,7 @@ const ReadOnlyDay = ({ day }: { day: ChallengeDay }) => (
           <span
             className={cn(
               "grid size-6 place-content-center rounded-full",
-              day[requirement.key] &&
-                "bg-success text-white dark:text-background"
+              day[requirement.key] && "bg-info text-white dark:text-background"
             )}
           >
             {day[requirement.key] ? <Check className="size-3.5" /> : "—"}

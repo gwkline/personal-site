@@ -31,7 +31,7 @@ const JourneySummary = () => (
         Wedding · October
       </span>
       <span className="flex items-center gap-2 text-muted-foreground text-xs">
-        <Flag className="size-4 text-chart-1" />
+        <Flag className="size-4 text-info" />
         NYC Marathon · November
       </span>
     </div>
@@ -73,18 +73,18 @@ export const ChallengeHero = ({
     >
       <div className="absolute inset-x-8 top-0 h-px bg-linear-to-r from-transparent via-primary/70 to-transparent" />
       <CardHeader>
-        <div className="max-w-3xl space-y-3">
+        <div className="space-y-3">
           <CardTitle variant="display">
-            The <span className="text-primary">Long Game</span>
+            <span className="text-primary">75 Hard</span>
           </CardTitle>
-          <CardDescription className="max-w-2xl" size="lg">
-            Seventy-five days of training, discipline, and showing up before the
-            wedding and the marathon.
+          <CardDescription size="lg">
+            I&apos;m doing 75 Hard while training for the NYC Marathon and
+            getting ready for my wedding. This is the daily log.
           </CardDescription>
         </div>
       </CardHeader>
 
-      <CardContent className="grid gap-5 md:grid-cols-[minmax(0,1fr)_14rem]">
+      <CardContent className="grid items-stretch gap-5 md:grid-cols-[minmax(0,1fr)_14rem]">
         <div className="relative overflow-hidden rounded-xl border bg-surface-sunken p-3 sm:min-h-80 sm:p-0">
           <JourneySummary />
           <MarathonCourseGraphic
@@ -94,8 +94,9 @@ export const ChallengeHero = ({
             onSelectDay={onSelectDay}
           />
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-1 md:content-start">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-1 md:grid-rows-3">
           <Stat
+            className="h-full"
             detail="entries"
             icon={<CalendarCheck className="size-3.5 text-primary" />}
             label="Days logged"
@@ -103,6 +104,7 @@ export const ChallengeHero = ({
             variant="surface"
           />
           <Stat
+            className="h-full"
             detail="perfect days in a row"
             icon={<Flame className="size-3.5 text-chart-4" />}
             label="Streak"
@@ -110,8 +112,9 @@ export const ChallengeHero = ({
             variant="surface"
           />
           <Stat
+            className="h-full"
             detail="running"
-            icon={<Footprints className="size-3.5 text-chart-1" />}
+            icon={<Footprints className="size-3.5 text-info" />}
             label="Miles"
             value={totalMiles.toFixed(1)}
             variant="surface"

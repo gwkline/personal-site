@@ -39,7 +39,7 @@ const setThemeCookie = async (theme: Theme) => {
 };
 export const ThemeProvider = ({
   children,
-  defaultTheme = "system",
+  defaultTheme = "dark",
   serverTheme,
   storageKey = "vite-ui-theme",
 }: ThemeProviderProps) => {

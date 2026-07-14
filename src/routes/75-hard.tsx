@@ -6,19 +6,19 @@ export const Route = createFileRoute("/75-hard")({
   component: LongRunPage,
   head: () => ({
     meta: [
-      { title: "The Long Game — Gavin Kline" },
+      { title: "75 Hard — Gavin Kline" },
       {
         content:
-          "75 days of showing up on the road to an October wedding and the New York City Marathon.",
+          "My 75 Hard daily log while training for the NYC Marathon and getting ready for my wedding.",
         name: "description",
       },
       {
-        content: "The Long Game — 75 days of showing up",
+        content: "75 Hard — Gavin Kline",
         property: "og:title",
       },
       {
         content:
-          "Follow Gavin's live 75-day challenge on the road to his wedding and the New York City Marathon.",
+          "Follow my 75 Hard daily log while I train for the NYC Marathon and get ready for my wedding.",
         property: "og:description",
       },
       { content: "website", property: "og:type" },

@@ -1,6 +1,6 @@
 (() => {
   try {
-    const stored = localStorage.getItem("vite-ui-theme") || "system";
+    const stored = localStorage.getItem("vite-ui-theme") || "dark";
     let resolved = stored;
     if (stored === "system") {
       resolved = matchMedia("(prefers-color-scheme: dark)").matches

@@ -39,7 +39,7 @@ export const DEFAULT_CHALLENGE: ChallengeConfig = {
   slug: "the-long-run-2026",
   startDate: "2026-07-13",
   timezone: "America/New_York",
-  title: "The Long Game",
+  title: "75 Hard",
   totalDays: 75,
 };
 
@@ -214,6 +214,16 @@ export const getWeeklyMileage = (days: ChallengeDay[]) => {
   }).filter((week, index) => index === 0 || week.miles > 0);
   return [{ miles: 0, week: "Start" }, ...weeks];
 };
+
+export const getDailyMileage = (days: ChallengeDay[]) => [
+  { day: "Start", miles: 0 },
+  ...days
+    .filter((day) => !day.isFuture)
+    .map((day) => ({
+      day: `D${day.dayIndex}`,
+      miles: Number((day.runMiles ?? 0).toFixed(1)),
+    })),
+];
 
 export const getDayNumber = (days: ChallengeDay[]) => {
   const today = days.find((day) => day.isToday);

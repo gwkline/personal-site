@@ -10,7 +10,7 @@ const CHALLENGE = {
   slug: "the-long-run-2026",
   startDate: "2026-07-13",
   timezone: "America/New_York",
-  title: "The Long Game",
+  title: "75 Hard",
   totalDays: 75,
 } as const;
 

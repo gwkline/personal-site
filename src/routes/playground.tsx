@@ -10,7 +10,7 @@ const PlaygroundPage = () => (
   <div className="space-y-12 sm:space-y-16">
     <PageHeader
       action={<Badge variant="info">Experiments</Badge>}
-      description="Interactive experiments, living data, and things that don’t fit anywhere else."
+      description="Things I’m building that don’t fit anywhere else."
       eyebrow="Open lab"
       title="Playground"
     />
@@ -33,11 +33,11 @@ const PlaygroundPage = () => (
         Live · July—September 2026
       </p>
       <h2 className="font-heading text-3xl font-semibold tracking-[-0.04em] sm:text-4xl">
-        The Long Game
+        75 Hard
       </h2>
       <p className="mt-3 max-w-xl text-muted-foreground text-sm leading-relaxed sm:text-base">
-        Seventy-five days of workouts, miles, water, reading, and showing up—on
-        the road to a wedding and the New York City Marathon.
+        I&apos;m doing 75 Hard while training for the NYC Marathon and getting
+        ready for my wedding. Follow the daily log.
       </p>
     </Link>
   </div>

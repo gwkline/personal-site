@@ -12,8 +12,7 @@ const trackerDayVariants = cva(
   {
     variants: {
       status: {
-        complete:
-          "border-success/50 bg-success text-white dark:text-background",
+        complete: "border-info/50 bg-info text-white dark:text-background",
         future: "border-border/60 bg-muted/25 text-muted-foreground/50",
         high: "border-chart-4/50 bg-chart-4/80 text-foreground",
         partial: "border-chart-4/30 bg-chart-4/25 text-foreground",
@@ -65,7 +64,7 @@ export const TrackerGrid = ({
     <SectionHeader
       action={
         <div className="flex flex-wrap gap-2">
-          <Badge variant="success">
+          <Badge variant="info">
             <span className="size-2 rounded-sm bg-current" />
             Complete
           </Badge>

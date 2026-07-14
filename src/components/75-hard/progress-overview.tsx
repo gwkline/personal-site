@@ -7,12 +7,15 @@ import {
   GlassWater,
   Salad,
 } from "lucide-react";
+import { useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -27,9 +30,12 @@ import {
   ProgressValue,
 } from "@/components/ui/progress";
 import { SectionHeader } from "@/components/ui/section-header";
-import { Stat } from "@/components/ui/stat";
 import type { ChallengeDay } from "@/lib/hard75";
-import { getChallengeStats, getWeeklyMileage } from "@/lib/hard75";
+import {
+  getChallengeStats,
+  getDailyMileage,
+  getWeeklyMileage,
+} from "@/lib/hard75";
 
 const TASK_ICONS = {
   diet: Salad,
@@ -42,12 +48,18 @@ const TASK_ICONS = {
 } as const;
 
 export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
+  const [mileageView, setMileageView] = useState<"daily" | "weekly">("daily");
   const stats = getChallengeStats(days);
   const weeklyMileage = getWeeklyMileage(days);
+  const dailyMileage = getDailyMileage(days);
+  const mileageData =
+    mileageView === "daily"
+      ? dailyMileage.map(({ day, miles }) => ({ label: day, miles }))
+      : weeklyMileage.map(({ miles, week }) => ({ label: week, miles }));
   return (
     <section aria-labelledby="progress-title" className="space-y-5">
       <SectionHeader
-        description="A live view of weekly mileage and consistency across every daily requirement."
+        description="Mileage and completion rates across every daily requirement."
         eyebrow="By the numbers"
         id="progress-title"
         title="Progress"
@@ -57,16 +69,31 @@ export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
         <Card variant="feature">
           <CardHeader>
             <CardAction>
-              <Stat
-                detail="miles"
-                label="Total"
-                value={stats.totalMiles.toFixed(1)}
-                variant="panel"
-              />
+              <fieldset className="flex w-fit gap-1 rounded-lg bg-muted p-1">
+                <legend className="sr-only">Mileage chart interval</legend>
+                {(["daily", "weekly"] as const).map((view) => (
+                  <Button
+                    aria-pressed={mileageView === view}
+                    className="capitalize"
+                    key={view}
+                    onClick={() => setMileageView(view)}
+                    size="xs"
+                    variant={mileageView === view ? "secondary" : "ghost"}
+                  >
+                    {view}
+                  </Button>
+                ))}
+              </fieldset>
             </CardAction>
             <CardTitle variant="section">Mileage</CardTitle>
+            <CardDescription>
+              <span className="font-mono font-medium text-foreground tabular-nums">
+                {stats.totalMiles.toFixed(1)}
+              </span>{" "}
+              total miles
+            </CardDescription>
           </CardHeader>
-          <CardContent grow>
+          <CardContent className="flex flex-col gap-3" grow>
             <ChartContainer
               config={{
                 miles: {
@@ -79,8 +106,8 @@ export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
             >
               <AreaChart
                 accessibilityLayer
-                data={weeklyMileage}
-                margin={{ left: 4, right: 4, top: 8 }}
+                data={mileageData}
+                margin={{ left: 8, right: 8, top: 8 }}
               >
                 <defs>
                   <linearGradient id="miles-fill" x1="0" x2="0" y1="0" y2="1">
@@ -99,13 +126,15 @@ export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
                   axisLine={false}
-                  dataKey="week"
+                  dataKey="label"
+                  interval={mileageView === "daily" ? 6 : 0}
+                  padding={{ left: 16, right: 8 }}
                   tickLine={false}
                   tickMargin={10}
                 />
                 <YAxis hide domain={[0, "auto"]} />
                 <ChartTooltip
-                  content={<ChartTooltipContent hideLabel />}
+                  content={<ChartTooltipContent />}
                   cursor={false}
                 />
                 <Area
@@ -121,16 +150,15 @@ export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
           </CardContent>
         </Card>
 
-        <Card variant="muted">
+        <Card variant="feature">
           <CardHeader>
             <CardAction>
-              <Stat
-                label="Checks"
-                value={stats.completedRequirements}
-                variant="surface"
-              />
+              <span className="rounded-lg bg-muted px-2.5 py-1.5 font-mono text-muted-foreground text-xs tabular-nums">
+                {stats.completedRequirements} checks
+              </span>
             </CardAction>
             <CardTitle variant="section">Requirements</CardTitle>
+            <CardDescription>Completion by daily task</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {stats.taskRates.map((task) => {

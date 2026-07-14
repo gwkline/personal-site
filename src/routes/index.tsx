@@ -23,7 +23,7 @@ const routeApi = getRouteApi("/");
 const Hero = () => (
   <section className="grid gap-10 pt-3 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-end lg:gap-14 lg:pt-8">
     <div className="space-y-7">
-      <Eyebrow>Engineering leadership · hands-on execution</Eyebrow>
+      <Eyebrow>Software craftsman · serial shipper</Eyebrow>
       <div className="space-y-6">
         <h1 className="max-w-3xl font-heading text-5xl font-semibold leading-[0.96] tracking-[-0.055em] text-balance sm:text-6xl md:text-7xl">
           Building dependable software for{" "}
@@ -57,9 +57,9 @@ const Hero = () => (
         <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/20">
           <Sparkles className="size-5" />
         </div>
-        <CardTitle>Currently building</CardTitle>
+        <CardTitle>What I&apos;m building at GovDash</CardTitle>
         <CardDescription size="lg">
-          AI-native systems and engineering teams at GovDash.
+          The rails for doing business with the government.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -73,7 +73,7 @@ const Hero = () => (
         </div>
         <div className="flex items-center gap-2 text-muted-foreground text-sm">
           <MapPin className="size-4 text-info" />
-          New York
+          New York, NY
         </div>
       </CardContent>
     </Card>
@@ -118,7 +118,7 @@ const RecentPosts = ({ posts }: { posts: Post[] }) => (
           <ArrowRight />
         </Button>
       }
-      description="Notes on engineering leadership, software design, and building with intent."
+      description="Notes on shipping quality software, moving fast without cutting corners, and the things I wish I knew earlier."
       eyebrow="Field notes"
       title="Thinking in public"
     />
@@ -175,14 +175,14 @@ export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
     meta: [
-      { title: "Gavin Kline — Engineering Leader & Software Builder" },
+      { title: "Gavin Kline — Software Builder" },
       {
         content:
           "Engineering leader and hands-on builder working across AI, backend systems, product architecture, and high-performing teams.",
         name: "description",
       },
       {
-        content: "Gavin Kline — Engineering Leader & Software Builder",
+        content: "Gavin Kline — Software Builder",
         property: "og:title",
       },
       {

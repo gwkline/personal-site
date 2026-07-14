@@ -5,6 +5,7 @@ import {
   buildChallengeDays,
   daysBetween,
   getChallengeStats,
+  getDailyMileage,
   getTodayInTimezone,
   getWeeklyMileage,
 } from "./hard75";
@@ -14,7 +15,7 @@ const challenge: ChallengeConfig = {
   slug: "the-long-run-2026",
   startDate: "2026-07-13",
   timezone: "America/New_York",
-  title: "The Long Game",
+  title: "75 Hard",
   totalDays: 75,
 };
 
@@ -97,6 +98,20 @@ describe("getChallengeStats", () => {
     expect(getWeeklyMileage(days).slice(0, 2)).toEqual([
       { miles: 0, week: "Start" },
       { miles: 4.2, week: "W1" },
+    ]);
+  });
+
+  it("shows mileage for each elapsed day", () => {
+    const days = buildChallengeDays(
+      challenge,
+      [progressFor(1, { runMiles: 4.2 }), progressFor(2, { runMiles: 3.1 })],
+      "2026-07-14"
+    );
+
+    expect(getDailyMileage(days)).toEqual([
+      { day: "Start", miles: 0 },
+      { day: "D1", miles: 4.2 },
+      { day: "D2", miles: 3.1 },
     ]);
   });
 });
