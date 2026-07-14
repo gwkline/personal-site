@@ -45,12 +45,13 @@ const AboutPage = () => (
         high-performance backend systems to crafting polished user interfaces.
       </p>
       <p>
-        Currently, I&apos;m working at GovDash, where I serve as lead founding
-        software engineer and product owner of Capture Cloud - our largest and
-        fastest-growing product line. Previously, I built marketplace
-        infrastructure at Whop (supporting 1M+ MAU), led engineering at Gorjian
-        Acquisitions, and developed mission-critical software at CACI Inc for
-        the PM IVAS program.
+        Currently, I&apos;m Head of Engineering at GovDash, where I lead
+        engineering for a 20-person organization and define our company-wide AI
+        strategy. I architected our agent execution platform and own product and
+        technical strategy across products including Capture and Discover.
+        Previously, I built marketplace infrastructure at Whop (supporting 1M+
+        MAU), served as VP of Software Engineering at Gorjian Acquisitions, and
+        developed mission-critical software at CACI Inc for the PM IVAS program.
       </p>
 
       <h2>What I do</h2>

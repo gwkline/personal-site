@@ -18,10 +18,9 @@ const Hero = () => (
       <span className="text-muted-foreground italic">with intention</span>
     </h1>
     <p className="text-lg text-muted-foreground">
-      I&apos;m Gavin, currently a Lead Software Engineer at GovDash. I
-      specialize in web development, and have a passion for backend systems,
-      performance optimization, and shipping products that drive real business
-      impact.
+      I&apos;m Gavin, Head of Engineering at GovDash. I lead engineering and AI
+      strategy while staying hands-on with backend systems, product
+      architecture, and shipping software that drives real business impact.
     </p>
     <div className="flex gap-3">
       <Button nativeButton={false} render={<Link to="/work" />}>

@@ -1,8 +1,8 @@
 ---
-title: "Capture Cloud"
-role: "Lead Software Engineer @ GovDash"
-period: "2023 – Present"
-summary: "Built Capture Cloud from the ground up into GovDash's #1 driver of customer engagement and revenue."
+title: "GovDash Engineering"
+role: "Head of Engineering @ GovDash"
+period: "May 2024 – Present"
+summary: "Leading engineering and company-wide AI strategy while building the agent execution platform behind GovDash's autonomous and scheduled workflows."
 tech:
   - TypeScript
   - PostgreSQL
@@ -13,14 +13,10 @@ type: work
 highlighted: true
 ---
 
-Serving as lead founding engineer and product owner of the Capture Cloud, GovDash’s largest and fastest-growing product line, overseeing its transformation from an underutilized feature set to the company’s #1 driver of customer engagement and revenue.
+As Head of Engineering, I lead engineering for a 20-person organization while defining company-wide AI strategy. I architected GovDash's Temporal-based agent execution platform, evaluation framework, and Agents product for autonomous and scheduled workflow execution.
 
-Engineered an industry-leading ingestion pipeline with sub-5-minute latency from government data sources, coupled with personalized search and recommendation capabilities that give clients a measurable competitive edge.
+I served as lead engineer and product owner for Capture, transforming an underutilized feature set into GovDash's largest product line and primary driver of customer engagement and revenue.
 
-Collaborate closely with marketing, sales, and customer success to align engineering priorities with business strategy, ensuring product roadmap execution directly supports growth and retention objectives.
+I owned product and technical strategy for Discover, GovDash's government opportunity intelligence platform. I engineered an ingestion and recommendation system that delivers new opportunities from government sources in under five minutes, then designed and iterated on the evaluation framework, ranking models, and relevance metrics that improved nDCG by approximately 40%.
 
-Consistently serve as the top code contributor and lead reviewer, driving the adoption of best practices and ensuring high code quality across all products.
-
-Led a comprehensive overhaul of both frontend and backend architectures, resulting in substantially improved scalability, maintainability, and accelerated feature rollout capabilities, dropping P90 response times from over 400ms to under 120ms.
-
-Spearheaded a 70% reduction in CI/CD pipeline times, slashing end-to-end build, test, and deploy time from ~25 minutes to ~7 minutes, and introducing thorough unit, integration, and LLM “prompt” testing across our most critical flows.
+I collaborate closely with marketing, sales, and customer success to align engineering priorities with business strategy, ensuring product roadmap execution directly supports growth and retention objectives. I also serve as the top code contributor and lead reviewer, leading architecture reviews, critical implementations, and technical direction across the platform.
