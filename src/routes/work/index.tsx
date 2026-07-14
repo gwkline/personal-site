@@ -1,95 +1,82 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, getRouteApi } from "@tanstack/react-router";
 
+import { ProjectCard } from "@/components/content-preview";
 import { PageHeader } from "@/components/page-header";
-import { Badge } from "@/components/ui/badge";
-import type { Project } from "@/lib/projects";
+import { SectionHeader } from "@/components/ui/section-header";
 import { getProjects } from "@/lib/projects";
 
+const routeApi = getRouteApi("/work/");
+const WorkPage = () => {
+  const { projects } = routeApi.useLoaderData();
+  const workProjects = projects.filter((p) => p.type === "work");
+  const personalProjects = projects.filter((p) => p.type === "personal");
+  const ossProjects = projects.filter((p) => p.type === "oss");
+  return (
+    <div className="space-y-20 pb-8 sm:space-y-24">
+      <PageHeader
+        description="Selected products, platforms, and open-source projects I've built, led, and shipped."
+        eyebrow="Portfolio"
+        title="Work"
+      />
+
+      {workProjects.length > 0 && (
+        <section className="space-y-7">
+          <SectionHeader
+            description="Production systems and product teams shaped through hands-on engineering and technical leadership."
+            eyebrow="Professional"
+            title="Systems built for real-world use"
+          />
+          <div className="grid gap-4 md:grid-cols-2">
+            {workProjects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {personalProjects.length > 0 && (
+        <section className="space-y-7">
+          <SectionHeader
+            description="Independent products and experiments driven from first idea through implementation."
+            eyebrow="Personal"
+            title="Ideas taken all the way to code"
+          />
+          <div className="grid gap-4 md:grid-cols-2">
+            {personalProjects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {ossProjects.length > 0 && (
+        <section className="space-y-7">
+          <SectionHeader
+            description="Reusable foundations, reference implementations, and contributions shared in the open."
+            eyebrow="Open source"
+            title="Useful work, shared"
+          />
+          <div className="grid gap-4 md:grid-cols-2">
+            {ossProjects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+};
 export const Route = createFileRoute("/work/")({
-	component: WorkPage,
-	loader: () => ({ projects: getProjects() }),
+  component: WorkPage,
+  head: () => ({
+    meta: [
+      { title: "Work — Gavin Kline" },
+      {
+        content:
+          "Selected products, platforms, and open-source projects built and led by Gavin Kline.",
+        name: "description",
+      },
+    ],
+  }),
+  loader: () => ({ projects: getProjects() }),
 });
-
-function WorkPage() {
-	const { projects } = Route.useLoaderData();
-	const workProjects = projects.filter((p) => p.type === "work");
-	const personalProjects = projects.filter((p) => p.type === "personal");
-	const ossProjects = projects.filter((p) => p.type === "oss");
-
-	return (
-		<div className="space-y-12">
-			<PageHeader
-				description="A collection of projects I've built, contributed to, and shipped over the years."
-				title="Work"
-			/>
-
-			{workProjects.length > 0 && (
-				<section className="space-y-6">
-					<h2 className="text-muted-foreground text-xl">Professional</h2>
-					<div className="grid gap-4 md:grid-cols-2">
-						{workProjects.map((project) => (
-							<ProjectCard key={project.slug} project={project} />
-						))}
-					</div>
-				</section>
-			)}
-
-			{personalProjects.length > 0 && (
-				<section className="space-y-6">
-					<h2 className="text-muted-foreground text-xl">Personal</h2>
-					<div className="grid gap-4 md:grid-cols-2">
-						{personalProjects.map((project) => (
-							<ProjectCard key={project.slug} project={project} />
-						))}
-					</div>
-				</section>
-			)}
-
-			{ossProjects.length > 0 && (
-				<section className="space-y-6">
-					<h2 className="text-muted-foreground text-xl">Open Source</h2>
-					<div className="grid gap-4 md:grid-cols-2">
-						{ossProjects.map((project) => (
-							<ProjectCard key={project.slug} project={project} />
-						))}
-					</div>
-				</section>
-			)}
-		</div>
-	);
-}
-
-function ProjectCard({ project }: { project: Project }) {
-	return (
-		<Link
-			className="group flex flex-col gap-4 rounded-lg border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-sm"
-			params={{ slug: project.slug }}
-			to="/work/$slug"
-		>
-			<div className="flex items-start justify-between gap-3">
-				<div className="space-y-1">
-					<h3 className="font-medium font-sans">{project.title}</h3>
-					<p className="text-muted-foreground text-sm">{project.role}</p>
-				</div>
-				<span className="shrink-0 text-muted-foreground text-xs">
-					{project.period}
-				</span>
-			</div>
-			<p className="line-clamp-2 text-muted-foreground text-sm">
-				{project.summary}
-			</p>
-			<div className="flex flex-wrap gap-1.5">
-				{project.tech.slice(0, 4).map((t) => (
-					<Badge className="text-xs" key={t} variant="secondary">
-						{t}
-					</Badge>
-				))}
-				{project.tech.length > 4 && (
-					<Badge className="text-xs" variant="outline">
-						+{project.tech.length - 4}
-					</Badge>
-				)}
-			</div>
-		</Link>
-	);
-}

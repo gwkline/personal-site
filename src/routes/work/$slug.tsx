@@ -1,98 +1,153 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import SiGithub from "@icons-pack/react-simple-icons/icons/SiGithub.mjs";
+import {
+  createFileRoute,
+  getRouteApi,
+  Link,
+  notFound,
+} from "@tanstack/react-router";
+import { ArrowLeft, ExternalLink } from "lucide-react";
+import Markdown from "react-markdown";
 
+import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { SectionHeader } from "@/components/ui/section-header";
 import { getProjectBySlug } from "@/lib/projects";
+import type { Project } from "@/lib/projects";
 
+const routeApi = getRouteApi("/work/$slug");
+const getProjectTypeLabel = (type: Project["type"]): string => {
+  switch (type) {
+    case "work": {
+      return "Professional";
+    }
+    case "personal": {
+      return "Personal";
+    }
+    case "oss": {
+      return "Open source";
+    }
+    default: {
+      const exhaustiveType: never = type;
+      return exhaustiveType;
+    }
+  }
+};
+
+const ProjectDetailPage = () => {
+  const { slug } = routeApi.useParams();
+  const project = getProjectBySlug(slug);
+  if (!project) {
+    return null;
+  }
+  return (
+    <div className="space-y-14 pb-8 sm:space-y-18">
+      <Button
+        nativeButton={false}
+        render={<Link to="/work" />}
+        size="sm"
+        variant="ghost"
+      >
+        <ArrowLeft className="size-4" />
+        Back to work
+      </Button>
+
+      <PageHeader
+        description={project.summary}
+        eyebrow={`${getProjectTypeLabel(project.type)} · ${project.period}`}
+        size="detail"
+        title={project.title}
+      >
+        <div className="space-y-5">
+          <p className="font-heading text-lg font-medium tracking-[-0.02em] text-foreground">
+            {project.role}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {project.tech.map((technology) => (
+              <Badge key={technology} size="sm" variant="secondary">
+                {technology}
+              </Badge>
+            ))}
+          </div>
+          {project.links ? (
+            <div className="flex flex-wrap gap-3">
+              {project.links.live ? (
+                <Button
+                  nativeButton={false}
+                  render={
+                    <a
+                      aria-label="View live project"
+                      href={project.links.live}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    />
+                  }
+                  size="sm"
+                >
+                  <ExternalLink className="size-4" />
+                  View live
+                </Button>
+              ) : null}
+              {project.links.github ? (
+                <Button
+                  nativeButton={false}
+                  render={
+                    <a
+                      aria-label="View source on GitHub"
+                      href={project.links.github}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    />
+                  }
+                  size="sm"
+                  variant="outline"
+                >
+                  <SiGithub className="size-4" />
+                  Source
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      </PageHeader>
+
+      {project.description ? (
+        <section className="grid gap-8 lg:grid-cols-[0.38fr_1fr] lg:gap-14">
+          <SectionHeader
+            description="The decisions, constraints, and implementation behind the project."
+            eyebrow="Case study"
+            size="compact"
+            title="Inside the work"
+          />
+          <article className="prose max-w-none">
+            <Markdown>{project.description}</Markdown>
+          </article>
+        </section>
+      ) : null}
+    </div>
+  );
+};
 export const Route = createFileRoute("/work/$slug")({
-	component: ProjectDetailPage,
-	loader: ({ params }) => {
-		const project = getProjectBySlug(params.slug);
-		if (!project) {
-			throw notFound();
-		}
-		return { project };
-	},
+  component: ProjectDetailPage,
+  head: ({ params }) => {
+    const project = getProjectBySlug(params.slug);
+    return {
+      meta: project
+        ? [
+            { title: `${project.title} — Gavin Kline` },
+            {
+              content: project.summary,
+              name: "description",
+            },
+          ]
+        : [{ title: "Work — Gavin Kline" }],
+    };
+  },
+  loader: ({ params }) => {
+    const project = getProjectBySlug(params.slug);
+    if (!project) {
+      throw notFound();
+    }
+    return { project };
+  },
 });
-
-function ProjectDetailPage() {
-	const { project } = Route.useLoaderData();
-
-	return (
-		<div className="space-y-8">
-			<Button asChild size="sm" variant="ghost">
-				<Link to="/work">
-					<ArrowLeft className="size-4" />
-					Back to work
-				</Link>
-			</Button>
-
-			<header className="space-y-4">
-				<div className="flex flex-wrap items-center gap-3">
-					<Badge variant="outline">{project.type}</Badge>
-					<span className="text-muted-foreground text-sm">
-						{project.period}
-					</span>
-				</div>
-				<h1 className="text-4xl tracking-tight md:text-5xl">{project.title}</h1>
-				<p className="text-lg text-muted-foreground">{project.role}</p>
-			</header>
-
-			<div className="flex flex-wrap gap-2">
-				{project.tech.map((t) => (
-					<Badge key={t} variant="secondary">
-						{t}
-					</Badge>
-				))}
-			</div>
-
-			{project.links ? (
-				<div className="flex gap-3">
-					{project.links.live ? (
-						<Button asChild size="sm" variant="outline">
-							<a
-								href={project.links.live}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								<ExternalLink className="size-4" />
-								View live
-							</a>
-						</Button>
-					) : null}
-					{project.links.github ? (
-						<Button asChild size="sm" variant="outline">
-							<a
-								href={project.links.github}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								<Github className="size-4" />
-								Source
-							</a>
-						</Button>
-					) : null}
-				</div>
-			) : null}
-
-			<Separator />
-
-			<article className="prose">
-				<h2>Overview</h2>
-				<p>{project.summary}</p>
-
-				{project.description ? (
-					<>
-						<h2>Details</h2>
-						<div
-							// biome-ignore lint/security/noDangerouslySetInnerHtml: this is my own markdown
-							dangerouslySetInnerHTML={{ __html: project.description }}
-						/>
-					</>
-				) : null}
-			</article>
-		</div>
-	);
-}

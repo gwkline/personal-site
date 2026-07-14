@@ -1,0 +1,71 @@
+diff --git a/dist/esm/vite/dev-server-plugin/plugin.js b/dist/esm/vite/dev-server-plugin/plugin.js
+index 94df1dbfbf4c82c525df24d0f22bd929bb9b5629..bf9ba97bc10020399915333f4d3b836b626f2c5b 100644
+--- a/dist/esm/vite/dev-server-plugin/plugin.js
++++ b/dist/esm/vite/dev-server-plugin/plugin.js
+@@ -3,6 +3,9 @@ import { CSS_MODULES_REGEX, collectDevStyles, normalizeCssModuleCacheKey } from
+ import { isRunnableDevEnvironment } from "vite";
+ import { NodeRequest, sendNodeResponse } from "srvx/node";
+ //#region src/vite/dev-server-plugin/plugin.ts
++// Vite+ exposes a compatible runner from a separate Vite module instance, so
++// Vite's instanceof-based helper returns false despite the environment working.
++const hasRunnableEnvironment = (environment) => isRunnableDevEnvironment(environment) || "runner" in environment;
+ function devServerPlugin({ getConfig: _getConfig, devSsrStylesEnabled, installDevServerMiddleware }) {
+ 	let isTest = false;
+ 	const cssModulesCache = {};
+@@ -55,9 +58,9 @@ function devServerPlugin({ getConfig: _getConfig, devSsrStylesEnabled, installDe
+ 				if (installMiddleware === false) return;
+ 				if (installMiddleware == void 0) {
+ 					if (viteDevServer.config.server.middlewareMode) return;
+-					if (!isRunnableDevEnvironment(serverEnv) || "dispatchFetch" in serverEnv) return;
++					if (!hasRunnableEnvironment(serverEnv) || "dispatchFetch" in serverEnv) return;
+ 				}
+-				if (!isRunnableDevEnvironment(serverEnv)) throw new Error("cannot install vite dev server middleware for TanStack Start since the SSR environment is not a RunnableDevEnvironment");
++				if (!hasRunnableEnvironment(serverEnv)) throw new Error("cannot install vite dev server middleware for TanStack Start since the SSR environment is not a RunnableDevEnvironment");
+ 				viteDevServer.middlewares.use(async (req, res) => {
+ 					if (req.originalUrl) req.url = req.originalUrl;
+ 					const webReq = new NodeRequest({
+diff --git a/src/vite/dev-server-plugin/plugin.ts b/src/vite/dev-server-plugin/plugin.ts
+index 18d3e54e2ef9fea906609d2f68efeec156dfc723..0918b3411ef57893f1442eafa2ae66d570fcc7aa 100644
+--- a/src/vite/dev-server-plugin/plugin.ts
++++ b/src/vite/dev-server-plugin/plugin.ts
+@@ -6,9 +6,21 @@ import {
+   collectDevStyles,
+   normalizeCssModuleCacheKey,
+ } from './dev-styles'
+-import type { Connect, DevEnvironment, PluginOption } from 'vite'
++import type {
++  Connect,
++  DevEnvironment,
++  PluginOption,
++  RunnableDevEnvironment,
++} from 'vite'
+ import type { GetConfigFn } from '../../types'
+ 
++// Vite+ exposes a compatible runner from a separate Vite module instance, so
++// Vite's instanceof-based helper returns false despite the environment working.
++const hasRunnableEnvironment = (
++  environment: DevEnvironment,
++): environment is RunnableDevEnvironment =>
++  isRunnableDevEnvironment(environment) || 'runner' in environment
++
+ export function devServerPlugin({
+   getConfig: _getConfig,
+   devSsrStylesEnabled,
+@@ -145,7 +157,7 @@ export function devServerPlugin({
+ 
+             // do not install middleware if SSR env in case another plugin already did
+             if (
+-              !isRunnableDevEnvironment(serverEnv) ||
++              !hasRunnableEnvironment(serverEnv) ||
+               // do not check via `isFetchableDevEnvironment` since nitro does implement the `FetchableDevEnvironment` interface but not via inheritance (which this helper checks)
+               'dispatchFetch' in serverEnv
+             ) {
+@@ -153,7 +165,7 @@ export function devServerPlugin({
+             }
+           }
+ 
+-          if (!isRunnableDevEnvironment(serverEnv)) {
++          if (!hasRunnableEnvironment(serverEnv)) {
+             throw new Error(
+               'cannot install vite dev server middleware for TanStack Start since the SSR environment is not a RunnableDevEnvironment',
+             )

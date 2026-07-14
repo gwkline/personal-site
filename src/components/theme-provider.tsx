@@ -1,105 +1,98 @@
-import {
-	createContext,
-	type ReactNode,
-	useContext,
-	useEffect,
-	useState,
-} from "react";
-import { THEME_COOKIE_NAME, type Theme } from "@/lib/theme";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 
-type ThemeProviderProps = {
-	children: ReactNode;
-	defaultTheme?: Theme;
-	serverTheme?: Theme;
-	storageKey?: string;
-};
+import { THEME_COOKIE_NAME } from "@/lib/theme";
+import type { Theme } from "@/lib/theme";
 
-type ThemeProviderState = {
-	theme: Theme;
-	setTheme: (theme: Theme) => void;
-};
-
+interface ThemeProviderProps {
+  children: ReactNode;
+  defaultTheme?: Theme;
+  serverTheme?: Theme;
+  storageKey?: string;
+}
+interface ThemeProviderState {
+  resolvedTheme: "dark" | "light";
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+}
 const initialState: ThemeProviderState = {
-	theme: "system",
-	setTheme: () => null,
+  resolvedTheme: "light",
+  setTheme: () => null,
+  theme: "system",
 };
-
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+const setThemeCookie = async (theme: Theme) => {
+  if ("cookieStore" in window) {
+    const oneYear = Date.now() + 365 * 24 * 60 * 60 * 1000;
+    await window.cookieStore.set({
+      expires: oneYear,
+      name: THEME_COOKIE_NAME,
+      path: "/",
+      sameSite: "lax",
+      value: theme,
+    });
+    return;
+  }
+  // Cookie Store is not yet available in every supported browser.
+  // oxlint-disable-next-line unicorn/no-document-cookie
+  document.cookie = `${THEME_COOKIE_NAME}=${theme}; Max-Age=31536000; Path=/; SameSite=Lax`;
+};
+export const ThemeProvider = ({
+  children,
+  defaultTheme = "system",
+  serverTheme,
+  storageKey = "vite-ui-theme",
+}: ThemeProviderProps) => {
+  const [theme, setTheme] = useState<Theme>(serverTheme ?? defaultTheme);
+  const [systemTheme, setSystemTheme] = useState<"dark" | "light">("light");
 
-async function setThemeCookie(theme: Theme) {
-	if ("cookieStore" in window) {
-		const oneYear = Date.now() + 365 * 24 * 60 * 60 * 1000;
-		await window.cookieStore.set({
-			name: THEME_COOKIE_NAME,
-			value: theme,
-			path: "/",
-			expires: oneYear,
-			sameSite: "lax",
-		});
-	}
-}
+  useEffect(() => {
+    const stored = window.localStorage.getItem(storageKey);
+    if (stored === "dark" || stored === "light" || stored === "system") {
+      queueMicrotask(() => setTheme(stored));
+    }
+  }, [storageKey]);
 
-export function ThemeProvider({
-	children,
-	defaultTheme = "system",
-	serverTheme,
-	storageKey = "vite-ui-theme",
-}: ThemeProviderProps) {
-	const [theme, setTheme] = useState<Theme>(() => {
-		// On server or initial render, use serverTheme if available
-		if (serverTheme) {
-			return serverTheme;
-		}
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const updateSystemTheme = () => {
+      setSystemTheme(media.matches ? "dark" : "light");
+    };
+    queueMicrotask(updateSystemTheme);
+    media.addEventListener("change", updateSystemTheme);
+    return () => media.removeEventListener("change", updateSystemTheme);
+  }, []);
 
-		if (typeof window === "undefined") {
-			return defaultTheme;
-		}
+  const resolvedTheme = theme === "system" ? systemTheme : theme;
 
-		// Check localStorage for backwards compatibility
-		const stored = window.localStorage.getItem(storageKey) as Theme | null;
-		return stored ?? defaultTheme;
-	});
-
-	useEffect(() => {
-		const root = window.document.documentElement;
-
-		root.classList.remove("light", "dark");
-
-		if (theme === "system") {
-			const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-				.matches
-				? "dark"
-				: "light";
-			root.classList.add(systemTheme);
-			return;
-		}
-
-		root.classList.add(theme);
-	}, [theme]);
-
-	const value = {
-		theme,
-		setTheme: (newTheme: Theme) => {
-			// Update both localStorage (for backwards compat) and cookie (for SSR)
-			window.localStorage.setItem(storageKey, newTheme);
-			setThemeCookie(newTheme);
-			setTheme(newTheme);
-		},
-	};
-
-	return (
-		<ThemeProviderContext.Provider value={value}>
-			{children}
-		</ThemeProviderContext.Provider>
-	);
-}
-
-export function useTheme() {
-	const context = useContext(ThemeProviderContext);
-
-	if (context === undefined) {
-		throw new Error("useTheme must be used within a ThemeProvider");
-	}
-
-	return context;
-}
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(resolvedTheme);
+  }, [resolvedTheme]);
+  const value = useMemo(
+    () => ({
+      resolvedTheme,
+      setTheme: (newTheme: Theme) => {
+        // Update both localStorage (for backwards compat) and cookie (for SSR)
+        window.localStorage.setItem(storageKey, newTheme);
+        setThemeCookie(newTheme);
+        setTheme(newTheme);
+      },
+      theme,
+    }),
+    [resolvedTheme, storageKey, theme]
+  );
+  return (
+    <ThemeProviderContext.Provider value={value}>
+      {children}
+    </ThemeProviderContext.Provider>
+  );
+};
+export const useTheme = () => {
+  const context = useContext(ThemeProviderContext);
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
+};
