@@ -99,7 +99,7 @@ const FeaturedWork = ({ projects }: { projects: Project[] }) => (
     />
     <div className="grid gap-4 md:grid-cols-3">
       {projects.map((project) => (
-        <ProjectCard compact key={project.slug} project={project} />
+        <ProjectCard compact key={project.slug} project={project} showGraphic />
       ))}
     </div>
   </section>
@@ -124,7 +124,7 @@ const RecentPosts = ({ posts }: { posts: Post[] }) => (
     />
     <div className="-mx-4 space-y-1">
       {posts.map((post) => (
-        <PostRow compact key={post.slug} post={post} />
+        <PostRow compact key={post.slug} post={post} showGraphic />
       ))}
     </div>
   </section>

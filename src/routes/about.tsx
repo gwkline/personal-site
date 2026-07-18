@@ -57,7 +57,7 @@ const AboutPage = () => (
       </div>
     </PageHeader>
 
-    <section className="space-y-7">
+    <section className="scroll-mt-24 space-y-7" id="background">
       <SectionHeader
         description="A career spent moving between architecture, product, and the teams responsible for shipping both."
         eyebrow="Background"
@@ -105,7 +105,10 @@ const AboutPage = () => (
       </p>
     </section>
 
-    <section className="grid gap-7 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
+    <section
+      className="scroll-mt-24 grid gap-7 lg:grid-cols-[0.7fr_1.3fr] lg:items-start"
+      id="working-style"
+    >
       <SectionHeader
         description="I lead teams, but I remain an individual contributor at heart."
         eyebrow="How I work"
@@ -123,7 +126,7 @@ const AboutPage = () => (
       </Card>
     </section>
 
-    <section className="space-y-6">
+    <section className="scroll-mt-24 space-y-6" id="toolkit">
       <SectionHeader
         description="The tools I reach for most often when turning product ideas into dependable systems."
         eyebrow="Toolkit"

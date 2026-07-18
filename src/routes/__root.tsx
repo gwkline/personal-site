@@ -6,6 +6,7 @@ import {
   HeadContent,
   Outlet,
   Scripts,
+  useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
@@ -21,6 +22,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getServerTheme } from "@/lib/theme";
 import type { Theme } from "@/lib/theme";
+import { cn } from "@/lib/utils";
 
 import appCss from "../styles.css?url";
 
@@ -44,6 +46,33 @@ const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
     >
       {children}
     </div>
+  );
+};
+const SiteContent = ({ children }: { children: React.ReactNode }) => {
+  const routerState = useRouterState();
+  const isWallpaperLab = routerState.location.pathname === "/wallpaper-lab";
+  return (
+    <>
+      <main
+        className={cn(
+          isWallpaperLab
+            ? "h-[calc(100svh-4rem-1px)] w-full flex-none overflow-hidden"
+            : "mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14"
+        )}
+      >
+        {children}
+      </main>
+      {isWallpaperLab ? null : (
+        <footer className="mt-8 border-t bg-card/35 py-8">
+          <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 text-muted-foreground text-xs sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-mono uppercase tracking-[0.14em]">
+              Built with care
+            </p>
+            <p>© 2001–{new Date().getFullYear()} Gavin Kline</p>
+          </div>
+        </footer>
+      )}
+    </>
   );
 };
 const RootDocument = ({ children }: { children: React.ReactNode }) => {
@@ -71,17 +100,7 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => {
                 >
                   <Navbar />
                   <ContentWrapper>
-                    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-                      {children}
-                    </main>
-                    <footer className="mt-8 border-t bg-card/35 py-8">
-                      <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 text-muted-foreground text-xs sm:flex-row sm:items-center sm:justify-between">
-                        <p className="font-mono uppercase tracking-[0.14em]">
-                          Built with care
-                        </p>
-                        <p>© 2001–{new Date().getFullYear()} Gavin Kline</p>
-                      </div>
-                    </footer>
+                    <SiteContent>{children}</SiteContent>
                   </ContentWrapper>
                 </div>
                 <CommentsSidebar />

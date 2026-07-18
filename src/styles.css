@@ -26,6 +26,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+#app-scroll-container {
+  scrollbar-width: none;
+}
+
+#app-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
 h1,
 h2,
 h3,

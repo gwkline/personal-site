@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WallpaperLabRouteImport } from './routes/wallpaper-lab'
 import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as R75HardRouteImport } from './routes/75-hard'
@@ -19,6 +20,11 @@ import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const WallpaperLabRoute = WallpaperLabRouteImport.update({
+  id: '/wallpaper-lab',
+  path: '/wallpaper-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlaygroundRoute = PlaygroundRouteImport.update({
   id: '/playground',
   path: '/playground',
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
+  '/wallpaper-lab': typeof WallpaperLabRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts/': typeof PostsIndexRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
+  '/wallpaper-lab': typeof WallpaperLabRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts': typeof PostsIndexRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/playground': typeof PlaygroundRoute
+  '/wallpaper-lab': typeof WallpaperLabRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts/': typeof PostsIndexRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/75-hard'
     | '/about'
     | '/playground'
+    | '/wallpaper-lab'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts/'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/75-hard'
     | '/about'
     | '/playground'
+    | '/wallpaper-lab'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/75-hard'
     | '/about'
     | '/playground'
+    | '/wallpaper-lab'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts/'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   R75HardRoute: typeof R75HardRoute
   AboutRoute: typeof AboutRoute
   PlaygroundRoute: typeof PlaygroundRoute
+  WallpaperLabRoute: typeof WallpaperLabRoute
   PostsSlugRoute: typeof PostsSlugRoute
   WorkSlugRoute: typeof WorkSlugRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -149,6 +162,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wallpaper-lab': {
+      id: '/wallpaper-lab'
+      path: '/wallpaper-lab'
+      fullPath: '/wallpaper-lab'
+      preLoaderRoute: typeof WallpaperLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/playground': {
       id: '/playground'
       path: '/playground'
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   R75HardRoute: R75HardRoute,
   AboutRoute: AboutRoute,
   PlaygroundRoute: PlaygroundRoute,
+  WallpaperLabRoute: WallpaperLabRoute,
   PostsSlugRoute: PostsSlugRoute,
   WorkSlugRoute: WorkSlugRoute,
   PostsIndexRoute: PostsIndexRoute,

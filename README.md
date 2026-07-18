@@ -31,9 +31,31 @@ Convex creates the required local environment files during project setup. The ap
 - `bun run build` — create the production build with Vite+
 - `bun run serve` — preview the production build
 - `bun run test` — run the Vite+ test suite once
+- `bun run test:e2e` — Playwright responsive and functional checks
+- `bun run test:e2e:full` — same suite across the full device matrix
+- `bun run test:e2e:ui` — Playwright UI mode
 - `bun run check` — run Ultracite and TypeScript checks
 - `bun run fix` — apply Ultracite lint and formatting fixes
 - `bun run typecheck` — run TypeScript without emitting files
+
+## End-to-end checks
+
+Playwright covers every user-facing route across a device matrix (desktop, iPhone 16 including a bottom-chrome Safari approximation, Android, iPad). Specs live in `e2e/` and assert:
+
+- page load + shell (nav, main, title, viewport meta)
+- no horizontal overflow / stuck visualViewport scale or offset
+- mobile sheet navigation and nested scroll-container behavior
+
+First-time setup:
+
+```sh
+bun run test:e2e:install
+bun run test:e2e
+```
+
+If the app is already on port 3000, Playwright reuses it. In CI it starts `vp dev` unless `PW_WEB_SERVER_COMMAND` is set. Use `bun run test:e2e:full` for the expanded device list. Failed tests automatically capture screenshots.
+
+**Note:** Playwright emulates device viewports (including an iPhone 16 “bottom chrome” project that shrinks height for Safari’s bottom search bar). It cannot fully reproduce real iOS visualViewport chrome; the suite still catches horizontal overflow, stuck scale/offset, and nested-scroll regressions that correlate with that class of bug.
 
 ## Tooling
 

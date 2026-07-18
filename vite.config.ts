@@ -30,6 +30,12 @@ export default defineConfig(({ command, isPreview, mode }) => ({
   },
   server: {
     watch: {
+      ignored: [
+        "**/.playwright-browsers/**",
+        "**/test-results/**",
+        "**/playwright-report/**",
+        "**/e2e/**/*-snapshots/**",
+      ],
       usePolling: process.env.VITE_USE_POLLING === "true",
     },
   },
