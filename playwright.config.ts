@@ -51,7 +51,6 @@ export default defineConfig({
     baseURL,
     colorScheme: "dark",
     locale: "en-US",
-    reducedMotion: "reduce",
     screenshot: "only-on-failure",
     timezoneId: "America/New_York",
     trace: "on-first-retry",

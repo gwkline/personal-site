@@ -11,4 +11,12 @@ export default defineConfig({
     "**/convex/_generated/**",
     "**/src/styles.css",
   ],
+  overrides: [
+    {
+      files: ["convex/depthsData.ts"],
+      rules: {
+        "unicorn/filename-case": "off",
+      },
+    },
+  ],
 });

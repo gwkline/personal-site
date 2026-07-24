@@ -21,7 +21,7 @@ export const expectPageShell = async (page: Page) => {
   await expect(page.locator("main")).toBeVisible();
   await expect(page.getByRole("banner")).toBeVisible();
   await expect(
-    page.getByRole("link", { name: /gavin kline/i }).first()
+    page.getByRole("link", { name: /gavin kline/iu }).first()
   ).toBeVisible();
   await expectViewportAllowsZoom(page);
 };

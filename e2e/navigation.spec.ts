@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop -- Navigation assertions must run sequentially. */
+
 import type { Page } from "@playwright/test";
 import { expect, test } from "@playwright/test";
 
@@ -33,7 +35,7 @@ test.describe("navigation", () => {
 
     for (const path of NAV_PATHS) {
       await page.locator(`header a[href="${path}"]`).first().click();
-      await expect(page).toHaveURL(new RegExp(`${path}/?$`));
+      await expect(page).toHaveURL(new RegExp(`${path}/?$`, "u"));
       await expect(page.locator("main")).toBeVisible();
       await expectStableViewport(page);
     }
@@ -47,7 +49,7 @@ test.describe("navigation", () => {
     const { trigger, sheet } = await openMobileSheet(page);
     // SheetClose + Link exposes as a button in the a11y tree.
     await sheet.getByRole("button", { exact: true, name: "About" }).click();
-    await expect(page).toHaveURL(/\/about\/?$/);
+    await expect(page).toHaveURL(/\/about\/?$/u);
     await expectStableViewport(page);
 
     await openMobileSheet(page);
@@ -55,14 +57,14 @@ test.describe("navigation", () => {
       .getByRole("dialog")
       .getByRole("button", { exact: true, name: "Work" })
       .click();
-    await expect(page).toHaveURL(/\/work\/?$/);
+    await expect(page).toHaveURL(/\/work\/?$/u);
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
     await expectStableViewport(page);
   });
 
   test("theme toggle", async ({ page }) => {
     await gotoReady(page, HOME);
-    await page.getByRole("button", { name: /toggle theme/i }).click();
+    await page.getByRole("button", { name: /toggle theme/iu }).click();
     await expect(page.locator("main")).toBeVisible();
     await expectStableViewport(page);
   });

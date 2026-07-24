@@ -93,7 +93,9 @@ export const expectViewportAllowsZoom = async (page: Page) => {
     .getAttribute("content");
 
   expect(content).toBeTruthy();
-  const normalized = (content ?? "").toLowerCase().replaceAll(/\s+/g, "");
+  const normalized = (content ?? "").toLowerCase().replaceAll(/\s+/gu, "");
   expect(normalized).toContain("width=device-width");
-  expect(normalized).not.toMatch(/user-scalable=no|maximum-scale=1(\.0)?/);
+  expect(normalized).toContain("viewport-fit=cover");
+  expect(normalized).toContain("interactive-widget=resizes-content");
+  expect(normalized).not.toMatch(/user-scalable=no|maximum-scale=1(?:\.0)?/u);
 };

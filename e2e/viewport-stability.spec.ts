@@ -10,7 +10,7 @@ import {
 } from "./lib/viewport";
 
 test.describe("mobile viewport", () => {
-  test.beforeEach(({}, testInfo) => {
+  test.beforeEach((_, testInfo) => {
     test.skip(!isMobile(testInfo.project.name), "mobile / tablet only");
   });
 

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WallpaperLabRouteImport } from './routes/wallpaper-lab'
 import { Route as PlaygroundRouteImport } from './routes/playground'
+import { Route as DepthsRouteImport } from './routes/depths'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as R75HardRouteImport } from './routes/75-hard'
 import { Route as IndexRouteImport } from './routes/index'
@@ -28,6 +29,11 @@ const WallpaperLabRoute = WallpaperLabRouteImport.update({
 const PlaygroundRoute = PlaygroundRouteImport.update({
   id: '/playground',
   path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DepthsRoute = DepthsRouteImport.update({
+  id: '/depths',
+  path: '/depths',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
+  '/depths': typeof DepthsRoute
   '/playground': typeof PlaygroundRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
   '/posts/$slug': typeof PostsSlugRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
+  '/depths': typeof DepthsRoute
   '/playground': typeof PlaygroundRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
   '/posts/$slug': typeof PostsSlugRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
+  '/depths': typeof DepthsRoute
   '/playground': typeof PlaygroundRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
   '/posts/$slug': typeof PostsSlugRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/75-hard'
     | '/about'
+    | '/depths'
     | '/playground'
     | '/wallpaper-lab'
     | '/posts/$slug'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/75-hard'
     | '/about'
+    | '/depths'
     | '/playground'
     | '/wallpaper-lab'
     | '/posts/$slug'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/75-hard'
     | '/about'
+    | '/depths'
     | '/playground'
     | '/wallpaper-lab'
     | '/posts/$slug'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   R75HardRoute: typeof R75HardRoute
   AboutRoute: typeof AboutRoute
+  DepthsRoute: typeof DepthsRoute
   PlaygroundRoute: typeof PlaygroundRoute
   WallpaperLabRoute: typeof WallpaperLabRoute
   PostsSlugRoute: typeof PostsSlugRoute
@@ -174,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/playground'
       fullPath: '/playground'
       preLoaderRoute: typeof PlaygroundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/depths': {
+      id: '/depths'
+      path: '/depths'
+      fullPath: '/depths'
+      preLoaderRoute: typeof DepthsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -239,6 +259,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   R75HardRoute: R75HardRoute,
   AboutRoute: AboutRoute,
+  DepthsRoute: DepthsRoute,
   PlaygroundRoute: PlaygroundRoute,
   WallpaperLabRoute: WallpaperLabRoute,
   PostsSlugRoute: PostsSlugRoute,

@@ -39,4 +39,7 @@ export default defineConfig(({ command, isPreview, mode }) => ({
       usePolling: process.env.VITE_USE_POLLING === "true",
     },
   },
+  test: {
+    exclude: ["e2e/**", "**/node_modules/**", "**/.git/**"],
+  },
 }));

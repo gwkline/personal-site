@@ -273,6 +273,12 @@ const OwnerDayEditor = ({ day }: { day: ChallengeDay }) => {
                 runMiles: event.target.value,
               }))
             }
+            onFocus={(event) => {
+              event.currentTarget.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }}
             placeholder="0.0"
             step="0.1"
             type="number"
@@ -287,6 +293,12 @@ const OwnerDayEditor = ({ day }: { day: ChallengeDay }) => {
             onChange={(event) =>
               setDraft((current) => ({ ...current, note: event.target.value }))
             }
+            onFocus={(event) => {
+              event.currentTarget.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }}
             placeholder="Long run, hard lesson, small win…"
             value={draft.note}
           />
@@ -482,7 +494,7 @@ export const DayDetail = ({
               </Button>
             </div>
           </DrawerHeader>
-          <div className="min-h-0 overflow-y-auto">
+          <div className="min-h-0 overflow-y-auto overscroll-contain pb-[max(2rem,var(--keyboard-inset,0px))]">
             <div className="mx-auto w-full max-w-2xl p-4 pb-8 sm:p-6">
               {isOwner ? (
                 <OwnerDayEditor day={day} key={day.updatedAt} />

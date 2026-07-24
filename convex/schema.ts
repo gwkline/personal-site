@@ -20,6 +20,30 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_created", ["createdAt"])
     .index("by_parent", ["parentId"]),
+  depthsRuns: defineTable({
+    completedAt: v.optional(v.number()),
+    issuedAt: v.number(),
+    lastCheckpointAt: v.number(),
+    maxFloor: v.number(),
+    maxScore: v.number(),
+    seed: v.number(),
+    sessionId: v.string(),
+    status: v.union(v.literal("active"), v.literal("completed")),
+  })
+    .index("by_issued", ["issuedAt"])
+    .index("by_session", ["sessionId", "issuedAt"]),
+  depthsScores: defineTable({
+    createdAt: v.number(),
+    durationMs: v.number(),
+    floor: v.number(),
+    initials: v.string(),
+    runId: v.id("depthsRuns"),
+    score: v.number(),
+    seed: v.number(),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_run", ["runId"])
+    .index("by_score", ["score"]),
   hard75Challenges: defineTable({
     createdAt: v.number(),
     endDate: v.string(),

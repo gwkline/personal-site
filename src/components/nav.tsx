@@ -57,7 +57,7 @@ type NavSubitem =
   | {
       description: string;
       title: string;
-      to: "/75-hard" | "/wallpaper-lab";
+      to: "/75-hard" | "/depths" | "/wallpaper-lab";
     }
   | {
       description: string;
@@ -116,6 +116,12 @@ const playgroundSubitems = (
       description: "Training for the NYC Marathon and logging all 75 days.",
       title: "75 Hard",
       to: "/75-hard",
+    },
+    {
+      description:
+        "An endless procedural dungeon with relic builds and arcade scores.",
+      title: "Depths",
+      to: "/depths",
     },
   ] satisfies NavSubitem[]
 ).slice(0, NAV_PREVIEW_ITEM_LIMIT);
@@ -299,44 +305,95 @@ const NavSubitemGraphic = ({ item }: { item: NavSubitem }) => {
       </span>
     );
   }
+  if (item.to === "/depths") {
+    return (
+      <span
+        aria-hidden="true"
+        className="relative size-9 shrink-0 overflow-hidden rounded-md border bg-[radial-gradient(circle_at_50%_20%,color-mix(in_oklch,#e9a23b_22%,transparent),transparent_55%),var(--surface-sunken)]"
+      >
+        <svg className="size-full" viewBox="0 0 36 36">
+          <rect
+            fill="color-mix(in oklch, var(--foreground) 8%, transparent)"
+            height="18"
+            rx="1.5"
+            stroke="color-mix(in oklch, #e9a23b 55%, var(--border))"
+            strokeWidth="1.25"
+            width="14"
+            x="11"
+            y="9"
+          />
+          <path
+            d="M14 18V14.5C14 12.6 15.6 11 17.5 11C19.4 11 21 12.6 21 14.5V18"
+            fill="none"
+            stroke="color-mix(in oklch, #e9a23b 70%, var(--foreground))"
+            strokeLinecap="round"
+            strokeWidth="1.35"
+          />
+          <circle
+            cx="20.25"
+            cy="20.5"
+            fill="color-mix(in oklch, #e9a23b 75%, var(--foreground))"
+            r="1.1"
+          />
+          <path
+            d="M8 28H28"
+            stroke="var(--muted-foreground)"
+            strokeLinecap="round"
+            strokeOpacity="0.35"
+            strokeWidth="1.25"
+          />
+        </svg>
+      </span>
+    );
+  }
+  if (item.to === "/75-hard") {
+    return (
+      <span
+        aria-hidden="true"
+        className="size-9 shrink-0 overflow-hidden rounded-md border bg-surface-sunken"
+      >
+        <svg className="size-full" viewBox="0 0 36 36">
+          <circle
+            cx="18"
+            cy="18"
+            fill="var(--card)"
+            r="11"
+            stroke="var(--border)"
+            strokeWidth="1.5"
+          />
+          <circle
+            cx="18"
+            cy="18"
+            fill="none"
+            pathLength="100"
+            r="11"
+            stroke="var(--primary)"
+            strokeDasharray="75 100"
+            strokeLinecap="round"
+            strokeWidth="2"
+            transform="rotate(-90 18 18)"
+          />
+          <text
+            fill="var(--foreground)"
+            fontFamily="var(--font-mono)"
+            fontSize="7"
+            fontWeight="650"
+            textAnchor="middle"
+            x="18"
+            y="20.5"
+          >
+            75
+          </text>
+        </svg>
+      </span>
+    );
+  }
   return (
     <span
       aria-hidden="true"
-      className="size-9 shrink-0 overflow-hidden rounded-md border bg-surface-sunken"
+      className="relative grid size-9 shrink-0 place-content-center overflow-hidden rounded-md border bg-surface-sunken font-heading text-xs font-semibold"
     >
-      <svg className="size-full" viewBox="0 0 36 36">
-        <circle
-          cx="18"
-          cy="18"
-          fill="var(--card)"
-          r="11"
-          stroke="var(--border)"
-          strokeWidth="1.5"
-        />
-        <circle
-          cx="18"
-          cy="18"
-          fill="none"
-          pathLength="100"
-          r="11"
-          stroke="var(--primary)"
-          strokeDasharray="75 100"
-          strokeLinecap="round"
-          strokeWidth="2"
-          transform="rotate(-90 18 18)"
-        />
-        <text
-          fill="var(--foreground)"
-          fontFamily="var(--font-mono)"
-          fontSize="7"
-          fontWeight="650"
-          textAnchor="middle"
-          x="18"
-          y="20.5"
-        >
-          75
-        </text>
-      </svg>
+      {item.title.slice(0, 1)}
     </span>
   );
 };

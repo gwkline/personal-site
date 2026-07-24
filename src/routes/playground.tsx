@@ -1,5 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Route as RouteIcon, Waves } from "lucide-react";
+import {
+  ArrowUpRight,
+  DoorOpen,
+  Route as RouteIcon,
+  Waves,
+} from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
@@ -65,6 +70,32 @@ const PlaygroundPage = () => (
         <p className="mt-3 text-muted-foreground text-sm leading-relaxed">
           Training for the NYC Marathon, getting wedding-ready, and logging all
           75 days.
+        </p>
+      </Link>
+
+      <Link
+        className={cn(
+          cardVariants({ variant: "interactive" }),
+          "group relative block overflow-hidden rounded-2xl bg-[radial-gradient(circle_at_80%_12%,color-mix(in_oklch,#e9a23b_22%,transparent),transparent_40%),radial-gradient(circle_at_12%_95%,color-mix(in_oklch,#6a3e73_14%,transparent),transparent_42%),var(--card)] p-6 sm:p-8 md:col-span-2"
+        )}
+        to="/depths"
+      >
+        <div className="absolute inset-x-8 top-0 h-px bg-linear-to-r from-transparent via-amber-500/70 to-transparent dark:via-amber-300/70" />
+        <div className="mb-20 flex items-start justify-between">
+          <span className="grid size-11 place-content-center rounded-xl bg-amber-500/12 text-amber-700 ring-1 ring-amber-600/25 dark:bg-amber-300/10 dark:text-amber-200 dark:ring-amber-200/20">
+            <DoorOpen className="size-5" />
+          </span>
+          <ArrowUpRight className="size-5 text-muted-foreground transition-[color,transform] duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-amber-700 dark:group-hover:text-amber-200" />
+        </div>
+        <p className="mb-2 font-mono text-[0.6875rem] font-medium text-amber-700 uppercase tracking-[0.16em] dark:text-amber-200">
+          Playable · Endless
+        </p>
+        <h2 className="font-heading text-3xl font-semibold tracking-[-0.04em]">
+          Depths
+        </h2>
+        <p className="mt-3 max-w-xl text-muted-foreground text-sm leading-relaxed">
+          Read the doors, build a relic set, and chase the public arcade high
+          score.
         </p>
       </Link>
     </div>

@@ -20,6 +20,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useVisualViewport } from "@/hooks/use-visual-viewport";
 import { getServerTheme } from "@/lib/theme";
 import type { Theme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -50,19 +51,21 @@ const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
 };
 const SiteContent = ({ children }: { children: React.ReactNode }) => {
   const routerState = useRouterState();
-  const isWallpaperLab = routerState.location.pathname === "/wallpaper-lab";
+  const isImmersiveRoute =
+    routerState.location.pathname === "/wallpaper-lab" ||
+    routerState.location.pathname === "/depths";
   return (
     <>
       <main
         className={cn(
-          isWallpaperLab
-            ? "h-[calc(100svh-4rem-1px)] w-full flex-none overflow-hidden"
+          isImmersiveRoute
+            ? "h-[calc(var(--app-height,100dvh)-4rem-1px)] w-full flex-none overflow-hidden"
             : "mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14"
         )}
       >
         {children}
       </main>
-      {isWallpaperLab ? null : (
+      {isImmersiveRoute ? null : (
         <footer className="mt-8 border-t bg-card/35 py-8">
           <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 text-muted-foreground text-xs sm:flex-row sm:items-center sm:justify-between">
             <p className="font-mono uppercase tracking-[0.14em]">
@@ -79,13 +82,14 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => {
   const { serverTheme } = routeApi.useLoaderData();
   // Default new visitors to dark while preserving an explicit theme choice.
   const themeClass = getThemeClass(serverTheme);
+  useVisualViewport();
   return (
     <html className={themeClass} lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
         <script src="/theme-init.js" />
       </head>
-      <body className="h-screen overflow-hidden antialiased">
+      <body className="h-(--app-height,100dvh) overflow-hidden bg-background antialiased">
         <ThemeProvider
           defaultTheme="dark"
           serverTheme={serverTheme}
@@ -93,9 +97,9 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => {
         >
           <TooltipProvider>
             <CommentSidebarProvider>
-              <div className="flex h-screen">
+              <div className="flex h-(--app-height,100dvh) bg-background">
                 <div
-                  className="flex flex-1 flex-col overflow-y-auto"
+                  className="flex flex-1 flex-col overflow-y-auto overscroll-y-contain"
                   id="app-scroll-container"
                 >
                   <Navbar />
@@ -147,7 +151,8 @@ export const Route = createRootRouteWithContext<{
         charSet: "utf-8",
       },
       {
-        content: "width=device-width, initial-scale=1",
+        content:
+          "width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content",
         name: "viewport",
       },
       {

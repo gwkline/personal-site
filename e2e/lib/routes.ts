@@ -30,6 +30,11 @@ export const SITE_PAGES: SitePage[] = [
     path: "/wallpaper-lab",
     ready: "main",
   },
+  {
+    id: "depths",
+    path: "/depths",
+    ready: "[data-testid='depths-game']",
+  },
   { id: "75-hard", path: "/75-hard", ready: "main" },
   {
     id: "post-01-hello-world",
@@ -49,7 +54,7 @@ export const NAV_PATHS = ["/work", "/posts", "/about", "/playground"] as const;
 export const RESPONSIVE_WIDTHS = [320, 390, 767, 820, 1280] as const;
 
 export const isPhone = (project: string) =>
-  /iphone|pixel|galaxy|se\b/i.test(project) && !/ipad/i.test(project);
+  /iphone|pixel|galaxy|se\b/iu.test(project) && !/ipad/iu.test(project);
 
 export const isMobile = (project: string) =>
-  /iphone|pixel|galaxy|ipad/i.test(project);
+  /iphone|pixel|galaxy|ipad/iu.test(project);

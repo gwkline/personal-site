@@ -20,6 +20,7 @@
     "@base-ui/react": "^1.6.0",
     "@convex-dev/better-auth": "^0.12.5",
     "@convex-dev/react-query": "^0.1.0",
+    "@effect/atom-react": "4.0.0-beta.99",
     "@fontsource-variable/geist-mono": "^5.2.8",
     "@fontsource-variable/mona-sans": "^5.2.8",
     "@icons-pack/react-simple-icons": "^13.13.0",
@@ -36,6 +37,7 @@
     "cmdk": "^1.1.1",
     "convex": "^1.42.1",
     "date-fns": "^4.4.0",
+    "effect": "4.0.0-beta.99",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.24.0",
@@ -56,6 +58,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
+    "@effect/vitest": "4.0.0-beta.99",
     "@playwright/test": "^1.61.1",
     "@rolldown/plugin-babel": "^0.2.3",
     "@tanstack/devtools-vite": "^0.8.1",

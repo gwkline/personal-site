@@ -9,6 +9,7 @@
 html {
   scroll-behavior: smooth;
   color-scheme: light;
+  background-color: var(--background);
 }
 
 html.dark {
@@ -17,6 +18,7 @@ html.dark {
 
 body {
   @apply m-0;
+  background-color: var(--background);
   font-family: var(--font-sans);
   font-variation-settings:
     "wdth" 100,

@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop -- Viewport transitions must run sequentially. */
+
 import { expect, test } from "@playwright/test";
 
 import { gotoReady } from "./lib/page";
@@ -5,7 +7,7 @@ import { RESPONSIVE_WIDTHS, SITE_PAGES } from "./lib/routes";
 import { expectStableViewport } from "./lib/viewport";
 
 test.describe("responsive widths", () => {
-  test.beforeEach(({}, testInfo) => {
+  test.beforeEach((_, testInfo) => {
     test.skip(
       testInfo.project.name !== "Desktop Chrome",
       "Desktop Chrome only"
