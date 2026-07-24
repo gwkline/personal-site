@@ -28,7 +28,7 @@ const WorkPage = () => {
           />
           <div className="grid gap-4 md:grid-cols-2">
             {workProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard key={project.slug} project={project} showGraphic />
             ))}
           </div>
         </section>
@@ -43,7 +43,7 @@ const WorkPage = () => {
           />
           <div className="grid gap-4 md:grid-cols-2">
             {personalProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard key={project.slug} project={project} showGraphic />
             ))}
           </div>
         </section>
@@ -58,7 +58,7 @@ const WorkPage = () => {
           />
           <div className="grid gap-4 md:grid-cols-2">
             {ossProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard key={project.slug} project={project} showGraphic />
             ))}
           </div>
         </section>

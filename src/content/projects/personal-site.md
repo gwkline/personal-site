@@ -1,7 +1,7 @@
 ---
 title: "Personal Site"
 role: "Creator & Developer"
-period: "2025"
+period: "2025 – Present"
 summary: "This site - a minimal, high-craft personal space built with modern tooling and attention to detail."
 tech:
   - TypeScript

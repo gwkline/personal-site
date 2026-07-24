@@ -8,7 +8,8 @@ import {
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import Markdown from "react-markdown";
 
-import { PageHeader } from "@/components/page-header";
+import { ProjectGraphic } from "@/components/content-preview";
+import { Eyebrow } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -40,8 +41,9 @@ const ProjectDetailPage = () => {
   if (!project) {
     return null;
   }
+
   return (
-    <div className="space-y-14 pb-8 sm:space-y-18">
+    <div className="space-y-8 pb-8 sm:space-y-10">
       <Button
         nativeButton={false}
         render={<Link to="/work" />}
@@ -52,16 +54,22 @@ const ProjectDetailPage = () => {
         Back to work
       </Button>
 
-      <PageHeader
-        description={project.summary}
-        eyebrow={`${getProjectTypeLabel(project.type)} · ${project.period}`}
-        size="detail"
-        title={project.title}
-      >
-        <div className="space-y-5">
-          <p className="font-heading text-lg font-medium tracking-[-0.02em] text-foreground">
+      <section className="grid gap-6 border-b pb-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,0.78fr)] lg:items-center">
+        <div className="space-y-4">
+          <Eyebrow>{`${getProjectTypeLabel(project.type)} · ${project.period}`}</Eyebrow>
+          <div className="space-y-3">
+            <h1 className="font-heading text-4xl font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
+              {project.title}
+            </h1>
+            <p className="max-w-2xl text-base text-muted-foreground leading-relaxed">
+              {project.summary}
+            </p>
+          </div>
+
+          <p className="font-heading text-base font-medium tracking-[-0.02em] text-foreground">
             {project.role}
           </p>
+
           <div className="flex flex-wrap gap-2">
             {project.tech.map((technology) => (
               <Badge key={technology} size="sm" variant="secondary">
@@ -109,12 +117,15 @@ const ProjectDetailPage = () => {
             </div>
           ) : null}
         </div>
-      </PageHeader>
+
+        <div className="[&>[aria-hidden=true]]:h-36 sm:[&>[aria-hidden=true]]:h-44 lg:[&>[aria-hidden=true]]:h-48">
+          <ProjectGraphic project={project} />
+        </div>
+      </section>
 
       {project.description ? (
-        <section className="grid gap-8 lg:grid-cols-[0.38fr_1fr] lg:gap-14">
+        <section className="grid gap-6 lg:grid-cols-[0.26fr_1fr] lg:gap-12">
           <SectionHeader
-            description="The decisions, constraints, and implementation behind the project."
             eyebrow="Case study"
             size="compact"
             title="Inside the work"

@@ -42,6 +42,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { playgroundItems } from "@/lib/playground";
 import { getPosts } from "@/lib/posts";
 import { getProjects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
@@ -104,27 +105,16 @@ const aboutSubitems = (
     },
   ] satisfies NavSubitem[]
 ).slice(0, NAV_PREVIEW_ITEM_LIMIT);
-const playgroundSubitems = (
-  [
-    {
-      description:
-        "Compose living backdrops with type, glass, and interference.",
-      title: "Wallpaper lab",
-      to: "/wallpaper-lab",
-    },
-    {
-      description: "Training for the NYC Marathon and logging all 75 days.",
-      title: "75 Hard",
-      to: "/75-hard",
-    },
-    {
-      description:
-        "An endless procedural dungeon with relic builds and arcade scores.",
-      title: "Depths",
-      to: "/depths",
-    },
-  ] satisfies NavSubitem[]
-).slice(0, NAV_PREVIEW_ITEM_LIMIT);
+const playgroundSubitems = playgroundItems
+  .map(
+    (item) =>
+      ({
+        description: item.navDescription,
+        title: item.title,
+        to: item.to,
+      }) satisfies NavSubitem
+  )
+  .slice(0, NAV_PREVIEW_ITEM_LIMIT);
 const navItems = [
   {
     allLabel: "View all work",

@@ -7,7 +7,294 @@ import type { Post } from "@/lib/posts";
 import type { Project } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
-const ProjectGraphic = ({ project }: { project: Project }) => {
+const PmIvasGraphic = () => (
+  <div
+    aria-hidden="true"
+    className="h-24 overflow-hidden rounded-xl border bg-surface-sunken"
+  >
+    <svg className="size-full" viewBox="0 0 320 96">
+      <g fill="none" stroke="var(--border)" strokeOpacity="0.42">
+        <path d="M24 18H296M24 38H296M24 58H296M24 78H296" />
+        <path d="M44 10V86M84 10V86M124 10V86M164 10V86M204 10V86M244 10V86M284 10V86" />
+      </g>
+      <circle
+        cx="160"
+        cy="48"
+        fill="var(--primary)"
+        fillOpacity="0.08"
+        r="34"
+        stroke="var(--primary)"
+        strokeDasharray="3 5"
+        strokeOpacity="0.42"
+      />
+      <circle
+        cx="160"
+        cy="48"
+        fill="none"
+        r="18"
+        stroke="var(--primary)"
+        strokeOpacity="0.32"
+      />
+      <path
+        d="M160 17V79M129 48H191"
+        stroke="var(--primary)"
+        strokeOpacity="0.42"
+      />
+      <g fill="var(--card)" stroke="var(--primary)" strokeOpacity="0.75">
+        <circle cx="92" cy="64" r="7" />
+        <circle cx="160" cy="48" r="7" />
+        <circle cx="230" cy="34" r="7" />
+      </g>
+      <path
+        d="M88 64H96M92 60V68M156 48H164M160 44V52M226 34H234M230 30V38"
+        stroke="var(--primary)"
+        strokeLinecap="round"
+      />
+      <rect
+        fill="var(--card)"
+        height="20"
+        rx="6"
+        stroke="var(--border)"
+        width="82"
+        x="204"
+        y="62"
+      />
+      <path
+        d="M216 72H248M216 77H270"
+        stroke="var(--muted-foreground)"
+        strokeLinecap="round"
+        strokeOpacity="0.45"
+        strokeWidth="2"
+      />
+    </svg>
+  </div>
+);
+
+const PlantryGraphic = () => (
+  <div
+    aria-hidden="true"
+    className="h-24 overflow-hidden rounded-xl border bg-surface-sunken"
+  >
+    <svg className="size-full" viewBox="0 0 320 96">
+      <rect
+        fill="var(--card)"
+        height="66"
+        rx="11"
+        stroke="var(--border)"
+        width="232"
+        x="44"
+        y="15"
+      />
+      <path d="M44 32H276" stroke="var(--border)" />
+      <g fill="var(--success)" fillOpacity="0.12" stroke="var(--success)">
+        <rect height="20" rx="6" width="42" x="58" y="43" />
+        <rect height="20" rx="6" width="42" x="112" y="43" />
+        <rect height="20" rx="6" width="42" x="166" y="43" />
+      </g>
+      <g stroke="var(--success)" strokeLinecap="round" strokeWidth="1.6">
+        <path d="M72 53C78 45 87 47 91 55C84 58 77 58 72 53Z" fill="none" />
+        <path
+          d="M126 52C132 46 141 47 145 55C139 58 131 58 126 52Z"
+          fill="none"
+        />
+        <path
+          d="M181 55C184 47 194 44 201 50C197 57 188 60 181 55Z"
+          fill="none"
+        />
+      </g>
+      <path
+        d="M58 69H140M166 69H235"
+        stroke="var(--muted-foreground)"
+        strokeLinecap="round"
+        strokeOpacity="0.38"
+        strokeWidth="2"
+      />
+      <circle cx="246" cy="24" fill="var(--success)" r="3" />
+      <circle
+        cx="258"
+        cy="24"
+        fill="var(--muted-foreground)"
+        fillOpacity="0.25"
+        r="3"
+      />
+    </svg>
+  </div>
+);
+
+const PersonalSiteGraphic = () => (
+  <div
+    aria-hidden="true"
+    className="h-24 overflow-hidden rounded-xl border bg-[#07080c]"
+  >
+    <svg className="size-full" viewBox="0 0 320 96">
+      <rect fill="#07080c" height="96" width="320" />
+      <path
+        d="M0 72C32 58 62 66 94 49C132 28 172 39 209 24C252 6 286 18 320 8V96H0Z"
+        fill="#15151a"
+        fillOpacity="0.82"
+      />
+      <path
+        d="M0 79C44 61 72 83 119 61C160 42 196 62 237 43C272 27 294 34 320 25V96H0Z"
+        fill="#f09a58"
+        fillOpacity="0.13"
+      />
+      <g fill="#f6c08f" opacity="0.52">
+        <circle cx="48" cy="33" r="1.4" />
+        <circle cx="82" cy="58" r="1" />
+        <circle cx="126" cy="42" r="1.2" />
+        <circle cx="178" cy="55" r="0.9" />
+        <circle cx="226" cy="31" r="1.3" />
+        <circle cx="276" cy="47" r="1" />
+      </g>
+      <rect
+        fill="rgba(7,8,12,0.82)"
+        height="34"
+        rx="8"
+        stroke="rgba(246,192,143,0.28)"
+        width="112"
+        x="24"
+        y="20"
+      />
+      <path
+        d="M38 34H98M38 42H78"
+        stroke="#f4f0e8"
+        strokeLinecap="round"
+        strokeOpacity="0.66"
+        strokeWidth="2"
+      />
+    </svg>
+  </div>
+);
+
+const FullStackSkeletonGraphic = () => (
+  <div
+    aria-hidden="true"
+    className="h-24 overflow-hidden rounded-xl border bg-surface-sunken"
+  >
+    <svg className="size-full" viewBox="0 0 320 96">
+      <g fill="var(--card)" stroke="var(--border)">
+        <rect height="24" rx="7" width="86" x="38" y="17" />
+        <rect height="24" rx="7" width="86" x="117" y="36" />
+        <rect height="24" rx="7" width="86" x="196" y="55" />
+      </g>
+      <path
+        d="M124 29H151V36M203 48H230V55"
+        fill="none"
+        stroke="var(--primary)"
+        strokeDasharray="3 4"
+        strokeLinecap="round"
+      />
+      <g fill="var(--primary)">
+        <circle cx="54" cy="29" r="3" />
+        <circle cx="133" cy="48" r="3" />
+        <circle cx="212" cy="67" r="3" />
+      </g>
+      <g
+        stroke="var(--muted-foreground)"
+        strokeLinecap="round"
+        strokeOpacity="0.45"
+        strokeWidth="2"
+      >
+        <path d="M64 27H108M64 33H94" />
+        <path d="M143 46H187M143 52H173" />
+        <path d="M222 65H266M222 71H252" />
+      </g>
+    </svg>
+  </div>
+);
+
+const ArtestianGraphic = () => (
+  <div
+    aria-hidden="true"
+    className="h-24 overflow-hidden rounded-xl border bg-surface-sunken"
+  >
+    <svg className="size-full" viewBox="0 0 320 96">
+      <rect
+        fill="var(--card)"
+        height="62"
+        rx="10"
+        stroke="var(--border)"
+        width="124"
+        x="48"
+        y="17"
+      />
+      <path
+        d="M63 60C80 36 92 68 111 43C128 22 141 48 158 31"
+        fill="none"
+        stroke="var(--primary)"
+        strokeLinecap="round"
+        strokeWidth="3"
+      />
+      <path
+        d="M66 68C88 58 106 70 128 57C143 48 153 51 163 45"
+        fill="none"
+        stroke="var(--info)"
+        strokeLinecap="round"
+        strokeOpacity="0.72"
+        strokeWidth="2"
+      />
+      <g transform="translate(202 27)">
+        <path
+          d="M31 0C52 0 66 15 66 34C66 51 53 61 38 61H26C21 61 18 57 20 52L23 46C11 43 0 34 0 22C0 9 13 0 31 0Z"
+          fill="var(--card)"
+          stroke="var(--border)"
+        />
+        <circle cx="23" cy="20" fill="var(--primary)" r="4" />
+        <circle cx="38" cy="19" fill="var(--info)" r="4" />
+        <circle cx="49" cy="32" fill="var(--success)" r="4" />
+        <circle
+          cx="30"
+          cy="38"
+          fill="var(--muted-foreground)"
+          fillOpacity="0.35"
+          r="4"
+        />
+      </g>
+    </svg>
+  </div>
+);
+
+const AbstractProjectGraphic = ({ project }: { project: Project }) => (
+  <div
+    aria-hidden="true"
+    className="h-24 overflow-hidden rounded-xl border bg-surface-sunken"
+  >
+    <svg className="size-full" viewBox="0 0 320 96">
+      <g fill="var(--card)" stroke="var(--border)">
+        <rect height="42" rx="10" width="68" x="46" y="27" />
+        <rect height="42" rx="10" width="68" x="126" y="27" />
+        <rect height="42" rx="10" width="68" x="206" y="27" />
+      </g>
+      <path
+        d="M114 48H126M194 48H206"
+        stroke="var(--primary)"
+        strokeDasharray="3 4"
+        strokeLinecap="round"
+        strokeOpacity="0.55"
+      />
+      <text
+        fill="var(--foreground)"
+        fontFamily="var(--font-heading)"
+        fontSize="18"
+        fontWeight="600"
+        textAnchor="middle"
+        x="80"
+        y="54"
+      >
+        {project.title.slice(0, 1)}
+      </text>
+      <path
+        d="M140 44H180M220 44H260M220 52H248"
+        stroke="var(--muted-foreground)"
+        strokeLinecap="round"
+        strokeOpacity="0.4"
+        strokeWidth="2"
+      />
+    </svg>
+  </div>
+);
+
+export const ProjectGraphic = ({ project }: { project: Project }) => {
   if (project.slug === "govdash-capture-cloud") {
     return (
       <div
@@ -192,16 +479,18 @@ const ProjectGraphic = ({ project }: { project: Project }) => {
             x="74"
             y="37"
           />
-          <path
-            d="M84 64C96 61 103 65 115 56C126 48 134 57 146 47C157 38 167 52 194 42"
-            fill="none"
-            stroke="var(--primary)"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-          />
-          <path d="M84 66H194" stroke="var(--border)" strokeDasharray="2 3" />
-          <circle cx="146" cy="47" fill="var(--primary)" r="2.5" />
+          <g fill="var(--primary)" fillOpacity="0.12" stroke="var(--primary)">
+            <rect height="22" rx="4" width="20" x="84" y="52" />
+            <rect height="34" rx="4" width="22" x="113" y="40" />
+            <rect height="26" rx="4" width="20" x="146" y="48" />
+            <rect height="41" rx="4" width="20" x="176" y="33" />
+          </g>
+          <g stroke="var(--primary)" strokeLinecap="round" strokeOpacity="0.45">
+            <path d="M90 58H98M90 64H98" />
+            <path d="M120 47H128M120 53H128M120 59H128" />
+            <path d="M152 55H160M152 61H160" />
+            <path d="M182 40H190M182 46H190M182 52H190" />
+          </g>
           <rect
             fill="var(--info)"
             fillOpacity="0.1"
@@ -347,49 +636,58 @@ const ProjectGraphic = ({ project }: { project: Project }) => {
             x="224"
             y="22"
           />
+          <circle
+            cx="260"
+            cy="48"
+            fill="var(--primary)"
+            fillOpacity="0.1"
+            r="18"
+            stroke="var(--primary)"
+            strokeOpacity="0.35"
+          />
+          <circle
+            cx="260"
+            cy="48"
+            fill="var(--card)"
+            r="8"
+            stroke="var(--primary)"
+            strokeOpacity="0.55"
+          />
           <path
-            d="M235 60V49M246 60V42M257 60V46M268 60V35M279 60V39"
+            d="M242 48H224M278 48H292M260 30V20M260 66V76"
             stroke="var(--primary)"
             strokeLinecap="round"
-            strokeOpacity="0.7"
-            strokeWidth="4"
+            strokeOpacity="0.42"
           />
-          <path d="M234 64H285" stroke="var(--border)" />
-          <circle cx="283" cy="31" fill="var(--success)" r="3" />
+          <circle cx="292" cy="48" fill="var(--success)" r="3" />
         </svg>
       </div>
     );
   }
-  return (
-    <div
-      aria-hidden="true"
-      className="h-24 overflow-hidden rounded-xl border bg-surface-sunken"
-    >
-      <svg className="size-full" viewBox="0 0 320 96">
-        <rect
-          fill="var(--card)"
-          height="58"
-          rx="12"
-          stroke="var(--border)"
-          width="58"
-          x="131"
-          y="19"
-        />
-        <text
-          fill="var(--foreground)"
-          fontFamily="var(--font-heading)"
-          fontSize="20"
-          fontWeight="600"
-          textAnchor="middle"
-          x="160"
-          y="56"
-        >
-          {project.title.slice(0, 1)}
-        </text>
-      </svg>
-    </div>
-  );
+  if (project.slug === "pm-ivas") {
+    return <PmIvasGraphic />;
+  }
+  if (project.slug === "plantry") {
+    return <PlantryGraphic />;
+  }
+  if (project.slug === "personal-site") {
+    return <PersonalSiteGraphic />;
+  }
+  if (project.slug === "full-stack-skeleton") {
+    return <FullStackSkeletonGraphic />;
+  }
+  if (project.slug === "artestian") {
+    return <ArtestianGraphic />;
+  }
+  return <AbstractProjectGraphic project={project} />;
 };
+
+const projectTypeLabels = {
+  oss: "Open source",
+  personal: "Personal",
+  work: "Work",
+} satisfies Record<Project["type"], string>;
+
 const PostGraphic = () => (
   <span
     aria-hidden="true"
@@ -448,17 +746,21 @@ export const ProjectCard = ({
     to="/work/$slug"
   >
     {showGraphic ? <ProjectGraphic project={project} /> : null}
-    <div className="flex items-start justify-between gap-4">
-      <div className="space-y-2">
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2 pr-8">
         <Badge size="sm" variant="outline">
-          {project.type}
+          {projectTypeLabels[project.type]}
         </Badge>
-        <h3 className="font-heading text-xl font-semibold tracking-[-0.03em]">
+        <span className="font-mono text-[0.6875rem] text-muted-foreground uppercase tracking-[0.08em]">
+          {project.period}
+        </span>
+      </div>
+      <div className="space-y-1.5 pr-8">
+        <h3 className="font-heading text-xl font-semibold tracking-[-0.03em] text-balance">
           {project.title}
         </h3>
         <p className="text-muted-foreground text-sm">{project.role}</p>
       </div>
-      <ArrowUpRight className="size-4 text-muted-foreground transition-transform duration-200 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 group-hover/card:text-primary" />
     </div>
     <div className="space-y-4">
       <p
@@ -475,11 +777,9 @@ export const ProjectCard = ({
             {technology}
           </Badge>
         ))}
-        <span className="ml-auto font-mono text-[0.6875rem] text-muted-foreground">
-          {project.period}
-        </span>
       </div>
     </div>
+    <ArrowUpRight className="absolute top-5 right-5 size-4 text-muted-foreground transition-transform duration-200 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 group-hover/card:text-primary sm:top-6 sm:right-6" />
   </Link>
 );
 

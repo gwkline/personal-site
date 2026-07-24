@@ -32,8 +32,8 @@ interface ProjectFrontmatter {
 }
 const projectOrder = [
   "govdash-capture-cloud",
-  "gorjian-platform",
   "whop-backend",
+  "gorjian-platform",
   "pm-ivas",
   "plantry",
   "full-stack-skeleton",

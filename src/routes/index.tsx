@@ -1,149 +1,168 @@
 import { createFileRoute, getRouteApi, Link } from "@tanstack/react-router";
-import { ArrowRight, Building2, Code2, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Comments } from "@/components/comments";
-import { PostRow, ProjectCard } from "@/components/content-preview";
+import { ProjectCard } from "@/components/content-preview";
+import { DitheredLandscape } from "@/components/home/dithered-landscape";
 import { Eyebrow } from "@/components/page-header";
+import { PlaygroundCard } from "@/components/playground-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { SectionHeader } from "@/components/ui/section-header";
-import { getPosts } from "@/lib/posts";
-import type { Post } from "@/lib/posts";
+import { playgroundItems } from "@/lib/playground";
 import { getProjects } from "@/lib/projects";
 import type { Project } from "@/lib/projects";
 
 const routeApi = getRouteApi("/");
 const Hero = () => (
-  <section className="grid gap-10 pt-3 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-end lg:gap-14 lg:pt-8">
-    <div className="space-y-7">
-      <Eyebrow>Software craftsman · serial shipper</Eyebrow>
-      <div className="space-y-6">
-        <h1 className="max-w-3xl font-heading text-5xl font-semibold leading-[0.96] tracking-[-0.055em] text-balance sm:text-6xl md:text-7xl">
+  <section
+    className="relative isolate -mx-4 min-h-184 overflow-hidden border-[#f09a58]/20 border-y bg-[#061633] sm:-mx-6 lg:mx-0 lg:min-h-200 lg:rounded-3xl lg:border"
+    data-landscape-surface
+  >
+    <DitheredLandscape />
+    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,25,0.01)_0%,rgba(2,8,25,0.08)_46%,rgba(2,8,25,0.86)_100%)]" />
+    <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(2,8,25,0.68)_0%,rgba(2,8,25,0.3)_44%,transparent_72%)] lg:block" />
+    <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_110px_rgba(1,5,18,0.46)]" />
+
+    <p className="pointer-events-none absolute top-5 right-5 z-10 border-[#f09a58]/45 border-l pl-3 font-mono text-[0.5625rem] text-[#f6c08f]/80 uppercase tracking-[0.18em] sm:top-8 sm:right-8">
+      Move to drift · press to disrupt
+    </p>
+
+    <div className="relative z-10 flex min-h-184 max-w-3xl flex-col justify-end px-6 py-8 sm:px-10 sm:py-10 lg:min-h-200 lg:px-14 lg:py-12">
+      <div className="max-w-2xl">
+        <Eyebrow className="inline-flex rounded-full border border-[#f09a58]/25 bg-[#031024]/55 px-3 py-1.5 text-[#ffe0bd] shadow-[0_8px_28px_rgba(1,5,18,0.38)] backdrop-blur-sm">
+          Software craftsman · serial shipper
+        </Eyebrow>
+        <h1 className="mt-6 font-heading text-5xl font-semibold leading-[0.96] tracking-[-0.055em] text-[#f4f0e8] text-balance sm:text-6xl lg:text-7xl">
           Building dependable software for{" "}
-          <span className="text-primary">ambitious ideas.</span>
+          <span className="text-[#f09a58]">ambitious ideas.</span>
         </h1>
-        <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+        <p className="mt-5 max-w-xl text-base leading-relaxed text-[#b8c7d2] sm:text-lg">
           I&apos;m Gavin, Head of Engineering at GovDash. I lead engineering and
           AI strategy while staying close to the architecture, the code, and the
           people using what we ship.
         </p>
-      </div>
-      <div className="flex flex-wrap gap-3">
-        <Button nativeButton={false} render={<Link to="/work" />} size="lg">
-          Explore my work
-          <ArrowRight className="size-4" />
-        </Button>
-        <Button
-          nativeButton={false}
-          render={<Link to="/about" />}
-          size="lg"
-          variant="outline"
+        <nav
+          aria-label="Homepage destinations"
+          className="mt-7 flex flex-wrap gap-x-6 gap-y-3 border-white/15 border-t pt-5"
         >
-          More about me
-        </Button>
+          <Link
+            className="group flex items-center gap-2 font-mono text-[0.6875rem] text-[#d8e3e9] uppercase tracking-[0.12em] transition-colors duration-150 hover:text-[#f09a58]"
+            to="/work"
+          >
+            Explore my work
+            <ArrowRight className="size-3.5 transition-transform duration-150 group-hover:translate-x-1" />
+          </Link>
+          <Link
+            className="group flex items-center gap-2 font-mono text-[0.6875rem] text-[#d8e3e9] uppercase tracking-[0.12em] transition-colors duration-150 hover:text-[#f09a58]"
+            to="/about"
+          >
+            More about me
+            <ArrowRight className="size-3.5 transition-transform duration-150 group-hover:translate-x-1" />
+          </Link>
+          <Link
+            className="group flex items-center gap-2 font-mono text-[0.6875rem] text-[#d8e3e9] uppercase tracking-[0.12em] transition-colors duration-150 hover:text-[#f09a58]"
+            to="/playground"
+          >
+            Playground
+            <ArrowRight className="size-3.5 transition-transform duration-150 group-hover:translate-x-1" />
+          </Link>
+        </nav>
       </div>
     </div>
+  </section>
+);
 
-    <Card className="relative" variant="glass">
-      <div className="absolute top-0 right-6 left-6 h-px bg-linear-to-r from-transparent via-primary/70 to-transparent" />
-      <CardHeader>
-        <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/20">
-          <Sparkles className="size-5" />
+const FeaturedWork = ({ projects }: { projects: Project[] }) => {
+  const primaryProjects = projects.slice(0, 2);
+  const supportProjects = projects.slice(2);
+
+  return (
+    <section className="space-y-7">
+      <SectionHeader
+        action={
+          <Button
+            nativeButton={false}
+            render={<Link to="/work" />}
+            size="sm"
+            variant="ghost"
+          >
+            View all
+            <ArrowRight />
+          </Button>
+        }
+        description="Selected systems, products, and teams I've helped move from idea to durable execution."
+        eyebrow="Selected work"
+        size="lg"
+        title="Current work and momentum"
+      />
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        {primaryProjects.map((project) => (
+          <ProjectCard
+            className="min-h-72"
+            key={project.slug}
+            project={project}
+            showGraphic
+          />
+        ))}
+      </div>
+
+      {supportProjects.length > 0 ? (
+        <div className="grid gap-4 md:grid-cols-2">
+          {supportProjects.map((project) => (
+            <ProjectCard
+              compact
+              key={project.slug}
+              project={project}
+              showGraphic
+            />
+          ))}
         </div>
-        <CardTitle>What I&apos;m building at GovDash</CardTitle>
-        <CardDescription size="lg">
-          The rails for doing business with the government.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="flex items-center gap-2 text-muted-foreground text-sm">
-          <Building2 className="size-4 text-info" />
-          Head of Engineering
-        </div>
-        <div className="flex items-center gap-2 text-muted-foreground text-sm">
-          <Code2 className="size-4 text-info" />
-          Backend, product, and AI systems
-        </div>
-        <div className="flex items-center gap-2 text-muted-foreground text-sm">
-          <MapPin className="size-4 text-info" />
-          New York, NY
-        </div>
-      </CardContent>
-    </Card>
-  </section>
-);
-const FeaturedWork = ({ projects }: { projects: Project[] }) => (
-  <section className="space-y-7">
+      ) : null}
+    </section>
+  );
+};
+
+const LabPreview = () => (
+  <section className="space-y-7 rounded-[2rem] border bg-surface-sunken/55 p-4 sm:p-6 lg:p-8">
     <SectionHeader
       action={
         <Button
           nativeButton={false}
-          render={<Link to="/work" />}
+          render={<Link to="/playground" />}
           size="sm"
           variant="ghost"
         >
-          View all
+          Playground
           <ArrowRight />
         </Button>
       }
-      description="Selected systems, products, and teams I've helped move from idea to durable execution."
-      eyebrow="Selected work"
-      title="Built to hold up in the real world"
+      description="Small worlds, useful tools, and ongoing experiments built to learn by making."
+      eyebrow="Open lab"
+      title="Experiments and other live wires"
     />
-    <div className="grid gap-4 md:grid-cols-3">
-      {projects.map((project) => (
-        <ProjectCard compact key={project.slug} project={project} showGraphic />
-      ))}
-    </div>
-  </section>
-);
-const RecentPosts = ({ posts }: { posts: Post[] }) => (
-  <section className="space-y-5">
-    <SectionHeader
-      action={
-        <Button
-          nativeButton={false}
-          render={<Link to="/posts" />}
-          size="sm"
-          variant="ghost"
-        >
-          All posts
-          <ArrowRight />
-        </Button>
-      }
-      description="Notes on shipping quality software, moving fast without cutting corners, and the things I wish I knew earlier."
-      eyebrow="Field notes"
-      title="Thinking in public"
-    />
-    <div className="-mx-4 space-y-1">
-      {posts.map((post) => (
-        <PostRow compact key={post.slug} post={post} showGraphic />
+
+    <div className="grid gap-4 lg:grid-cols-3">
+      {playgroundItems.map((item) => (
+        <PlaygroundCard compact item={item} key={item.to} />
       ))}
     </div>
   </section>
 );
 
 const Guestbook = () => (
-  <section className="space-y-6" id="guestbook">
+  <section className="space-y-7" id="guestbook">
     <SectionHeader
       description="A small corner of the site for hellos, questions, and notes from people passing through."
       eyebrow="Open channel"
-      title="Leave a signal"
+      title="Leave a signal."
     />
-    <Card
-      className="grid gap-0 p-0 lg:grid-cols-[0.72fr_1.28fr]"
-      variant="feature"
-    >
-      <div className="border-b bg-surface-sunken p-6 lg:border-r lg:border-b-0 sm:p-8">
+    <Card className="space-y-6 p-6 sm:p-8" variant="feature">
+      <div className="max-w-2xl border-b pb-6">
         <Badge variant="info">Guestbook</Badge>
-        <h3 className="mt-5 font-heading text-2xl font-semibold tracking-[-0.035em]">
+        <h3 className="mt-4 font-heading text-2xl font-semibold tracking-[-0.035em]">
           Say hello.
         </h3>
         <p className="mt-2 text-muted-foreground text-sm leading-relaxed">
@@ -151,22 +170,19 @@ const Guestbook = () => (
           activity also appears in the live panel.
         </p>
       </div>
-      <div className="p-6 sm:p-8">
-        <Comments compact title="Guestbook" />
-      </div>
+      <Comments compact title="Guestbook" />
     </Card>
   </section>
 );
 
 const HomePage = () => {
-  const { posts, projects } = routeApi.useLoaderData();
+  const { projects } = routeApi.useLoaderData();
   const featuredProjects = projects.filter((p) => p.highlighted).slice(0, 3);
-  const recentPosts = posts.slice(0, 3);
   return (
     <div className="space-y-24 pb-8 sm:space-y-28">
       <Hero />
       <FeaturedWork projects={featuredProjects} />
-      <RecentPosts posts={recentPosts} />
+      <LabPreview />
       <Guestbook />
     </div>
   );
@@ -193,5 +209,5 @@ export const Route = createFileRoute("/")({
       { content: "website", property: "og:type" },
     ],
   }),
-  loader: () => ({ posts: getPosts(), projects: getProjects() }),
+  loader: () => ({ projects: getProjects() }),
 });
