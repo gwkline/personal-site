@@ -145,12 +145,12 @@ export const Route = createFileRoute("/posts/$slug")({
           property: "og:description",
         },
         {
-          content: `https://gavinkline.com/og/${params.slug}`,
+          content: `https://gavinkline.com/og/${params.slug}.png`,
           property: "og:image",
         },
         { content: "article", property: "og:type" },
         {
-          content: `https://gavinkline.com/og/${params.slug}`,
+          content: `https://gavinkline.com/og/${params.slug}.png`,
           name: "twitter:image",
         },
         { content: "summary_large_image", name: "twitter:card" },

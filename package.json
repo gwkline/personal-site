@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "convex dev --once && concurrently -r 'vp dev --port 3000' 'convex dev'",
-    "build": "bun scripts/generate-discovery.ts && vp build",
+    "build": "bun scripts/generate-discovery.tsx && vp build",
     "serve": "vp preview",
     "test": "vp test --run --passWithNoTests",
     "test:e2e": "playwright test",

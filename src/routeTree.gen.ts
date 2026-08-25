@@ -20,7 +20,6 @@ import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
-import { Route as OgSlugRouteImport } from './routes/og/$slug'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const WallpaperLabRoute = WallpaperLabRouteImport.update({
@@ -78,11 +77,6 @@ const PostsSlugRoute = PostsSlugRouteImport.update({
   path: '/posts/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OgSlugRoute = OgSlugRouteImport.update({
-  id: '/og/$slug',
-  path: '/og/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -97,7 +91,6 @@ export interface FileRoutesByFullPath {
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
-  '/og/$slug': typeof OgSlugRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts/': typeof PostsIndexRoute
@@ -112,7 +105,6 @@ export interface FileRoutesByTo {
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
-  '/og/$slug': typeof OgSlugRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts': typeof PostsIndexRoute
@@ -128,7 +120,6 @@ export interface FileRoutesById {
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
-  '/og/$slug': typeof OgSlugRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts/': typeof PostsIndexRoute
@@ -145,7 +136,6 @@ export interface FileRouteTypes {
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
-    | '/og/$slug'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts/'
@@ -160,7 +150,6 @@ export interface FileRouteTypes {
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
-    | '/og/$slug'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts'
@@ -175,7 +164,6 @@ export interface FileRouteTypes {
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
-    | '/og/$slug'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts/'
@@ -191,7 +179,6 @@ export interface RootRouteChildren {
   PlaygroundRoute: typeof PlaygroundRoute
   StorybookRoute: typeof StorybookRoute
   WallpaperLabRoute: typeof WallpaperLabRoute
-  OgSlugRoute: typeof OgSlugRoute
   PostsSlugRoute: typeof PostsSlugRoute
   WorkSlugRoute: typeof WorkSlugRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -278,13 +265,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/og/$slug': {
-      id: '/og/$slug'
-      path: '/og/$slug'
-      fullPath: '/og/$slug'
-      preLoaderRoute: typeof OgSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -303,7 +283,6 @@ const rootRouteChildren: RootRouteChildren = {
   PlaygroundRoute: PlaygroundRoute,
   StorybookRoute: StorybookRoute,
   WallpaperLabRoute: WallpaperLabRoute,
-  OgSlugRoute: OgSlugRoute,
   PostsSlugRoute: PostsSlugRoute,
   WorkSlugRoute: WorkSlugRoute,
   PostsIndexRoute: PostsIndexRoute,

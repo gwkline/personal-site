@@ -1,6 +1,9 @@
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
+import { Resvg } from "@resvg/resvg-js";
+import satori from "satori";
+
 import type { Post } from "../src/lib/posts-core";
 import { buildPosts } from "../src/lib/posts-core";
 import type { Project } from "../src/lib/projects-core";
@@ -20,7 +23,105 @@ const loadProjectFiles = (): Record<string, string> => {
   return files;
 };
 
+const loadPostFiles = (): Record<string, string> => {
+  const dir = path.resolve(import.meta.dir, "../src/content/posts");
+  const files: Record<string, string> = {};
+  for (const file of readdirSync(dir)) {
+    if (file.endsWith(".md")) {
+      files[`src/content/posts/${file}`] = readFileSync(
+        path.resolve(dir, file),
+        "utf-8"
+      );
+    }
+  }
+  return files;
+};
+
+const posts: Post[] = buildPosts(loadPostFiles());
 const projects: Project[] = buildProjects(loadProjectFiles());
+
+const OgCard = ({
+  date,
+  description,
+  title,
+}: {
+  date: string;
+  description?: string;
+  title: string;
+}) => (
+  <div
+    style={{
+      backgroundImage:
+        "linear-gradient(115deg, #f09a58 0%, #f6c08f 28%, #d8e3e9 62%, #3279c6 100%)",
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      justifyContent: "space-between",
+      padding: 72,
+      width: "100%",
+    }}
+  >
+    <div
+      style={{
+        color: "#031024",
+        display: "flex",
+        fontSize: 22,
+        letterSpacing: "0.16em",
+        opacity: 0.75,
+        textTransform: "uppercase",
+      }}
+    >
+      FIELD NOTES
+    </div>
+    <div
+      style={{
+        backgroundColor: "#061633",
+        borderRadius: 24,
+        display: "flex",
+        flexDirection: "column",
+        gap: 24,
+        padding: 48,
+        width: "100%",
+      }}
+    >
+      <div
+        style={{
+          color: "#f4f0e8",
+          display: "flex",
+          fontSize: title.length > 42 ? 58 : 72,
+          fontWeight: 600,
+          lineHeight: 1.1,
+        }}
+      >
+        {title}
+      </div>
+      {description ? (
+        <div
+          style={{
+            color: "#d8e3e9",
+            display: "flex",
+            fontSize: 30,
+            opacity: 0.85,
+          }}
+        >
+          {description}
+        </div>
+      ) : null}
+    </div>
+    <div
+      style={{
+        color: "#031024",
+        display: "flex",
+        fontSize: 24,
+        justifyContent: "space-between",
+        opacity: 0.8,
+      }}
+    >
+      <div style={{ display: "flex" }}>gavinkline.com</div>
+      <div style={{ display: "flex" }}>{date}</div>
+    </div>
+  </div>
+);
 
 const ORIGIN = (process.env.SITE_URL ?? "https://gavinkline.com").replace(
   /\/$/u,
@@ -38,21 +139,39 @@ const escapeXml = (value: string): string =>
 const publicDir = path.resolve(import.meta.dir, "../public");
 mkdirSync(publicDir, { recursive: true });
 
-const loadPostFiles = (): Record<string, string> => {
-  const dir = path.resolve(import.meta.dir, "../src/content/posts");
-  const files: Record<string, string> = {};
-  for (const file of readdirSync(dir)) {
-    if (file.endsWith(".md")) {
-      files[`src/content/posts/${file}`] = readFileSync(
-        path.resolve(dir, file),
-        "utf-8"
-      );
-    }
-  }
-  return files;
-};
-
-const posts: Post[] = buildPosts(loadPostFiles());
+// Render one OG card per post. Runs at build time so the server never
+// carries satori, resvg, or the font bytes at runtime.
+const font = new Uint8Array(
+  readFileSync(
+    path.resolve(import.meta.dir, "../src/assets/mona-sans-semibold.ttf")
+  )
+);
+const ogDir = path.resolve(publicDir, "og");
+mkdirSync(ogDir, { recursive: true });
+await Promise.all(
+  posts.map(async (post) => {
+    const svg = await satori(
+      <OgCard
+        date={post.date}
+        description={post.description}
+        title={post.title}
+      />,
+      {
+        fonts: [
+          { data: font, name: "Mona Sans", style: "normal", weight: 600 },
+        ],
+        height: 630,
+        width: 1200,
+      }
+    );
+    const png = new Resvg(svg, {
+      fitTo: { mode: "width", value: 1200 },
+    })
+      .render()
+      .asPng();
+    writeFileSync(path.resolve(ogDir, `${post.slug}.png`), png);
+  })
+);
 
 const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
