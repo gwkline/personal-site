@@ -1,0 +1,27 @@
+# Gavin Kline
+
+> Personal site of Gavin Kline, a software builder and Head of Engineering at GovDash. The site hosts essays on software and design, an archive of shipped work, a 75 Hard training log, and interactive playgrounds.
+
+## Blog
+
+- [Hello, World!](https://gavinkline.com/posts/01-hello-world)
+
+## Work
+
+- [GovDash Engineering](https://gavinkline.com/work/govdash-capture-cloud): Leading engineering and company-wide AI strategy while building the agent execution platform behind GovDash's autonomous and scheduled workflows.
+- [Whop Marketplace](https://gavinkline.com/work/whop-backend): Developed and scaled backend services handling 7k requests/min for a marketplace supporting over 1M monthly active users.
+- [Gorjian Software Platform](https://gavinkline.com/work/gorjian-platform): Designed and implemented a sophisticated internal tools platform, including automated email infrastructure and AI-driven services.
+- [PM IVAS Mission Software](https://gavinkline.com/work/pm-ivas): Developed computer vision software for mission reconnaissance, mapping drone footage onto 2D planes using OpenCV and NumPy.
+- [Plantry](https://gavinkline.com/work/plantry): A meal prep, pantry planning, and grocery planning tool designed to simplify weekly food management.
+- [Full-Stack Skeleton](https://gavinkline.com/work/full-stack-skeleton): A production-ready, dockerized full-stack application template with Go backend, Next.js frontend, and GraphQL API.
+- [Artestian](https://gavinkline.com/work/artestian): An AI-powered CLI tool that reduces boilerplate and setup frustrations when writing tests.
+- [Personal Site](https://gavinkline.com/work/personal-site): This site - a minimal, high-craft personal space built with modern tooling and attention to detail.
+
+## Pages
+
+- [About](https://gavinkline.com/about): career story, principles, and how I work.
+- [Playground](https://gavinkline.com/playground): interactive toys and experiments.
+- [75 Hard](https://gavinkline.com/75-hard): daily training log for the 75 Hard challenge.
+- [Depths](https://gavinkline.com/depths): a browser roguelike built with Effect.
+- [Wallpaper Lab](https://gavinkline.com/wallpaper-lab): generative wallpaper studio.
+- [RSS](https://gavinkline.com/rss.xml): full-text feed of new posts.

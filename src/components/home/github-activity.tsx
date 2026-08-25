@@ -12,7 +12,7 @@ import {
   Star,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -23,6 +23,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "../../../convex/_generated/api";
 
 const GITHUB_PROFILE_URL = "https://github.com/gwkline";
+// Must match REFRESH_INTERVAL_MS in convex/github.ts.
+const SNAPSHOT_TTL_MS = 60 * 60 * 1000;
+const SYNC_RETRY_BASE_MS = 15_000;
+const SYNC_RETRY_MAX_MS = 5 * 60_000;
+
+const syncRetryDelayMs = (attempt: number): number =>
+  Math.min(SYNC_RETRY_BASE_MS * 2 ** attempt, SYNC_RETRY_MAX_MS);
 
 const EVENT_ICONS: Record<string, LucideIcon> = {
   branch: GitFork,
@@ -47,22 +54,39 @@ const EventIcon = ({ kind }: { kind: string }) => {
 const GitHubActivity = () => {
   const snapshot = useQuery(api.github.getSnapshot);
   const sync = useAction(api.github.sync);
-  const requestedRef = useRef(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    if (snapshot !== null || requestedRef.current) {
+    if (snapshot === undefined) {
       return;
     }
-    requestedRef.current = true;
+    const isMissing = snapshot === null;
+    // The hourly cron is the primary refresher; this keeps the section alive
+    // for visitors when the cron has not run (or failed) recently.
+    const isStale =
+      snapshot !== null && Date.now() - snapshot.fetchedAt >= SNAPSHOT_TTL_MS;
+    if (!isMissing && !isStale) {
+      return;
+    }
+    let cancelled = false;
+    let retryTimer: ReturnType<typeof setTimeout> | undefined;
     const run = async () => {
       try {
         await sync();
       } catch {
-        requestedRef.current = false;
+        if (!cancelled) {
+          retryTimer = setTimeout(() => {
+            setAttempt((value) => value + 1);
+          }, syncRetryDelayMs(attempt));
+        }
       }
     };
     void run();
-  }, [snapshot, sync]);
+    return () => {
+      cancelled = true;
+      clearTimeout(retryTimer);
+    };
+  }, [snapshot, sync, attempt]);
 
   if (snapshot === undefined || snapshot === null) {
     return (

@@ -8,12 +8,12 @@ import {
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import Markdown from "react-markdown";
 
-import { ProjectGraphic } from "@/components/content-preview";
 import { Eyebrow } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { gridVariants } from "@/components/ui/grid";
 import { SectionHeader } from "@/components/ui/section-header";
+import { ProjectGraphic } from "@/components/work/project-graphics";
 import { getProjectBySlug } from "@/lib/projects";
 import type { Project } from "@/lib/projects";
 import { cn } from "@/lib/utils";

@@ -14,7 +14,7 @@ import {
   CommentSidebarProvider,
   CommentsSidebar,
   useCommentSidebar,
-} from "@/components/live-stats";
+} from "@/components/comments-sidebar";
 import { Navbar } from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Container, containerVariants } from "@/components/ui/container";
@@ -146,6 +146,12 @@ export const Route = createRootRouteWithContext<{
       {
         href: "/manifest.json",
         rel: "manifest",
+      },
+      {
+        href: "/rss.xml",
+        rel: "alternate",
+        title: "Gavin Kline — Writing",
+        type: "application/rss+xml",
       },
     ],
     meta: [

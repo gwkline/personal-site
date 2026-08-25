@@ -144,8 +144,16 @@ export const Route = createFileRoute("/posts/$slug")({
           content: post?.description || "Writing by Gavin Kline.",
           property: "og:description",
         },
+        {
+          content: `https://gavinkline.com/og/${params.slug}`,
+          property: "og:image",
+        },
         { content: "article", property: "og:type" },
-        { content: "summary", name: "twitter:card" },
+        {
+          content: `https://gavinkline.com/og/${params.slug}`,
+          name: "twitter:image",
+        },
+        { content: "summary_large_image", name: "twitter:card" },
       ],
     };
   },

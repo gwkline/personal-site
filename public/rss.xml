@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gavin Kline — Writing</title>
+    <link>https://gavinkline.com/posts</link>
+    <description>Essays and notes on software, design, and the craft of building things.</description>
+    <atom:link href="https://gavinkline.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <language>en-us</language>
+    <item>
+      <title>Hello, World!</title>
+      <link>https://gavinkline.com/posts/01-hello-world</link>
+      <guid isPermaLink="true">https://gavinkline.com/posts/01-hello-world</guid>
+      <pubDate>Mon, 01 Dec 2025 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+  </channel>
+</rss>

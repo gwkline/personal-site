@@ -45,8 +45,15 @@ import {
 import { WallpaperCanvas } from "@/components/wallpaper/wallpaper-canvas";
 import type { WallpaperCanvasHandle } from "@/components/wallpaper/wallpaper-canvas";
 import {
+  CONTROL_KEYS,
+  CONTROL_QUERY_KEYS,
+  controlsToQuery,
   WALLPAPER_QUERY_DEFAULTS,
   wallpaperSearchParams,
+} from "@/components/wallpaper/wallpaper-query";
+import type {
+  ControlKey,
+  ControlValues,
 } from "@/components/wallpaper/wallpaper-query";
 import { WALLPAPER_PALETTES } from "@/components/wallpaper/wallpaper-types";
 import type {
@@ -56,22 +63,8 @@ import type {
 } from "@/components/wallpaper/wallpaper-types";
 import { cn } from "@/lib/utils";
 
-const CONTROL_KEYS = [
-  "balance",
-  "colorMorph",
-  "contrast",
-  "density",
-  "energy",
-  "grain",
-  "phase",
-  "scale",
-  "speed",
-] as const;
-
-type ControlKey = (typeof CONTROL_KEYS)[number];
 type ModeDefaults = Pick<WallpaperConfig, Exclude<ControlKey, "grain">>;
 
-type ControlValues = Pick<WallpaperConfig, ControlKey>;
 type PaletteColorIndex = 0 | 1 | 2 | 3;
 
 interface ModeOption {
@@ -799,67 +792,17 @@ export const WallpaperStudio = () => {
 
   const commitControl = (key: ControlKey, nextValue: number) => {
     const value = roundForUrl(clamp(nextValue, key));
-    switch (key) {
-      case "balance": {
-        void setQuery({ b: value });
-        return;
-      }
-      case "colorMorph": {
-        void setQuery({ cm: value });
-        return;
-      }
-      case "contrast": {
-        void setQuery({ c: value });
-        return;
-      }
-      case "density": {
-        void setQuery({ d: value });
-        return;
-      }
-      case "energy": {
-        void setQuery({ w: value });
-        return;
-      }
-      case "grain": {
-        void setQuery({ g: value });
-        return;
-      }
-      case "phase": {
-        void setQuery({ ph: value });
-        return;
-      }
-      case "scale": {
-        void setQuery({ sc: value });
-        return;
-      }
-      case "speed": {
-        void setQuery({ s: value });
-        return;
-      }
-      default: {
-        const exhaustiveKey: never = key;
-        return exhaustiveKey;
-      }
-    }
+    void setQuery({ [CONTROL_QUERY_KEYS[key]]: value });
   };
 
   const selectMode = (mode: ModeOption) => {
-    setControlValues({
+    const nextControls: ControlValues = {
       ...mode.defaults,
       colorMorph: controlValues.colorMorph,
       grain: controlValues.grain,
-    });
-    void setQuery({
-      b: mode.defaults.balance,
-      c: mode.defaults.contrast,
-      cm: controlValues.colorMorph,
-      d: mode.defaults.density,
-      m: mode.id,
-      ph: mode.defaults.phase,
-      s: mode.defaults.speed,
-      sc: mode.defaults.scale,
-      w: mode.defaults.energy,
-    });
+    };
+    setControlValues(nextControls);
+    void setQuery({ ...controlsToQuery(nextControls), m: mode.id });
   };
 
   const randomizeSettings = (mode?: WallpaperMode) => {
@@ -867,36 +810,16 @@ export const WallpaperStudio = () => {
       WALLPAPER_PALETTES[
         Math.floor(Math.random() * WALLPAPER_PALETTES.length)
       ] ?? WALLPAPER_PALETTES[0];
-    const nextControls: ControlValues = {
-      balance: randomizeControlValue("balance"),
-      colorMorph: randomizeControlValue("colorMorph"),
-      contrast: randomizeControlValue("contrast"),
-      density: randomizeControlValue("density"),
-      energy: randomizeControlValue("energy"),
-      grain: randomizeControlValue("grain"),
-      phase: randomizeControlValue("phase"),
-      scale: randomizeControlValue("scale"),
-      speed: randomizeControlValue("speed"),
-    };
+    const nextControls = Object.fromEntries(
+      CONTROL_KEYS.map((key) => [key, randomizeControlValue(key)])
+    ) as ControlValues;
     setControlValues(nextControls);
     void setQuery({
-      b: nextControls.balance,
-      c: nextControls.contrast,
-      cm: nextControls.colorMorph,
-      d: nextControls.density,
-      g: nextControls.grain,
+      ...controlsToQuery(nextControls),
       p: nextPalette.id,
-      ph: nextControls.phase,
-      s: nextControls.speed,
-      sc: nextControls.scale,
       seed: Math.floor(Math.random() * 9999),
-      w: nextControls.energy,
       ...(mode === undefined ? {} : { m: mode }),
     });
-  };
-
-  const shuffleSettings = () => {
-    randomizeSettings();
   };
 
   const surpriseMe = () => {
@@ -907,21 +830,12 @@ export const WallpaperStudio = () => {
   };
 
   const resetMode = () => {
-    setControlValues({
+    const nextControls: ControlValues = {
       ...activeMode.defaults,
       grain: 0.12,
-    });
-    void setQuery({
-      b: activeMode.defaults.balance,
-      c: activeMode.defaults.contrast,
-      cm: activeMode.defaults.colorMorph,
-      d: activeMode.defaults.density,
-      g: 0.12,
-      ph: activeMode.defaults.phase,
-      s: activeMode.defaults.speed,
-      sc: activeMode.defaults.scale,
-      w: activeMode.defaults.energy,
-    });
+    };
+    setControlValues(nextControls);
+    void setQuery(controlsToQuery(nextControls));
   };
 
   const copyShareLink = async () => {
@@ -935,28 +849,7 @@ export const WallpaperStudio = () => {
   };
 
   const updateCustomColor = (index: PaletteColorIndex, color: string) => {
-    switch (index) {
-      case 0: {
-        void setQuery({ c0: color, p: CUSTOM_PALETTE_ID });
-        return;
-      }
-      case 1: {
-        void setQuery({ c1: color, p: CUSTOM_PALETTE_ID });
-        return;
-      }
-      case 2: {
-        void setQuery({ c2: color, p: CUSTOM_PALETTE_ID });
-        return;
-      }
-      case 3: {
-        void setQuery({ c3: color, p: CUSTOM_PALETTE_ID });
-        return;
-      }
-      default: {
-        const exhaustiveIndex: never = index;
-        return exhaustiveIndex;
-      }
-    }
+    void setQuery({ [`c${index}`]: color, p: CUSTOM_PALETTE_ID });
   };
 
   const inspectorProps: InspectorProps = {
@@ -1101,7 +994,7 @@ export const WallpaperStudio = () => {
                     <DropdownMenuItem
                       className="items-start py-2"
                       closeOnClick={false}
-                      onClick={shuffleSettings}
+                      onClick={() => randomizeSettings()}
                     >
                       <SlidersHorizontal className="mt-0.5" />
                       <span>

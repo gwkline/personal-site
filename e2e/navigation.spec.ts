@@ -34,8 +34,14 @@ test.describe("navigation", () => {
     await gotoReady(page, HOME);
 
     for (const path of NAV_PATHS) {
-      await page.locator(`header a[href="${path}"]`).first().click();
-      await expect(page).toHaveURL(new RegExp(`${path}/?$`, "u"));
+      // The first click can race hydration; the router swallows it. Retry
+      // until the URL settles, matching the mobile sheet pattern below.
+      await expect(async () => {
+        await page.locator(`header a[href="${path}"]`).first().click();
+        await expect(page).toHaveURL(new RegExp(`${path}/?$`, "u"), {
+          timeout: 2000,
+        });
+      }).toPass({ timeout: 15_000 });
       await expect(page.locator("main")).toBeVisible();
       await expectStableViewport(page);
     }

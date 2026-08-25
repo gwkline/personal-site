@@ -7,6 +7,9 @@ import { nitro } from "nitro/vite";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig(({ command, isPreview, mode }) => ({
+  optimizeDeps: {
+    exclude: ["@resvg/resvg-js"],
+  },
   plugins:
     mode === "test"
       ? []
@@ -38,6 +41,9 @@ export default defineConfig(({ command, isPreview, mode }) => ({
       ],
       usePolling: process.env.VITE_USE_POLLING === "true",
     },
+  },
+  ssr: {
+    external: ["@resvg/resvg-js"],
   },
   test: {
     exclude: ["e2e/**", "**/node_modules/**", "**/.git/**"],

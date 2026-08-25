@@ -49,3 +49,32 @@ export const wallpaperSearchParams = {
   seed: parseAsInteger.withDefault(WALLPAPER_QUERY_DEFAULTS.seed),
   w: parseAsFloat.withDefault(WALLPAPER_QUERY_DEFAULTS.energy),
 };
+
+/** The nine tunable controls and their short query keys. Single source of
+ * truth: search params, studio state, and every mutation site derive from
+ * this map. */
+export const CONTROL_QUERY_KEYS = {
+  balance: "b",
+  colorMorph: "cm",
+  contrast: "c",
+  density: "d",
+  energy: "w",
+  grain: "g",
+  phase: "ph",
+  scale: "sc",
+  speed: "s",
+} as const;
+
+export type ControlKey = keyof typeof CONTROL_QUERY_KEYS;
+export type ControlValues = Record<ControlKey, number>;
+export const CONTROL_KEYS = Object.keys(CONTROL_QUERY_KEYS) as ControlKey[];
+
+export const controlsToQuery = (
+  controls: ControlValues
+): Record<(typeof CONTROL_QUERY_KEYS)[ControlKey], number> =>
+  Object.fromEntries(
+    Object.entries(controls).map(([key, value]) => [
+      CONTROL_QUERY_KEYS[key as ControlKey],
+      value,
+    ])
+  ) as Record<(typeof CONTROL_QUERY_KEYS)[ControlKey], number>;
