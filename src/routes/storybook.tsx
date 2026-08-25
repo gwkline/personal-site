@@ -248,11 +248,11 @@ const StorybookPage = () => {
         title="Storybook"
       />
 
-      <nav className="sticky top-16 z-20 -mx-4 flex flex-wrap items-center gap-1.5 bg-background/85 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6">
+      <nav className="sticky top-16 z-20 -mx-4 flex flex-nowrap items-center gap-1.5 overflow-x-auto bg-background/85 px-4 py-3 [scrollbar-width:none] backdrop-blur-xl sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden">
         {sections.map((section) => (
           <a
             className={cn(
-              "rounded-md border px-2.5 py-1 font-mono text-xs transition-colors",
+              "shrink-0 whitespace-nowrap rounded-md border px-2.5 py-1 font-mono text-xs transition-colors",
               activeSection === section.id
                 ? "border-primary/40 bg-primary/10 text-primary"
                 : "bg-card text-muted-foreground hover:text-foreground"
@@ -740,7 +740,7 @@ const StorybookPage = () => {
               </Grid>
             </Variant>
           </VariantGrid>
-          <VariantGrid>
+          <div className="space-y-6">
             <Variant label='Grid split="sidebar-left"'>
               <Grid className="w-full" split="sidebar-left">
                 <Box>0.7fr</Box>
@@ -759,7 +759,7 @@ const StorybookPage = () => {
                 <Box>1fr</Box>
               </Grid>
             </Variant>
-          </VariantGrid>
+          </div>
         </div>
       </StorySection>
 

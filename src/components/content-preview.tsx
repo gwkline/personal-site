@@ -834,7 +834,10 @@ export const PostRow = ({
         tracking="label"
       >
         {commentCount > 0 ? (
-          <span className="flex items-center gap-1">
+          <span
+            className="flex items-center gap-1"
+            data-testid="post-comment-count"
+          >
             <MessageCircle className="size-3.5" />
             {commentCount}
           </span>

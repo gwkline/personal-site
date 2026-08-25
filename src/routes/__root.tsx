@@ -17,7 +17,7 @@ import {
 } from "@/components/live-stats";
 import { Navbar } from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
-import { containerVariants } from "@/components/ui/container";
+import { Container, containerVariants } from "@/components/ui/container";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -68,10 +68,13 @@ const SiteContent = ({ children }: { children: React.ReactNode }) => {
       </main>
       {isImmersiveRoute ? null : (
         <footer className="mt-8 border-t bg-card/35 py-8">
-          <div className="mx-auto flex max-w-page flex-col gap-2 px-6 text-muted-foreground text-xs sm:flex-row sm:items-center sm:justify-between">
+          <Container
+            className="flex flex-col gap-2 text-muted-foreground text-xs sm:flex-row sm:items-center sm:justify-between"
+            padding="gutter"
+          >
             <p className="font-mono uppercase tracking-tag">Built with care</p>
             <p>© 2001–{new Date().getFullYear()} Gavin Kline</p>
-          </div>
+          </Container>
         </footer>
       )}
     </>

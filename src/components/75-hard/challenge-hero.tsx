@@ -20,8 +20,8 @@ import { Stat } from "@/components/ui/stat";
 import type { ChallengeDay } from "@/lib/hard75";
 
 const JourneySummary = () => (
-  <div className="relative z-10 mb-3 sm:absolute sm:top-3 sm:left-3 sm:mb-0">
-    <div className="grid gap-2 rounded-lg bg-card/90 p-3 shadow-elevation-1 ring-1 ring-foreground/10 backdrop-blur-xl sm:gap-3">
+  <div className="relative z-10 mb-3 md:absolute md:top-3 md:left-3 md:mb-0">
+    <div className="grid gap-2 rounded-lg bg-card/90 p-3 shadow-elevation-1 ring-1 ring-foreground/10 backdrop-blur-xl md:gap-3">
       <span className="flex items-center gap-2 text-muted-foreground text-xs">
         <CalendarDays className="size-4 text-primary" />
         Challenge start · Jul 13
@@ -94,7 +94,10 @@ export const ChallengeHero = ({
             onSelectDay={onSelectDay}
           />
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-1 md:grid-rows-3">
+        <div
+          className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-1 md:grid-rows-3"
+          data-testid="tracker-stats"
+        >
           <Stat
             className="h-full"
             detail="entries"

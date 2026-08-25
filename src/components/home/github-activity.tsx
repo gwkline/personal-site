@@ -16,6 +16,7 @@ import { useEffect, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { MonoLabel } from "@/components/ui/mono-label";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -147,11 +148,11 @@ const GitHubActivity = () => {
                         {event.repo}
                       </a>
                     </p>
-                    <p className="mt-0.5 font-mono text-micro text-muted-foreground uppercase tracking-[0.08em]">
+                    <MonoLabel className="mt-0.5" tracking="label">
                       {formatDistanceToNow(new Date(event.createdAt), {
                         addSuffix: true,
                       })}
-                    </p>
+                    </MonoLabel>
                   </div>
                 </li>
               ))}

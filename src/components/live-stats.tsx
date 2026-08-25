@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
 
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
@@ -51,13 +51,6 @@ interface SidebarContextValue {
 const MIN_WIDTH = 320;
 const MAX_WIDTH = 600;
 const DEFAULT_WIDTH = 400;
-const getInitials = (name: string) =>
-  name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
 const formatPostSlug = (slug: string) =>
   slug
     .split("-")
@@ -135,12 +128,12 @@ export const LiveStatsNav = () => {
           <MonoLabel className="tabular-nums" render={<span />} tone="inherit">
             {stats?.activeUsers ?? 0}
           </MonoLabel>
-          <span className="hidden text-muted-foreground sm:inline">online</span>
+          <span className="hidden text-muted-foreground lg:inline">online</span>
         </TooltipTrigger>
         <TooltipContent>Users active in the last 30 seconds</TooltipContent>
       </Tooltip>
 
-      <div className="hidden sm:block">
+      <div className="hidden lg:block">
         <Tooltip>
           <TooltipTrigger
             render={
@@ -171,10 +164,14 @@ export const LiveStatsNav = () => {
         variant="ghost"
       >
         <MessageCircle className="size-3.5" />
-        <MonoLabel className="tabular-nums" render={<span />} tone="inherit">
+        <MonoLabel
+          className="hidden tabular-nums sm:inline"
+          render={<span />}
+          tone="inherit"
+        >
           {recentComments?.length ?? 0}
         </MonoLabel>
-        <span className="hidden sm:inline">
+        <span className="hidden lg:inline">
           {recentComments?.length === 1 ? "comment" : "comments"}
         </span>
       </Button>
@@ -195,7 +192,7 @@ const SidebarDeleteButton = ({
   }
   return (
     <Button
-      className="size-5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+      className="relative size-5 shrink-0 opacity-100 transition-opacity after:absolute after:-inset-2 after:content-[''] md:opacity-0 md:group-hover:opacity-100"
       disabled={isDeleting}
       onClick={onDelete}
       size="icon"
@@ -233,7 +230,7 @@ const SidebarCommentActions = ({
     <ReactionBar commentId={commentId} compact />
     {canReply ? (
       <Button
-        className="h-5 gap-1 px-1.5 text-nano"
+        className="gap-1 px-1.5 text-xs"
         onClick={() => setShowReplyForm(!showReplyForm)}
         size="sm"
         variant="ghost"
@@ -244,7 +241,7 @@ const SidebarCommentActions = ({
     ) : null}
     {hasReplies ? (
       <Button
-        className="h-5 gap-1 px-1.5 text-nano"
+        className="gap-1 px-1.5 text-xs"
         onClick={() => setShowReplies(!showReplies)}
         size="sm"
         variant="ghost"
@@ -372,7 +369,7 @@ const SidebarReplyItem = ({
       </div>
       {session?.user?.id === reply.userId && (
         <Button
-          className="size-5 opacity-0 transition-opacity group-hover:opacity-100"
+          className="relative size-5 opacity-100 transition-opacity after:absolute after:-inset-2 after:content-[''] md:opacity-0 md:group-hover:opacity-100"
           disabled={isDeleting}
           onClick={handleDelete}
           size="icon"
@@ -601,10 +598,11 @@ export const CommentsSidebar = () => {
   return (
     <aside
       className={cn(
-        "fixed top-16 right-0 z-40 h-[calc(100vh-4rem)] border-l bg-card/96 shadow-elevation-3 backdrop-blur-xl transition-transform duration-300 ease-in-out",
-        isOpen ? "translate-x-0" : "translate-x-full"
+        "fixed top-16 right-0 z-40 h-[calc(var(--app-height,100dvh)-4rem)] border-l bg-card/96 shadow-elevation-3 backdrop-blur-xl transition-transform duration-300 ease-in-out",
+        isOpen ? "translate-x-0" : "translate-x-full",
+        isMobile && "w-full"
       )}
-      style={{ width: isMobile ? "100vw" : width }}
+      style={isMobile ? undefined : { width }}
     >
       {/* Resize Handle */}
       {isMobile ? null : (

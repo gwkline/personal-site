@@ -342,7 +342,7 @@ export const MarathonCourseGraphic = ({
               className="fill-transparent"
               cx={marker.x}
               cy={marker.y}
-              r="7"
+              r="13"
             />
             {isHovered ? (
               <circle

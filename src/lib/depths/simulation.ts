@@ -8,7 +8,6 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import { DungeonGenerator } from "@/lib/depths/generation";
 import {
   InvalidTransitionError,
-  RoomIdSchema,
   RunIdSchema,
   SeedSchema,
 } from "@/lib/depths/schema";
@@ -37,8 +36,6 @@ const ENEMY_KINDS = ["slime", "wisp", "sentinel"] as const;
 
 const makeRunId = (seed: Seed, now: number): RunId =>
   RunIdSchema.make(`depths-${seed}-${Math.trunc(now)}`);
-
-const activePhaseTag = (phase: ActivePhase): string => phase._tag;
 
 const exploringPhase = (roomId: RoomId): ActivePhase => ({
   _tag: "Exploring",
@@ -657,20 +654,3 @@ export class GameSimulation extends Context.Service<
     })
   ).pipe(Layer.provide(DungeonGenerator.layer));
 }
-
-export const isRunActive = (phase: GamePhase): boolean =>
-  Match.value(phase).pipe(
-    Match.when({ _tag: "Title" }, () => false),
-    Match.when({ _tag: "Exploring" }, () => true),
-    Match.when({ _tag: "Fighting" }, () => true),
-    Match.when({ _tag: "ChoosingReward" }, () => true),
-    Match.when(
-      { _tag: "Paused" },
-      ({ previous }) => activePhaseTag(previous).length > 0
-    ),
-    Match.when({ _tag: "GameOver" }, () => false),
-    Match.exhaustive
-  );
-
-export const roomIdFromNumber = (value: number): RoomId =>
-  RoomIdSchema.make(value);

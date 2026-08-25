@@ -24,6 +24,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Grid } from "@/components/ui/grid";
 import {
   Progress,
   ProgressLabel,
@@ -65,7 +66,7 @@ export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
         title="Progress"
       />
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <Grid cols="2">
         <Card elevated>
           <CardHeader>
             <CardAction>
@@ -177,7 +178,7 @@ export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
             })}
           </CardContent>
         </Card>
-      </div>
+      </Grid>
     </section>
   );
 };

@@ -64,5 +64,5 @@ export default defineConfig({
     timeout: 180_000,
     url: baseURL,
   },
-  workers: process.env.CI ? 2 : undefined,
+  workers: process.env.CI ? 2 : Number(process.env.PLAYWRIGHT_WORKERS ?? 4),
 });

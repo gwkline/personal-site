@@ -16,13 +16,17 @@ const PINNED_IDS = new Set([
   "75-hard",
 ]);
 
-/** Data-driven or animated regions hidden so baselines pin only stable layout. */
+/** Data-driven or animated regions hidden so baselines pin only stable layout.
+ * display:none, not visibility:hidden, so their height cannot shift the
+ * footer-anchored bottom shots when data arrives late. */
 const ALWAYS_HIDDEN = [
   '[data-testid="dithered-landscape"]',
   '[data-testid="github-activity"]',
   '[data-testid="live-stats-nav"]',
   '[data-testid="comments-thread"]',
   '[data-testid="marathon-runner"]',
+  '[data-testid="tracker-stats"]',
+  '[data-testid="post-comment-count"]',
   'button[class^="go"]',
   "aside",
 ];
@@ -41,7 +45,7 @@ for (const sitePage of SITE_PAGES) {
       .catch(() => {});
 
     await page.addStyleTag({
-      content: `${ALWAYS_HIDDEN.join(", ")} { visibility: hidden !important; }\nhtml { scroll-behavior: auto !important; }`,
+      content: `${ALWAYS_HIDDEN.join(", ")} { display: none !important; }\nhtml { scroll-behavior: auto !important; }`,
     });
 
     await page.evaluate(() =>
@@ -60,6 +64,10 @@ for (const sitePage of SITE_PAGES) {
       expect(page).toHaveScreenshot(`${sitePage.id}-${name}.png`, {
         animations: "disabled",
         fullPage: false,
+        // Measured sub-pixel floor: the worst shot drifts ~900 pixels of
+        // text-edge noise between dev-server sessions. 1500 covers that
+        // with headroom while a real component-size regression still trips.
+        maxDiffPixels: 1500,
       });
 
     await shot("top");

@@ -42,6 +42,7 @@ import {
 import type { DepthsSession } from "@/components/depths/depths-runtime";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Grid } from "@/components/ui/grid";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import type { Direction, GameState, RelicKind } from "@/lib/depths/schema";
 
@@ -153,7 +154,7 @@ const TitleOverlay = ({
         One room at a time. Read the doorways, clear fights, claim relics from
         reward chambers, and reach the stairs before Dread catches up.
       </p>
-      <div className="mt-5 grid gap-2 text-left sm:grid-cols-3">
+      <Grid className="mt-5 text-left" cols="3" from="sm" gap="tight">
         {[
           [
             "1 · Explore",
@@ -180,7 +181,7 @@ const TitleOverlay = ({
             </p>
           </div>
         ))}
-      </div>
+      </Grid>
       <div className="mt-7 flex justify-center gap-2">
         <Button onClick={() => onStart("standard")} size="lg">
           <Play className="size-4 fill-current" />

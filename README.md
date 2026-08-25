@@ -15,6 +15,12 @@ Install dependencies:
 bun install
 ```
 
+Sign in to Convex (one time per machine):
+
+```sh
+bunx convex login
+```
+
 Start the application and Convex development server:
 
 ```sh
@@ -23,7 +29,7 @@ bun run dev
 
 The site is served at [http://localhost:3000](http://localhost:3000).
 
-Convex creates the required local environment files during project setup. The application expects `VITE_CONVEX_URL` and `VITE_CONVEX_SITE_URL` when exercising data-backed or authentication routes. Set `OWNER_EMAIL` in the Convex deployment to the Better Auth email allowed to edit The Long Game tracker; all other visitors receive the public, read-only view.
+Copy `.env.example` to `.env.local` for a checklist of every environment variable the repo reads. `convex dev` fills in the two `VITE_` values during project setup. The application expects them when exercising data-backed or authentication routes. Set `OWNER_EMAIL` in the Convex deployment to the Better Auth email allowed to edit The Long Game tracker; all other visitors receive the public, read-only view.
 
 The home page GitHub widget is powered by an hourly Convex cron (`convex/crons.ts`) and works out of the box for the `gwkline` account. Optionally set `GITHUB_USERNAME` to point at a different account and `GITHUB_TOKEN` (a classic PAT with no scopes is enough) in the Convex deployment to raise API rate limits: `npx convex env set GITHUB_TOKEN ghp_...`.
 
@@ -34,9 +40,11 @@ The home page GitHub widget is powered by an hourly Convex cron (`convex/crons.t
 - `bun run serve` — preview the production build
 - `bun run test` — run the Vite+ test suite once
 - `bun run test:e2e` — Playwright responsive and functional checks
+- `bun run test:e2e:baselines` — visual baseline pin only (fast stability loop)
 - `bun run test:e2e:full` — same suite across the full device matrix
 - `bun run test:e2e:ui` — Playwright UI mode
-- `bun run check` — run Ultracite and TypeScript checks
+- `bun run test:e2e:report` — open the HTML report from the last run
+- `bun run check` — run Ultracite, `tsc --noEmit`, and the style hygiene gate (`scripts/check-style-hygiene.ts`, which rejects arbitrary hex colors and font sizes in Tailwind bracket syntax)
 - `bun run fix` — apply Ultracite lint and formatting fixes
 - `bun run typecheck` — run TypeScript without emitting files
 

@@ -76,7 +76,10 @@ export const ReactionBar = ({
           <PopoverTrigger
             render={
               <Button
-                className={compact ? "size-5" : "size-6"}
+                className={cn(
+                  "after:absolute after:-inset-2 after:content-['']",
+                  compact ? "size-5" : "size-6"
+                )}
                 size="icon"
                 variant="ghost"
               />

@@ -9,6 +9,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 import { cardVariants } from "@/components/ui/card";
+import { MonoLabel } from "@/components/ui/mono-label";
 import type {
   PlaygroundAccent,
   PlaygroundGraphic,
@@ -336,14 +337,9 @@ export const PlaygroundCard = ({
 
       <PlaygroundVisual graphic={item.graphic} />
 
-      <p
-        className={cn(
-          "mb-2 font-mono text-micro font-medium uppercase tracking-[0.16em]",
-          styles.eyebrow
-        )}
-      >
+      <MonoLabel className={cn("mb-2", styles.eyebrow)} tracking="eyebrow">
         {item.eyebrow}
-      </p>
+      </MonoLabel>
       <h3 className="font-heading text-3xl font-semibold tracking-[-0.04em]">
         {item.title}
       </h3>

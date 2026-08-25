@@ -34,6 +34,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { MonoLabel } from "@/components/ui/mono-label";
 import {
   Sheet,
   SheetContent,
@@ -410,9 +411,7 @@ const PanelLabel = ({
   detail?: React.ReactNode;
 }) => (
   <div className="flex items-center justify-between gap-3">
-    <h2 className="font-mono text-micro font-medium text-primary uppercase tracking-[0.16em]">
-      {children}
-    </h2>
+    <MonoLabel render={<h2>{children}</h2>} tone="primary" tracking="eyebrow" />
     {detail}
   </div>
 );

@@ -8,6 +8,7 @@
     "serve": "vp preview",
     "test": "vp test --run --passWithNoTests",
     "test:e2e": "playwright test",
+    "test:e2e:baselines": "playwright test e2e/visual-baseline.spec.ts --repeat-each=2",
     "test:e2e:install": "playwright install chromium webkit firefox",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:full": "PLAYWRIGHT_FULL_MATRIX=1 playwright test",
@@ -83,6 +84,9 @@
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core@0.2.4"
+  },
+  "engines": {
+    "bun": ">=1.2.21"
   },
   "packageManager": "bun@1.2.21",
   "patchedDependencies": {

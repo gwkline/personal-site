@@ -23,6 +23,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { MonoLabel } from "@/components/ui/mono-label";
 import {
   Popover,
   PopoverContent,
@@ -403,27 +404,16 @@ const NavSubitemContent = ({ item }: { item: NavSubitem }) => (
 );
 const navSubitemClassName =
   "group/nav-subitem flex items-start justify-between gap-3 rounded-md px-2.5 py-2 transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none";
-const NavSubitemLink = ({ item }: { item: NavSubitem }) => {
-  if (item.to === "/about") {
-    return (
-      <Link className={navSubitemClassName} hash={item.hash} to={item.to}>
-        <NavSubitemContent item={item} />
-      </Link>
-    );
-  }
-  if (item.to === "/posts/$slug" || item.to === "/work/$slug") {
-    return (
-      <Link className={navSubitemClassName} params={item.params} to={item.to}>
-        <NavSubitemContent item={item} />
-      </Link>
-    );
-  }
-  return (
-    <Link className={navSubitemClassName} to={item.to}>
-      <NavSubitemContent item={item} />
-    </Link>
-  );
-};
+const NavSubitemLink = ({ item }: { item: NavSubitem }) => (
+  <Link
+    className={navSubitemClassName}
+    hash={"hash" in item ? item.hash : undefined}
+    params={"params" in item ? item.params : undefined}
+    to={item.to}
+  >
+    <NavSubitemContent item={item} />
+  </Link>
+);
 const NavHoverCard = ({ item }: { item: NavItem }) => (
   <>
     <div className="relative bg-[radial-gradient(circle_at_88%_8%,color-mix(in_oklch,var(--primary)_14%,transparent),transparent_42%),var(--popover)] p-4">
@@ -435,9 +425,9 @@ const NavHoverCard = ({ item }: { item: NavItem }) => (
               <item.icon className="size-4" />
             </span>
             <div className="min-w-0">
-              <p className="font-mono text-nano font-medium text-primary uppercase tracking-[0.16em]">
+              <MonoLabel size="xs" tone="primary" tracking="eyebrow">
                 {item.eyebrow}
-              </p>
+              </MonoLabel>
               <p className="mt-1 font-heading text-base font-semibold tracking-[-0.02em]">
                 {item.title}
               </p>
@@ -560,7 +550,13 @@ const MobileNav = ({ isActive }: { isActive: (path: string) => boolean }) => {
   return (
     <Sheet onOpenChange={setOpen} open={open}>
       <SheetTrigger
-        render={<Button className="md:hidden" size="icon-sm" variant="ghost" />}
+        render={
+          <Button
+            className="after:absolute after:-inset-2 after:content-[''] md:hidden"
+            size="icon-sm"
+            variant="ghost"
+          />
+        }
       >
         <Menu className="size-5" />
         <span className="sr-only">Open menu</span>
@@ -633,7 +629,10 @@ const ContactPopover = () => {
             <PopoverTrigger
               render={
                 <Button
-                  className={isOpen ? "bg-accent text-accent-foreground" : ""}
+                  className={cn(
+                    "after:absolute after:-inset-2 after:content-['']",
+                    isOpen && "bg-accent text-accent-foreground"
+                  )}
                   size="icon-sm"
                   variant="ghost"
                 />
@@ -754,6 +753,7 @@ export const Navbar = () => {
             <TooltipTrigger
               render={
                 <Button
+                  className="after:absolute after:-inset-2 after:content-['']"
                   onClick={() =>
                     setTheme(resolvedTheme === "light" ? "dark" : "light")
                   }

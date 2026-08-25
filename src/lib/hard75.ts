@@ -114,9 +114,8 @@ export const formatChallengeDate = (
     ...options,
   }).format(new Date(`${isoDate}T12:00:00.000Z`));
 
-export const countCompletedRequirements = (
-  day: Pick<DailyProgress, RequirementKey>
-) => REQUIREMENTS.filter(({ key }) => day[key]).length;
+const countCompletedRequirements = (day: Pick<DailyProgress, RequirementKey>) =>
+  REQUIREMENTS.filter(({ key }) => day[key]).length;
 
 export const buildChallengeDays = (
   challenge: ChallengeConfig,
@@ -224,17 +223,6 @@ export const getDailyMileage = (days: ChallengeDay[]) => [
       miles: Number((day.runMiles ?? 0).toFixed(1)),
     })),
 ];
-
-export const getDayNumber = (days: ChallengeDay[]) => {
-  const today = days.find((day) => day.isToday);
-  if (today) {
-    return today.dayIndex;
-  }
-  if (days.every((day) => day.isFuture)) {
-    return 0;
-  }
-  return days.length;
-};
 
 export const daysBetween = (fromIso: string, toIso: string) => {
   const from = new Date(`${fromIso}T12:00:00.000Z`).getTime();

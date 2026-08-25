@@ -28,7 +28,7 @@ const WritingPage = () => {
           size="compact"
           title="All posts"
         />
-        <div className="-mx-4 space-y-1">
+        <div className="-mx-4 space-y-1 sm:-mx-6">
           {posts.map((post) => (
             <PostRow
               commentCount={commentCounts?.[post.slug] ?? 0}

@@ -1,6 +1,6 @@
 import { format, parseISO } from "date-fns";
 
-import { parseMarkdownFile } from "./markdown";
+import { loadMarkdownEntries, requireFrontmatterString } from "./markdown";
 
 export interface Post {
   slug: string;
@@ -15,8 +15,6 @@ export interface Post {
 const WORDS_PER_MINUTE = 200;
 const WHITESPACE_REGEX = /\s+/u;
 const HTML_TAG_REGEX = /<[^>]*>/gu;
-const MD_EXTENSION_REGEX = /\.md$/u;
-const SLUG_REGEX = /\/(?<slug>[^/]+)\.md$/u;
 const formatDate = (dateString: string): string => {
   try {
     const date = parseISO(dateString);
@@ -25,13 +23,6 @@ const formatDate = (dateString: string): string => {
     return dateString;
   }
 };
-interface PostFrontmatter {
-  title: string;
-  date: string;
-  description: string;
-  tags?: string[];
-  status?: "draft" | "published";
-}
 const calculateReadingTime = (text: string): string => {
   // Strip HTML tags and count words
   const plainText = text.replace(HTML_TAG_REGEX, "");
@@ -45,24 +36,19 @@ const postFiles = import.meta.glob("/src/content/posts/*.md", {
   import: "default",
   query: "?raw",
 }) as Record<string, string>;
-const allPosts: Post[] = Object.entries(postFiles)
-  .map(([filePath, fileContents]) => {
-    const match = filePath.match(SLUG_REGEX);
-    const slug =
-      match?.groups?.slug ?? filePath.replace(MD_EXTENSION_REGEX, "");
-    const { data, markdown } = parseMarkdownFile(fileContents);
-    const frontmatter = data as Partial<PostFrontmatter>;
-    const rawDate = frontmatter.date as string;
+const allPosts: Post[] = loadMarkdownEntries(postFiles)
+  .map(({ data, markdown, slug }) => {
+    const rawDate = requireFrontmatterString(data, "date");
     return {
       content: markdown,
       date: formatDate(rawDate),
-      description: frontmatter.description as string,
+      description: requireFrontmatterString(data, "description"),
       rawDate,
       readingTime: calculateReadingTime(markdown),
       slug,
-      status: frontmatter.status,
-      tags: frontmatter.tags,
-      title: frontmatter.title as string,
+      status: data.status as Post["status"],
+      tags: data.tags as Post["tags"],
+      title: requireFrontmatterString(data, "title"),
     };
   })
   // Filter out drafts

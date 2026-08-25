@@ -29,6 +29,7 @@ import {
   FieldLabel,
   FieldTitle,
 } from "@/components/ui/field";
+import { Grid } from "@/components/ui/grid";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { ChallengeDay, RequirementKey } from "@/lib/hard75";
@@ -305,7 +306,7 @@ const OwnerDayEditor = ({ day }: { day: ChallengeDay }) => {
         </Field>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <Grid cols="2" from="sm">
         <Field>
           <div className="flex items-start justify-between gap-3">
             <FieldContent>
@@ -435,7 +436,7 @@ const OwnerDayEditor = ({ day }: { day: ChallengeDay }) => {
             </div>
           )}
         </Field>
-      </div>
+      </Grid>
 
       <FieldError>{error}</FieldError>
 

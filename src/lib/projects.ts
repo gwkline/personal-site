@@ -1,4 +1,4 @@
-import { parseMarkdownFile } from "./markdown";
+import { loadMarkdownEntries, requireFrontmatterString } from "./markdown";
 
 export interface Project {
   slug: string;
@@ -7,21 +7,6 @@ export interface Project {
   period: string;
   summary: string;
   description?: string;
-  tech: string[];
-  type: "work" | "personal" | "oss";
-  highlighted?: boolean;
-  links?: {
-    live?: string;
-    github?: string;
-  };
-}
-const MD_EXTENSION_REGEX = /\.md$/u;
-const SLUG_REGEX = /\/(?<slug>[^/]+)\.md$/u;
-interface ProjectFrontmatter {
-  title: string;
-  role: string;
-  period: string;
-  summary: string;
   tech: string[];
   type: "work" | "personal" | "oss";
   highlighted?: boolean;
@@ -45,26 +30,19 @@ const projectFiles = import.meta.glob("/src/content/projects/*.md", {
   import: "default",
   query: "?raw",
 }) as Record<string, string>;
-const allProjectsUnordered: Project[] = Object.entries(projectFiles).map(
-  ([filePath, fileContents]) => {
-    const match = filePath.match(SLUG_REGEX);
-    const slug =
-      match?.groups?.slug ?? filePath.replace(MD_EXTENSION_REGEX, "");
-    const { data, markdown } = parseMarkdownFile(fileContents);
-    const frontmatter = data as Partial<ProjectFrontmatter>;
-    return {
-      description: markdown,
-      highlighted: frontmatter.highlighted ?? false,
-      links: frontmatter.links as Project["links"],
-      period: frontmatter.period as string,
-      role: frontmatter.role as string,
-      slug,
-      summary: frontmatter.summary as string,
-      tech: (frontmatter.tech ?? []) as string[],
-      title: frontmatter.title as string,
-      type: frontmatter.type as "work" | "personal" | "oss",
-    } satisfies Project;
-  }
+const allProjectsUnordered: Project[] = loadMarkdownEntries(projectFiles).map(
+  ({ data, markdown, slug }) => ({
+    description: markdown,
+    highlighted: data.highlighted === true,
+    links: data.links as Project["links"],
+    period: requireFrontmatterString(data, "period"),
+    role: requireFrontmatterString(data, "role"),
+    slug,
+    summary: requireFrontmatterString(data, "summary"),
+    tech: (data.tech ?? []) as string[],
+    title: requireFrontmatterString(data, "title"),
+    type: requireFrontmatterString(data, "type") as Project["type"],
+  })
 );
 const allProjectsOrdered = (() => {
   const projectMap = new Map<string, Project>();

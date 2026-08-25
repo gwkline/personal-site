@@ -20,16 +20,6 @@ const extractFrontmatterLines = (
   }
   return { endIndex: i, frontmatterLines };
 };
-const stripQuotes = (value: string): string => {
-  if (value.length >= 2) {
-    const [first] = value;
-    const last = value.at(-1) ?? "";
-    if ((first === '"' && last === '"') || (first === "'" && last === "'")) {
-      return value.slice(1, -1);
-    }
-  }
-  return value;
-};
 const coerceScalar = (value: string): string | number | boolean => {
   const trimmed = value.trim();
   if (trimmed === "true") {
@@ -44,17 +34,31 @@ const coerceScalar = (value: string): string | number | boolean => {
   }
   return trimmed;
 };
+
+/** A quoted value is always a string, even when its content looks numeric. */
+const parseScalarValue = (raw: string): string | number | boolean => {
+  const trimmed = raw.trim();
+  const first = trimmed.at(0);
+  const last = trimmed.at(-1);
+  if (
+    trimmed.length >= 2 &&
+    ((first === '"' && last === '"') || (first === "'" && last === "'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return coerceScalar(trimmed);
+};
 const handleListItem = (
   line: string,
   data: Record<string, unknown>,
   parentKey: string
 ): void => {
-  const item = stripQuotes(line.slice(2).trim());
+  const item = parseScalarValue(line.slice(2));
   const existing = data[parentKey];
   if (Array.isArray(existing)) {
-    existing.push(coerceScalar(item));
+    existing.push(item);
   } else {
-    data[parentKey] = [coerceScalar(item)];
+    data[parentKey] = [item];
   }
 };
 const handleTopLevelKey = (
@@ -63,7 +67,7 @@ const handleTopLevelKey = (
   data: Record<string, unknown>
 ): void => {
   if (rest) {
-    data[key] = coerceScalar(stripQuotes(rest));
+    data[key] = parseScalarValue(rest);
   } else if (data[key] === undefined) {
     data[key] = {};
   }
@@ -75,7 +79,7 @@ const handleNestedKey = (
   parentKey: string
 ): void => {
   const parent = (data[parentKey] ?? {}) as Record<string, unknown>;
-  parent[key] = coerceScalar(stripQuotes(rest));
+  parent[key] = parseScalarValue(rest);
   data[parentKey] = parent;
 };
 const processLine = (
@@ -121,12 +125,36 @@ const parseFrontmatter = (source: string): FrontmatterResult => {
   const content = lines.slice(endIndex + 1).join("\n");
   return { content, data };
 };
-export const parseMarkdownFile = (
-  source: string
-): {
+
+const MD_EXTENSION_REGEX = /\.md$/u;
+const SLUG_REGEX = /\/(?<slug>[^/]+)\.md$/u;
+
+export interface MarkdownEntry {
   data: Record<string, unknown>;
   markdown: string;
-} => {
-  const { data, content } = parseFrontmatter(source);
-  return { data, markdown: content };
+  slug: string;
+}
+
+export const loadMarkdownEntries = (
+  files: Record<string, string>
+): MarkdownEntry[] =>
+  Object.entries(files).map(([filePath, fileContents]) => {
+    const match = SLUG_REGEX.exec(filePath);
+    const slug =
+      match?.groups?.slug ?? filePath.replace(MD_EXTENSION_REGEX, "");
+    const { data, content } = parseFrontmatter(fileContents);
+    return { data, markdown: content, slug };
+  });
+
+export const requireFrontmatterString = (
+  data: Record<string, unknown>,
+  key: string
+): string => {
+  const value = data[key];
+  if (typeof value !== "string") {
+    throw new TypeError(
+      `Frontmatter field "${key}" is missing (found keys: ${Object.keys(data).join(", ") || "none"})`
+    );
+  }
+  return value;
 };

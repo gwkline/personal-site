@@ -12,6 +12,18 @@ Oxlint and Oxfmt provide fast Rust-based linting and formatting. Most issues are
 
 ---
 
+## Verification harness
+
+Run these before declaring any change done.
+
+- `bun run check` runs three gates: Ultracite format and lint, `tsc --noEmit`, and `scripts/check-style-hygiene.ts`. The hygiene gate rejects arbitrary hex colors and font sizes in Tailwind bracket syntax inside src/ (for example `text-[13px]` or `bg-[#fff]`). Use theme tokens instead.
+- `bun run test` runs unit tests once.
+- `bun run test:e2e` runs Playwright against the Vite dev server on port 3000. Install browsers first with `bun run test:e2e:install`. This is the gate: one command, all specs, six device projects, capped at four workers locally (`PLAYWRIGHT_WORKERS=n` to override).
+- `e2e/visual-baseline.spec.ts` pins pixel snapshots of eight pages on Desktop Chrome and iPhone 16. If a change intentionally shifts pixels, refresh with `bun run test:e2e:baselines -- --update-snapshots`, then run `bun run test:e2e:baselines` once; it captures every shot twice and compares each against the pin, so one run proves stability. Never refresh snapshots to make an unexplained diff disappear; investigate it instead. Run the full `bun run test:e2e` once before pushing.
+- The baselines mask live-data regions (aside, comments thread, github activity, dithered hero, tracker stats, post comment counts). Changes there get no automated pixel coverage, so verify them in a browser yourself. A measured pixel budget (`maxDiffPixels: 1500`) absorbs sub-pixel rasterization drift between dev-server sessions.
+
+---
+
 ## Core Principles
 
 Write code that is **accessible, performant, type-safe, and maintainable**. Focus on clarity and explicit intent over brevity.
