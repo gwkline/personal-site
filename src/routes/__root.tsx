@@ -20,6 +20,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Container, containerVariants } from "@/components/ui/container";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { WebMcpProvider } from "@/components/webmcp";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useVisualViewport } from "@/hooks/use-visual-viewport";
 import { getServerTheme } from "@/lib/theme";
@@ -98,6 +99,7 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => {
           storageKey="vite-ui-theme"
         >
           <TooltipProvider>
+            <WebMcpProvider />
             <CommentSidebarProvider>
               <div className="flex h-(--app-height,100dvh) bg-background">
                 <div

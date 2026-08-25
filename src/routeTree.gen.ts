@@ -20,6 +20,7 @@ import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
+import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const WallpaperLabRoute = WallpaperLabRouteImport.update({
@@ -77,6 +78,11 @@ const PostsSlugRoute = PostsSlugRouteImport.update({
   path: '/posts/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
+  '/api/health': typeof ApiHealthRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts/': typeof PostsIndexRoute
@@ -105,6 +112,7 @@ export interface FileRoutesByTo {
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
+  '/api/health': typeof ApiHealthRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts': typeof PostsIndexRoute
@@ -120,6 +128,7 @@ export interface FileRoutesById {
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
+  '/api/health': typeof ApiHealthRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/posts/': typeof PostsIndexRoute
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
+    | '/api/health'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts/'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
+    | '/api/health'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
+    | '/api/health'
     | '/posts/$slug'
     | '/work/$slug'
     | '/posts/'
@@ -179,6 +191,7 @@ export interface RootRouteChildren {
   PlaygroundRoute: typeof PlaygroundRoute
   StorybookRoute: typeof StorybookRoute
   WallpaperLabRoute: typeof WallpaperLabRoute
+  ApiHealthRoute: typeof ApiHealthRoute
   PostsSlugRoute: typeof PostsSlugRoute
   WorkSlugRoute: typeof WorkSlugRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -265,6 +278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -283,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlaygroundRoute: PlaygroundRoute,
   StorybookRoute: StorybookRoute,
   WallpaperLabRoute: WallpaperLabRoute,
+  ApiHealthRoute: ApiHealthRoute,
   PostsSlugRoute: PostsSlugRoute,
   WorkSlugRoute: WorkSlugRoute,
   PostsIndexRoute: PostsIndexRoute,

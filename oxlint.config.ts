@@ -7,6 +7,7 @@ export default defineConfig({
   extends: [core, react, tanstack],
   ignorePatterns: [
     ...(core.ignorePatterns ?? []),
+    "public/**",
     "**/src/routeTree.gen.ts",
     "**/convex/_generated/**",
     "**/src/styles.css",

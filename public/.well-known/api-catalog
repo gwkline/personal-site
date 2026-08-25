@@ -1,0 +1,35 @@
+{
+  "linkset": [
+    {
+      "alternate": [
+        {
+          "href": "https://gavinkline.com/rss.xml",
+          "type": "application/rss+xml"
+        },
+        {
+          "href": "https://gavinkline.com/sitemap.xml",
+          "type": "application/xml"
+        }
+      ],
+      "anchor": "https://gavinkline.com",
+      "service-desc": [
+        {
+          "href": "https://gavinkline.com/openapi.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://gavinkline.com/llms.txt",
+          "type": "text/plain"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://gavinkline.com/api/health",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "entries": [
+    {
+      "description": "Full-text feed of new essays and notes.",
+      "displayName": "Blog RSS feed",
+      "representativeQueries": [
+        "latest posts by gavin kline",
+        "gavinkline.com new articles",
+        "subscribe to gavin kline writing"
+      ],
+      "type": "application/rss+xml",
+      "url": "https://gavinkline.com/rss.xml",
+      "urn": "urn:air:gavinkline.com:content:rss"
+    },
+    {
+      "description": "Index of every post, project, and page with one-line summaries.",
+      "displayName": "Machine-readable site index",
+      "representativeQueries": [
+        "what has gavin kline written",
+        "list projects by gavin kline",
+        "gavinkline.com content index"
+      ],
+      "type": "text/plain",
+      "url": "https://gavinkline.com/llms.txt",
+      "urn": "urn:air:gavinkline.com:content:site-index"
+    },
+    {
+      "description": "All essays and notes, newest first. Markdown available via Accept: text/markdown.",
+      "displayName": "Post archive",
+      "representativeQueries": [
+        "gavin kline essays on software design",
+        "read gavinkline.com writing as markdown",
+        "software engineering writing by gavin kline"
+      ],
+      "type": "text/html",
+      "url": "https://gavinkline.com/posts",
+      "urn": "urn:air:gavinkline.com:content:posts"
+    }
+  ],
+  "host": "gavinkline.com",
+  "specVersion": "0.1"
+}

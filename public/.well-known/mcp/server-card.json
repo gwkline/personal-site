@@ -1,0 +1,8 @@
+{
+  "capabilities": {},
+  "description": "Placeholder card. gavinkline.com does not operate an MCP server yet; all content is available as plain resources via /llms.txt and Accept: text/markdown content negotiation.",
+  "serverInfo": {
+    "name": "gavinkline.com",
+    "version": "0.0.0"
+  }
+}

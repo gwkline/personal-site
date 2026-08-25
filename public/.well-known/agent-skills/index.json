@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agentskills.io/schemas/agent-skills-discovery-v0.2.0.json",
+  "skills": [
+    {
+      "description": "How to fetch gavinkline.com content as markdown, follow the llms.txt index, and subscribe to the RSS feed.",
+      "name": "site-guide",
+      "sha256": "0b75b090ed6a7d41eb87142ce2d740b58f558b37f93711a1316618fc9e9a76f1",
+      "type": "skill",
+      "url": "https://gavinkline.com/.well-known/agent-skills/site-guide/SKILL.md"
+    }
+  ]
+}

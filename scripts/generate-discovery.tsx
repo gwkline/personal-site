@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
@@ -269,8 +270,205 @@ ${projects
 `;
 writeFileSync(path.resolve(publicDir, "llms.txt"), llms);
 
+// Agent-readiness well-known files. Everything here is generated so the
+// ORIGIN stays consistent and digests match the published bytes.
+const wellKnownDir = path.resolve(publicDir, ".well-known");
+const agentSkillsDir = path.resolve(wellKnownDir, "agent-skills");
+mkdirSync(path.resolve(agentSkillsDir, "site-guide"), { recursive: true });
+
+const siteGuideSkill = `---
+name: site-guide
+description: >-
+  How to read gavinkline.com as an agent: fetch llms.txt for the content
+  index, use RSS for updates, and request any page with Accept:
+  text/markdown to get markdown instead of HTML.
+---
+
+# Reading gavinkline.com
+
+Start at /llms.txt. It links every post, project, and page with a one
+line summary.
+
+## Fetching content
+
+- Any page returns markdown when requested with \`Accept: text/markdown\`.
+- Post URLs also accept a \`.md\` suffix (for example
+  \`/posts/01-hello-world.md\`).
+- New posts are announced in /rss.xml.
+
+## Endpoints
+
+- /rss.xml: RSS 2.0 feed of posts.
+- /sitemap.xml: every indexable URL.
+- /api/health: JSON liveness probe.
+`;
+
+writeFileSync(
+  path.resolve(agentSkillsDir, "site-guide", "SKILL.md"),
+  siteGuideSkill
+);
+
+const siteGuideDigest = createHash("sha256")
+  .update(siteGuideSkill)
+  .digest("hex");
+const skillsIndex = {
+  $schema: "https://agentskills.io/schemas/agent-skills-discovery-v0.2.0.json",
+  skills: [
+    {
+      description:
+        "How to fetch gavinkline.com content as markdown, follow the llms.txt index, and subscribe to the RSS feed.",
+      name: "site-guide",
+      sha256: siteGuideDigest,
+      type: "skill",
+      url: `${ORIGIN}/.well-known/agent-skills/site-guide/SKILL.md`,
+    },
+  ],
+};
+writeFileSync(
+  path.resolve(agentSkillsDir, "index.json"),
+  `${JSON.stringify(skillsIndex, null, 2)}\n`
+);
+
+const apiCatalog = {
+  linkset: [
+    {
+      alternate: [
+        { href: `${ORIGIN}/rss.xml`, type: "application/rss+xml" },
+        { href: `${ORIGIN}/sitemap.xml`, type: "application/xml" },
+      ],
+      anchor: ORIGIN,
+      "service-desc": [
+        { href: `${ORIGIN}/openapi.json`, type: "application/json" },
+      ],
+      "service-doc": [{ href: `${ORIGIN}/llms.txt`, type: "text/plain" }],
+      status: [{ href: `${ORIGIN}/api/health`, type: "application/json" }],
+    },
+  ],
+};
+writeFileSync(
+  path.resolve(wellKnownDir, "api-catalog"),
+  `${JSON.stringify(apiCatalog, null, 2)}\n`
+);
+
+const openapi = {
+  info: {
+    description:
+      "Content site endpoints. All content is public; no authentication is required.",
+    title: "gavinkline.com",
+    version: "1.0.0",
+  },
+  openapi: "3.1.0",
+  paths: {
+    "/api/health": {
+      get: {
+        operationId: "getHealth",
+        responses: {
+          "200": {
+            content: {
+              "application/json": {
+                schema: {
+                  properties: { ok: { type: "boolean" } },
+                  type: "object",
+                },
+              },
+            },
+            description: "Service is healthy",
+          },
+        },
+        summary: "Liveness probe",
+      },
+    },
+  },
+  servers: [{ url: ORIGIN }],
+};
+writeFileSync(
+  path.resolve(publicDir, "openapi.json"),
+  `${JSON.stringify(openapi, null, 2)}\n`
+);
+
+const aiCatalog = {
+  entries: [
+    {
+      description: "Full-text feed of new essays and notes.",
+      displayName: "Blog RSS feed",
+      representativeQueries: [
+        "latest posts by gavin kline",
+        "gavinkline.com new articles",
+        "subscribe to gavin kline writing",
+      ],
+      type: "application/rss+xml",
+      url: `${ORIGIN}/rss.xml`,
+      urn: `urn:air:gavinkline.com:content:rss`,
+    },
+    {
+      description:
+        "Index of every post, project, and page with one-line summaries.",
+      displayName: "Machine-readable site index",
+      representativeQueries: [
+        "what has gavin kline written",
+        "list projects by gavin kline",
+        "gavinkline.com content index",
+      ],
+      type: "text/plain",
+      url: `${ORIGIN}/llms.txt`,
+      urn: `urn:air:gavinkline.com:content:site-index`,
+    },
+    {
+      description:
+        "All essays and notes, newest first. Markdown available via Accept: text/markdown.",
+      displayName: "Post archive",
+      representativeQueries: [
+        "gavin kline essays on software design",
+        "read gavinkline.com writing as markdown",
+        "software engineering writing by gavin kline",
+      ],
+      type: "text/html",
+      url: `${ORIGIN}/posts`,
+      urn: `urn:air:gavinkline.com:content:posts`,
+    },
+  ],
+  host: "gavinkline.com",
+  specVersion: "0.1",
+};
+writeFileSync(
+  path.resolve(wellKnownDir, "ai-catalog.json"),
+  `${JSON.stringify(aiCatalog, null, 2)}\n`
+);
+
+const mcpCard = {
+  capabilities: {},
+  description:
+    "Placeholder card. gavinkline.com does not operate an MCP server yet; all content is available as plain resources via /llms.txt and Accept: text/markdown content negotiation.",
+  serverInfo: {
+    name: "gavinkline.com",
+    version: "0.0.0",
+  },
+};
+mkdirSync(path.resolve(wellKnownDir, "mcp"), { recursive: true });
+writeFileSync(
+  path.resolve(wellKnownDir, "mcp", "server-card.json"),
+  `${JSON.stringify(mcpCard, null, 2)}\n`
+);
+
+const authMd = `# auth.md — gavinkline.com
+
+All content on this site is public. There are no agent-facing APIs that
+require authentication, so agents need no registration or credentials
+to read anything.
+
+- Content: fetch any page; request \`Accept: text/markdown\` for markdown.
+- Machine index: /llms.txt
+- Updates: /rss.xml
+- Health: /api/health
+
+The only authenticated surface is the owner's sign-in for the private
+editing features of the 75 Hard tracker. It is not available to agents
+and there is no agent registration path.
+`;
+writeFileSync(path.resolve(publicDir, "auth.md"), authMd);
+
 console.log(
   `discovery files written: rss.xml (${posts.length} posts), sitemap.xml (${
     STATIC_PATHS.length + posts.length + projects.length
-  } urls), llms.txt`
+  } urls), llms.txt, og images, well-known agent files`
 );
