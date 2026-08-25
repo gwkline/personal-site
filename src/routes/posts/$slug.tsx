@@ -11,9 +11,13 @@ import { Comments } from "@/components/comments";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
+import { gridVariants } from "@/components/ui/grid";
+import { MonoLabel } from "@/components/ui/mono-label";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Separator } from "@/components/ui/separator";
 import { getAdjacentPosts, getPostBySlug } from "@/lib/posts";
+import { cn } from "@/lib/utils";
 
 const routeApi = getRouteApi("/posts/$slug");
 const PostPage = () => {
@@ -61,9 +65,9 @@ const PostPage = () => {
 
       <Separator />
 
-      <div className="mx-auto w-full max-w-3xl">
+      <Container padding="none" width="narrow">
         <Comments postSlug={post.slug} />
-      </div>
+      </Container>
 
       <Separator />
 
@@ -73,7 +77,10 @@ const PostPage = () => {
           size="compact"
           title="Keep reading"
         />
-        <nav aria-label="Adjacent posts" className="grid gap-3 sm:grid-cols-2">
+        <nav
+          aria-label="Adjacent posts"
+          className={cn(gridVariants({ cols: "2", from: "sm", gap: "tight" }))}
+        >
           {adjacent.prev ? (
             <Button
               className="h-auto min-h-24 justify-start whitespace-normal p-4 text-left"
@@ -85,9 +92,9 @@ const PostPage = () => {
             >
               <ArrowLeft className="size-4 self-start text-primary" />
               <span className="min-w-0 space-y-1">
-                <span className="block font-mono text-[0.6875rem] text-muted-foreground uppercase tracking-[0.12em]">
+                <MonoLabel className="block" render={<span />}>
                   Previous
-                </span>
+                </MonoLabel>
                 <span className="line-clamp-2 block">
                   {adjacent.prev.title}
                 </span>
@@ -106,9 +113,9 @@ const PostPage = () => {
               variant="outline"
             >
               <span className="min-w-0 space-y-1">
-                <span className="block font-mono text-[0.6875rem] text-muted-foreground uppercase tracking-[0.12em]">
+                <MonoLabel className="block" render={<span />}>
                   Next
-                </span>
+                </MonoLabel>
                 <span className="line-clamp-2 block">
                   {adjacent.next.title}
                 </span>

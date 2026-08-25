@@ -138,18 +138,18 @@ const TitleOverlay = ({
 }: {
   readonly onStart: (mode: "daily" | "standard") => void;
 }) => (
-  <div className="pointer-events-auto absolute inset-0 overflow-y-auto bg-[#0f0d19]/90 p-5 text-center backdrop-blur-[2px]">
+  <div className="pointer-events-auto absolute inset-0 overflow-y-auto bg-depths-cave/90 p-5 text-center backdrop-blur-[2px]">
     <div className="mx-auto flex min-h-full max-w-2xl flex-col justify-center py-5">
       <div className="mx-auto mb-5 grid size-14 place-content-center rounded-xl border border-amber-200/20 bg-amber-300/10 text-amber-200">
         <DoorOpen className="size-7" />
       </div>
-      <p className="font-mono text-[0.65rem] text-amber-200 uppercase tracking-[0.22em]">
+      <p className="font-mono text-micro text-amber-200 uppercase tracking-[0.22em]">
         An endless descent
       </p>
-      <h1 className="mt-2 font-heading text-5xl font-semibold text-[#f4ecd8] tracking-[-0.06em] sm:text-6xl">
+      <h1 className="mt-2 font-heading text-5xl font-semibold text-depths-parchment tracking-[-0.06em] sm:text-6xl">
         Depths
       </h1>
-      <p className="mx-auto mt-3 max-w-lg text-[#aaa2b8] text-sm leading-relaxed">
+      <p className="mx-auto mt-3 max-w-lg text-depths-lilac text-sm leading-relaxed">
         One room at a time. Read the doorways, clear fights, claim relics from
         reward chambers, and reach the stairs before Dread catches up.
       </p>
@@ -172,10 +172,10 @@ const TitleOverlay = ({
             className="rounded-lg border border-white/10 bg-white/5 p-3"
             key={title}
           >
-            <span className="font-mono text-[0.65rem] text-amber-200 uppercase">
+            <span className="font-mono text-micro text-amber-200 uppercase">
               {title}
             </span>
-            <p className="mt-1 text-[#aaa2b8] text-xs leading-relaxed">
+            <p className="mt-1 text-depths-lilac text-xs leading-relaxed">
               {description}
             </p>
           </div>
@@ -195,7 +195,7 @@ const TitleOverlay = ({
           Daily seed
         </Button>
       </div>
-      <KbdGroup className="mt-5 flex-wrap justify-center text-[#8e879a]">
+      <KbdGroup className="mt-5 flex-wrap justify-center text-depths-mauve">
         <Kbd>WASD</Kbd>
         <span>move</span>
         <Kbd>Space</Kbd>
@@ -214,30 +214,30 @@ const RewardOverlay = ({
   readonly choices: readonly RelicKind[];
   readonly onChoose: (relic: RelicKind) => void;
 }) => (
-  <div className="pointer-events-auto absolute inset-0 grid place-content-center bg-[#0f0d19]/80 p-4 backdrop-blur-sm">
+  <div className="pointer-events-auto absolute inset-0 grid place-content-center bg-depths-cave/80 p-4 backdrop-blur-sm">
     <div className="w-full max-w-2xl">
       <div className="mb-5 text-center">
         <Sparkles className="mx-auto size-6 text-amber-200" />
-        <h2 className="mt-2 font-heading text-3xl text-[#f4ecd8]">
+        <h2 className="mt-2 font-heading text-3xl text-depths-parchment">
           Choose one relic
         </h2>
-        <p className="mt-1 text-[#aaa2b8] text-sm">
+        <p className="mt-1 text-depths-lilac text-sm">
           Every find pushes this run toward a different build.
         </p>
       </div>
       <div className="grid gap-2 sm:grid-cols-3">
         {choices.map((relic) => (
           <button
-            className="rounded-xl border border-white/12 bg-[#221e31]/95 p-4 text-left transition-[border-color,transform] duration-150 ease-out hover:-translate-y-0.5 hover:border-amber-200/40"
+            className="rounded-xl border border-white/12 bg-depths-stone/95 p-4 text-left transition-[border-color,transform] duration-150 ease-out hover:-translate-y-0.5 hover:border-amber-200/40"
             key={relic}
             onClick={() => onChoose(relic)}
             type="button"
           >
             <Shield className="mb-8 size-5 text-amber-200" />
-            <span className="block font-heading text-lg text-[#f4ecd8]">
+            <span className="block font-heading text-lg text-depths-parchment">
               {RELIC_LABELS[relic].name}
             </span>
-            <span className="mt-1 block text-[#aaa2b8] text-xs leading-relaxed">
+            <span className="mt-1 block text-depths-lilac text-xs leading-relaxed">
               {RELIC_LABELS[relic].description}
             </span>
           </button>
@@ -254,17 +254,17 @@ const LeaderboardRows = ({
 }) =>
   Match.value(leaderboard).pipe(
     Match.when({ _tag: "Initial" }, () => (
-      <p className="py-3 text-[#8e879a] text-xs">Leaderboard unavailable.</p>
+      <p className="py-3 text-depths-mauve text-xs">Leaderboard unavailable.</p>
     )),
     Match.when({ _tag: "Loading" }, () => (
-      <p className="py-3 text-[#8e879a] text-xs">Loading arcade scores…</p>
+      <p className="py-3 text-depths-mauve text-xs">Loading arcade scores…</p>
     )),
     Match.when({ _tag: "Failure" }, ({ message }) => (
       <p className="py-3 text-red-300 text-xs">{message}</p>
     )),
     Match.when({ _tag: "Success" }, ({ entries }) =>
       entries.length === 0 ? (
-        <p className="py-3 text-[#8e879a] text-xs">No scores yet.</p>
+        <p className="py-3 text-depths-mauve text-xs">No scores yet.</p>
       ) : (
         <ol className="mt-2 space-y-1">
           {entries.slice(0, 5).map((entry, index) => (
@@ -272,8 +272,8 @@ const LeaderboardRows = ({
               className="grid grid-cols-[1.5rem_1fr_auto] items-center gap-2 rounded bg-black/20 px-2 py-1 font-mono text-xs"
               key={`${entry.initials}-${entry.score}-${entry.createdAt}`}
             >
-              <span className="text-[#756e80]">{index + 1}</span>
-              <span className="text-[#e9e0c8]">{entry.initials}</span>
+              <span className="text-depths-slate">{index + 1}</span>
+              <span className="text-depths-bone">{entry.initials}</span>
               <span className="text-amber-200">
                 {entry.score.toLocaleString()}
               </span>
@@ -304,42 +304,42 @@ const GameOverOverlay = ({
   readonly score: number;
   readonly submission: SubmissionState;
 }) => (
-  <div className="pointer-events-auto absolute inset-0 grid place-content-center bg-[#0f0d19]/90 p-4 backdrop-blur">
-    <div className="w-full max-w-sm rounded-2xl border border-white/12 bg-[#1c1929] p-6 text-center shadow-2xl">
+  <div className="pointer-events-auto absolute inset-0 grid place-content-center bg-depths-cave/90 p-4 backdrop-blur">
+    <div className="w-full max-w-sm rounded-2xl border border-white/12 bg-depths-shard p-6 text-center shadow-2xl">
       <Trophy className="mx-auto size-7 text-amber-200" />
-      <h2 className="mt-3 font-heading text-3xl text-[#f4ecd8]">
+      <h2 className="mt-3 font-heading text-3xl text-depths-parchment">
         The Depths remember
       </h2>
       <div className="mt-5 grid grid-cols-2 gap-2">
         <div className="rounded-lg bg-black/25 p-3">
-          <span className="block font-mono text-[0.6rem] text-[#8e879a] uppercase">
+          <span className="block font-mono text-nano text-depths-mauve uppercase">
             Score
           </span>
-          <span className="mt-1 block font-mono text-xl text-[#f4ecd8]">
+          <span className="mt-1 block font-mono text-xl text-depths-parchment">
             {score.toLocaleString()}
           </span>
         </div>
         <div className="rounded-lg bg-black/25 p-3">
-          <span className="block font-mono text-[0.6rem] text-[#8e879a] uppercase">
+          <span className="block font-mono text-nano text-depths-mauve uppercase">
             Depth
           </span>
-          <span className="mt-1 block font-mono text-xl text-[#f4ecd8]">
+          <span className="mt-1 block font-mono text-xl text-depths-parchment">
             {floor}
           </span>
         </div>
       </div>
-      <label className="mt-5 block font-mono text-[0.65rem] text-[#aaa2b8] uppercase tracking-[0.15em]">
+      <label className="mt-5 block font-mono text-micro text-depths-lilac uppercase tracking-[0.15em]">
         Your initials
         <input
           aria-label="Leaderboard initials"
-          className="mt-2 block h-12 w-full rounded-lg border border-white/15 bg-black/30 text-center font-mono text-2xl text-[#f4ecd8] uppercase tracking-[0.35em] outline-none focus:border-amber-200/50"
+          className="mt-2 block h-12 w-full rounded-lg border border-white/15 bg-black/30 text-center font-mono text-2xl text-depths-parchment uppercase tracking-[0.35em] outline-none focus:border-amber-200/50"
           maxLength={3}
           onChange={(event) => onInitialsChange(event.target.value)}
           value={initials}
         />
       </label>
       <div className="mt-4 text-left">
-        <span className="font-mono text-[0.6rem] text-[#8e879a] uppercase tracking-[0.12em]">
+        <span className="font-mono text-nano text-depths-mauve uppercase tracking-[0.12em]">
           Arcade leaders
         </span>
         <LeaderboardRows leaderboard={leaderboard} />
@@ -404,8 +404,8 @@ const renderPhaseOverlay = (
       <RewardOverlay choices={choices} onChoose={actions.handleChoose} />
     )),
     Match.when({ _tag: "Paused" }, () => (
-      <div className="pointer-events-auto absolute inset-0 grid place-content-center bg-[#0f0d19]/75 backdrop-blur-sm">
-        <h2 className="font-heading text-4xl text-[#f4ecd8]">Paused</h2>
+      <div className="pointer-events-auto absolute inset-0 grid place-content-center bg-depths-cave/75 backdrop-blur-sm">
+        <h2 className="font-heading text-4xl text-depths-parchment">Paused</h2>
         <Button className="mt-5" onClick={actions.handleResume}>
           <Play className="size-4 fill-current" />
           Return
@@ -674,7 +674,7 @@ export const DepthsGame = () => {
   return (
     <section
       aria-label="Depths game"
-      className="relative flex size-full min-h-0 flex-col overflow-hidden bg-[#100f1c] text-white"
+      className="relative flex size-full min-h-0 flex-col overflow-hidden bg-depths-abyss text-white"
       data-phase={state?.phase._tag ?? "Loading"}
       data-player-x={state?.player.x}
       data-player-y={state?.player.y}
@@ -685,24 +685,24 @@ export const DepthsGame = () => {
         {state ? (
           <>
             {state.phase._tag === "Title" ? null : (
-              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-3 bg-linear-to-b from-[#100f1c]/95 via-[#100f1c]/70 to-transparent p-3 pb-10">
-                <div className="max-w-[min(72%,22rem)] rounded-lg border border-white/12 bg-[#161322]/92 px-3 py-2 shadow-lg ring-1 ring-black/40">
-                  <p className="font-mono text-[0.6rem] text-amber-200 uppercase tracking-[0.12em]">
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-3 bg-linear-to-b from-depths-abyss/95 via-depths-abyss/70 to-transparent p-3 pb-10">
+                <div className="max-w-[min(72%,22rem)] rounded-lg border border-white/12 bg-depths-panel/92 px-3 py-2 shadow-lg ring-1 ring-black/40">
+                  <p className="font-mono text-nano text-amber-200 uppercase tracking-[0.12em]">
                     Depth {state.floor.floor} · Objective
                   </p>
-                  <p className="mt-0.5 text-[#e9e0c8] text-xs leading-snug">
+                  <p className="mt-0.5 text-depths-bone text-xs leading-snug">
                     {objectiveFor(state)}
                   </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
-                  <Badge className="border-white/10 bg-[#161322]/92 text-white shadow-lg">
+                  <Badge className="border-white/10 bg-depths-panel/92 text-white shadow-lg">
                     {state.phase._tag}
                   </Badge>
                   {state.phase._tag !== "Paused" &&
                   state.phase._tag !== "GameOver" ? (
                     <Button
                       aria-label="Pause run"
-                      className="pointer-events-auto border-white/15 bg-[#161322]/92 text-white hover:bg-[#221e31]"
+                      className="pointer-events-auto border-white/15 bg-depths-panel/92 text-white hover:bg-depths-stone"
                       onClick={() => sessionRef.current?.pause()}
                       size="icon-sm"
                       variant="outline"
@@ -715,13 +715,13 @@ export const DepthsGame = () => {
             )}
             {error ? (
               <div className="absolute inset-x-3 top-19 z-30 flex justify-center md:top-16">
-                <output className="flex max-w-md items-start gap-2 rounded-lg border border-amber-200/25 bg-[#2a2214]/95 px-3 py-2 text-left text-amber-50 text-xs shadow-xl backdrop-blur-sm">
+                <output className="flex max-w-md items-start gap-2 rounded-lg border border-amber-200/25 bg-depths-glow/95 px-3 py-2 text-left text-amber-50 text-xs shadow-xl backdrop-blur-sm">
                   <span className="min-w-0 flex-1 leading-relaxed">
                     {error}
                   </span>
                   <button
                     aria-label="Dismiss notice"
-                    className="pointer-events-auto shrink-0 rounded px-1.5 py-0.5 font-mono text-[0.65rem] text-amber-100/80 uppercase tracking-wider hover:bg-white/10"
+                    className="pointer-events-auto shrink-0 rounded px-1.5 py-0.5 font-mono text-micro text-amber-100/80 uppercase tracking-wider hover:bg-white/10"
                     onClick={() => setError(null)}
                     type="button"
                   >
@@ -776,7 +776,7 @@ export const DepthsGame = () => {
             </div>
           </>
         ) : (
-          <div className="absolute inset-0 z-20 grid place-content-center bg-[#100f1c] font-mono text-xs text-[#8e879a] uppercase tracking-[0.16em]">
+          <div className="absolute inset-0 z-20 grid place-content-center bg-depths-abyss font-mono text-xs text-depths-mauve uppercase tracking-[0.16em]">
             Waking the dungeon…
           </div>
         )}

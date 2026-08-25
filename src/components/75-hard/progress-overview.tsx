@@ -66,7 +66,7 @@ export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
       />
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card variant="feature">
+        <Card elevated>
           <CardHeader>
             <CardAction>
               <fieldset className="flex w-fit gap-1 rounded-lg bg-muted p-1">
@@ -150,7 +150,7 @@ export const ProgressOverview = ({ days }: { days: ChallengeDay[] }) => {
           </CardContent>
         </Card>
 
-        <Card variant="feature">
+        <Card elevated>
           <CardHeader>
             <CardAction>
               <span className="rounded-lg bg-muted px-2.5 py-1.5 font-mono text-muted-foreground text-xs tabular-nums">

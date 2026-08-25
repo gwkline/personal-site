@@ -95,7 +95,7 @@ const ReadOnlyDay = ({ day }: { day: ChallengeDay }) => (
       <div className="grid gap-4 rounded-xl border bg-surface-sunken p-4">
         {day.runMiles === undefined ? null : (
           <div>
-            <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+            <p className="font-mono text-nano text-muted-foreground uppercase tracking-wider">
               Running
             </p>
             <p className="mt-1 font-mono text-xl tabular-nums">
@@ -105,7 +105,7 @@ const ReadOnlyDay = ({ day }: { day: ChallengeDay }) => (
         )}
         {day.note ? (
           <div>
-            <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+            <p className="font-mono text-nano text-muted-foreground uppercase tracking-wider">
               Field note
             </p>
             <p className="mt-1 text-sm leading-relaxed">{day.note}</p>
@@ -470,7 +470,7 @@ export const DayDetail = ({
           <DrawerHeader className="mx-auto w-full max-w-2xl border-b pb-4 text-left">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="mb-1 font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em]">
+                <p className="mb-1 font-mono text-nano text-muted-foreground uppercase tracking-[0.2em]">
                   Day {day.dayIndex} of 75
                 </p>
                 <DrawerTitle className="font-heading text-3xl font-semibold tracking-[-0.035em]">

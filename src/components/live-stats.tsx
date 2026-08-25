@@ -26,6 +26,8 @@ import { AuthDialog } from "@/components/auth-dialog";
 import { ReactionBar } from "@/components/reaction-bar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { MonoLabel } from "@/components/ui/mono-label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
@@ -119,7 +121,7 @@ export const LiveStatsNav = () => {
   const { toggle, isOpen } = useCommentSidebar();
   usePresence();
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1" data-testid="live-stats-nav">
       <Tooltip>
         <TooltipTrigger
           render={
@@ -130,9 +132,9 @@ export const LiveStatsNav = () => {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-chart-2 opacity-75" />
             <span className="relative inline-flex size-2 rounded-full bg-chart-2" />
           </span>
-          <span className="font-mono tabular-nums">
+          <MonoLabel className="tabular-nums" render={<span />} tone="inherit">
             {stats?.activeUsers ?? 0}
-          </span>
+          </MonoLabel>
           <span className="hidden text-muted-foreground sm:inline">online</span>
         </TooltipTrigger>
         <TooltipContent>Users active in the last 30 seconds</TooltipContent>
@@ -146,9 +148,13 @@ export const LiveStatsNav = () => {
             }
           >
             <Activity className="size-3" />
-            <span className="font-mono tabular-nums">
+            <MonoLabel
+              className="tabular-nums"
+              render={<span />}
+              tone="inherit"
+            >
               {stats?.totalSessions ?? 0}
-            </span>
+            </MonoLabel>
             <span className="hidden sm:inline">visitors</span>
           </TooltipTrigger>
           <TooltipContent>Total unique sessions all-time</TooltipContent>
@@ -165,9 +171,9 @@ export const LiveStatsNav = () => {
         variant="ghost"
       >
         <MessageCircle className="size-3.5" />
-        <span className="font-mono tabular-nums">
+        <MonoLabel className="tabular-nums" render={<span />} tone="inherit">
           {recentComments?.length ?? 0}
-        </span>
+        </MonoLabel>
         <span className="hidden sm:inline">
           {recentComments?.length === 1 ? "comment" : "comments"}
         </span>
@@ -227,7 +233,7 @@ const SidebarCommentActions = ({
     <ReactionBar commentId={commentId} compact />
     {canReply ? (
       <Button
-        className="h-5 gap-1 px-1.5 text-[10px]"
+        className="h-5 gap-1 px-1.5 text-nano"
         onClick={() => setShowReplyForm(!showReplyForm)}
         size="sm"
         variant="ghost"
@@ -238,7 +244,7 @@ const SidebarCommentActions = ({
     ) : null}
     {hasReplies ? (
       <Button
-        className="h-5 gap-1 px-1.5 text-[10px]"
+        className="h-5 gap-1 px-1.5 text-nano"
         onClick={() => setShowReplies(!showReplies)}
         size="sm"
         variant="ghost"
@@ -294,7 +300,7 @@ const SidebarReplyForm = ({
       />
       <div className="flex gap-1.5">
         <Button
-          className="h-6 text-[10px]"
+          className="h-6 text-nano"
           disabled={!content.trim() || isSubmitting}
           size="sm"
           type="submit"
@@ -303,7 +309,7 @@ const SidebarReplyForm = ({
           Reply
         </Button>
         <Button
-          className="h-6 text-[10px]"
+          className="h-6 text-nano"
           onClick={onClose}
           size="sm"
           type="button"
@@ -344,16 +350,16 @@ const SidebarReplyItem = ({
     <div className="group flex items-start gap-2 rounded border-l-2 border-l-primary/20 bg-muted/30 p-2">
       <Avatar className="size-5 shrink-0">
         <AvatarImage alt={reply.userName} src={reply.userImage} />
-        <AvatarFallback className="text-[8px]">
+        <AvatarFallback className="text-femto">
           {getInitials(reply.userName)}
         </AvatarFallback>
       </Avatar>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1">
-          <span className="truncate font-medium text-[10px]">
+          <span className="truncate font-medium text-nano">
             {reply.userName}
           </span>
-          <span className="text-[9px] text-muted-foreground">
+          <span className="text-pico text-muted-foreground">
             {formatDistanceToNow(new Date(reply.createdAt), {
               addSuffix: true,
             })}
@@ -447,7 +453,7 @@ const SidebarCommentItem = ({
     ? `on "${formatPostSlug(comment.postSlug)}"`
     : "in Guestbook";
   return (
-    <div className="group w-full rounded-xl border bg-card text-left shadow-elevation-1 transition-[border-color,box-shadow] hover:border-primary/20 hover:shadow-elevation-2">
+    <Card className="group w-full gap-0 py-0 text-left" variant="interactive">
       <div className="flex items-start">
         <button
           className="flex min-w-0 flex-1 cursor-pointer items-start gap-2 p-3 pr-1 text-left"
@@ -466,7 +472,7 @@ const SidebarCommentItem = ({
                 <span className="truncate font-medium text-xs">
                   {comment.userName}
                 </span>
-                <span className="shrink-0 text-[10px] text-muted-foreground">
+                <span className="shrink-0 text-nano text-muted-foreground">
                   {formatDistanceToNow(new Date(comment.createdAt), {
                     addSuffix: true,
                   })}
@@ -517,7 +523,7 @@ const SidebarCommentItem = ({
           ))}
         </div>
       ) : null}
-    </div>
+    </Card>
   );
 };
 const GlobalCommentForm = () => {

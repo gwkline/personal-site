@@ -4,11 +4,13 @@ import { ArrowRight } from "lucide-react";
 import { Comments } from "@/components/comments";
 import { ProjectCard } from "@/components/content-preview";
 import { DitheredLandscape } from "@/components/home/dithered-landscape";
+import { GitHubActivity } from "@/components/home/github-activity";
 import { Eyebrow } from "@/components/page-header";
 import { PlaygroundCard } from "@/components/playground-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Grid } from "@/components/ui/grid";
 import { SectionHeader } from "@/components/ui/section-header";
 import { playgroundItems } from "@/lib/playground";
 import { getProjects } from "@/lib/projects";
@@ -17,7 +19,7 @@ import type { Project } from "@/lib/projects";
 const routeApi = getRouteApi("/");
 const Hero = () => (
   <section
-    className="relative isolate -mx-4 min-h-184 overflow-hidden border-[#f09a58]/20 border-y bg-[#061633] sm:-mx-6 lg:mx-0 lg:min-h-200 lg:rounded-3xl lg:border"
+    className="relative isolate -mx-4 min-h-184 overflow-hidden border-hero-glow/20 border-y bg-hero-night sm:-mx-6 lg:mx-0 lg:min-h-200 lg:rounded-3xl lg:border"
     data-landscape-surface
   >
     <DitheredLandscape />
@@ -25,20 +27,20 @@ const Hero = () => (
     <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(2,8,25,0.68)_0%,rgba(2,8,25,0.3)_44%,transparent_72%)] lg:block" />
     <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_110px_rgba(1,5,18,0.46)]" />
 
-    <p className="pointer-events-none absolute top-5 right-5 z-10 border-[#f09a58]/45 border-l pl-3 font-mono text-[0.5625rem] text-[#f6c08f]/80 uppercase tracking-[0.18em] sm:top-8 sm:right-8">
+    <p className="pointer-events-none absolute top-5 right-5 z-10 border-hero-glow/45 border-l pl-3 font-mono text-pico text-hero-ember/80 uppercase tracking-[0.18em] sm:top-8 sm:right-8">
       Move to drift · press to disrupt
     </p>
 
     <div className="relative z-10 flex min-h-184 max-w-3xl flex-col justify-end px-6 py-8 sm:px-10 sm:py-10 lg:min-h-200 lg:px-14 lg:py-12">
       <div className="max-w-2xl">
-        <Eyebrow className="inline-flex rounded-full border border-[#f09a58]/25 bg-[#031024]/55 px-3 py-1.5 text-[#ffe0bd] shadow-[0_8px_28px_rgba(1,5,18,0.38)] backdrop-blur-sm">
+        <Eyebrow className="inline-flex rounded-full border border-hero-glow/25 bg-hero-deep/55 px-3 py-1.5 text-hero-light shadow-[0_8px_28px_rgba(1,5,18,0.38)] backdrop-blur-sm">
           Software craftsman · serial shipper
         </Eyebrow>
-        <h1 className="mt-6 font-heading text-5xl font-semibold leading-[0.96] tracking-[-0.055em] text-[#f4f0e8] text-balance sm:text-6xl lg:text-7xl">
+        <h1 className="mt-6 font-heading text-5xl font-semibold leading-[0.96] tracking-[-0.055em] text-hero-sand text-balance sm:text-6xl lg:text-7xl">
           Building dependable software for{" "}
-          <span className="text-[#f09a58]">ambitious ideas.</span>
+          <span className="text-hero-glow">ambitious ideas.</span>
         </h1>
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-[#b8c7d2] sm:text-lg">
+        <p className="mt-5 max-w-xl text-base leading-relaxed text-hero-haze sm:text-lg">
           I&apos;m Gavin, Head of Engineering at GovDash. I lead engineering and
           AI strategy while staying close to the architecture, the code, and the
           people using what we ship.
@@ -48,21 +50,21 @@ const Hero = () => (
           className="mt-7 flex flex-wrap gap-x-6 gap-y-3 border-white/15 border-t pt-5"
         >
           <Link
-            className="group flex items-center gap-2 font-mono text-[0.6875rem] text-[#d8e3e9] uppercase tracking-[0.12em] transition-colors duration-150 hover:text-[#f09a58]"
+            className="group flex items-center gap-2 font-mono text-micro text-hero-mist uppercase tracking-[0.12em] transition-colors duration-150 hover:text-hero-glow"
             to="/work"
           >
             Explore my work
             <ArrowRight className="size-3.5 transition-transform duration-150 group-hover:translate-x-1" />
           </Link>
           <Link
-            className="group flex items-center gap-2 font-mono text-[0.6875rem] text-[#d8e3e9] uppercase tracking-[0.12em] transition-colors duration-150 hover:text-[#f09a58]"
+            className="group flex items-center gap-2 font-mono text-micro text-hero-mist uppercase tracking-[0.12em] transition-colors duration-150 hover:text-hero-glow"
             to="/about"
           >
             More about me
             <ArrowRight className="size-3.5 transition-transform duration-150 group-hover:translate-x-1" />
           </Link>
           <Link
-            className="group flex items-center gap-2 font-mono text-[0.6875rem] text-[#d8e3e9] uppercase tracking-[0.12em] transition-colors duration-150 hover:text-[#f09a58]"
+            className="group flex items-center gap-2 font-mono text-micro text-hero-mist uppercase tracking-[0.12em] transition-colors duration-150 hover:text-hero-glow"
             to="/playground"
           >
             Playground
@@ -98,7 +100,7 @@ const FeaturedWork = ({ projects }: { projects: Project[] }) => {
         title="Current work and momentum"
       />
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <Grid cols="2" from="lg">
         {primaryProjects.map((project) => (
           <ProjectCard
             className="min-h-72"
@@ -107,10 +109,10 @@ const FeaturedWork = ({ projects }: { projects: Project[] }) => {
             showGraphic
           />
         ))}
-      </div>
+      </Grid>
 
       {supportProjects.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2">
+        <Grid cols="2" from="md">
           {supportProjects.map((project) => (
             <ProjectCard
               compact
@@ -119,7 +121,7 @@ const FeaturedWork = ({ projects }: { projects: Project[] }) => {
               showGraphic
             />
           ))}
-        </div>
+        </Grid>
       ) : null}
     </section>
   );
@@ -144,11 +146,11 @@ const LabPreview = () => (
       title="Experiments and other live wires"
     />
 
-    <div className="grid gap-4 lg:grid-cols-3">
+    <Grid cols="3" from="lg">
       {playgroundItems.map((item) => (
         <PlaygroundCard compact item={item} key={item.to} />
       ))}
-    </div>
+    </Grid>
   </section>
 );
 
@@ -159,7 +161,7 @@ const Guestbook = () => (
       eyebrow="Open channel"
       title="Leave a signal."
     />
-    <Card className="space-y-6 p-6 sm:p-8" variant="feature">
+    <Card className="space-y-6 p-6 sm:p-8" elevated>
       <div className="max-w-2xl border-b pb-6">
         <Badge variant="info">Guestbook</Badge>
         <h3 className="mt-4 font-heading text-2xl font-semibold tracking-[-0.035em]">
@@ -182,6 +184,7 @@ const HomePage = () => {
     <div className="space-y-24 pb-8 sm:space-y-28">
       <Hero />
       <FeaturedWork projects={featuredProjects} />
+      <GitHubActivity />
       <LabPreview />
       <Guestbook />
     </div>

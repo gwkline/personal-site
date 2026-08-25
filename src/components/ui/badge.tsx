@@ -15,7 +15,7 @@ const badgeVariants = cva(
     variants: {
       size: {
         default: "h-6 px-2.5 py-0.5 text-xs",
-        sm: "h-5 px-2 py-0 text-[0.6875rem]",
+        sm: "h-5 px-2 py-0 text-micro",
       },
       variant: {
         default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",

@@ -253,6 +253,47 @@ kbd {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --container-page: 64rem;
+  --container-article: 48rem;
+  --text-micro: 0.6875rem;
+  --text-nano: 0.625rem;
+  --text-pico: 0.5625rem;
+  --text-femto: 0.5rem;
+  --tracking-label: 0.08em;
+  --tracking-tag: 0.12em;
+  --tracking-eyebrow: 0.16em;
+}
+
+/* Static brand palettes. Non-inline so the --color-* vars are emitted to
+   :root and readable via var() as well as via generated utilities. */
+@theme {
+  --color-hero-night: #061633;
+  --color-hero-deep: #031024;
+  --color-hero-navy: #0b3f98;
+  --color-hero-blue: #3279c6;
+  --color-hero-sand: #f4f0e8;
+  --color-hero-mist: #d8e3e9;
+  --color-hero-haze: #b8c7d2;
+  --color-hero-glow: #f09a58;
+  --color-hero-ember: #f6c08f;
+  --color-hero-light: #ffe0bd;
+  --color-depths-abyss: #100f1c;
+  --color-depths-cave: #0f0d19;
+  --color-depths-panel: #161322;
+  --color-depths-stone: #221e31;
+  --color-depths-shard: #1c1929;
+  --color-depths-glow: #2a2214;
+  --color-depths-parchment: #f4ecd8;
+  --color-depths-bone: #e9e0c8;
+  --color-depths-lilac: #aaa2b8;
+  --color-depths-mauve: #8e879a;
+  --color-depths-slate: #756e80;
+  --color-lab-night: #070914;
+  --color-lab-cream: #f7f1e3;
+  --color-lab-flame: #ff5c35;
+  --color-lab-amber: #ffc857;
+  --color-lab-gold: #e9a23b;
+  --color-art-panel: #07080c;
 }
 
 @layer base {

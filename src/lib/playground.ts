@@ -1,8 +1,16 @@
 export type PlaygroundAccent = "amber" | "info" | "primary";
 
-export type PlaygroundGraphic = "depths" | "endurance" | "wallpaper";
+export type PlaygroundGraphic =
+  | "depths"
+  | "endurance"
+  | "storybook"
+  | "wallpaper";
 
-export type PlaygroundRoute = "/75-hard" | "/depths" | "/wallpaper-lab";
+export type PlaygroundRoute =
+  | "/75-hard"
+  | "/depths"
+  | "/storybook"
+  | "/wallpaper-lab";
 
 export interface PlaygroundItem {
   accent: PlaygroundAccent;
@@ -46,5 +54,16 @@ export const playgroundItems: readonly PlaygroundItem[] = [
       "An endless procedural dungeon with relic builds and arcade scores.",
     title: "Depths",
     to: "/depths",
+  },
+  {
+    accent: "info",
+    description:
+      "Every component on one page—tune tokens, variants, and states against real surfaces.",
+    eyebrow: "Reference · Living docs",
+    graphic: "storybook",
+    navDescription:
+      "A living gallery for dialing in components, variants, and tokens.",
+    title: "Storybook",
+    to: "/storybook",
   },
 ];

@@ -2,7 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, MessageCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { cardVariants } from "@/components/ui/card";
+import { Card, cardVariants } from "@/components/ui/card";
+import { MonoLabel } from "@/components/ui/mono-label";
 import type { Post } from "@/lib/posts";
 import type { Project } from "@/lib/projects";
 import { cn } from "@/lib/utils";
@@ -124,7 +125,7 @@ const PlantryGraphic = () => (
 const PersonalSiteGraphic = () => (
   <div
     aria-hidden="true"
-    className="h-24 overflow-hidden rounded-xl border bg-[#07080c]"
+    className="h-24 overflow-hidden rounded-xl border bg-art-panel"
   >
     <svg className="size-full" viewBox="0 0 320 96">
       <rect fill="#07080c" height="96" width="320" />
@@ -751,9 +752,9 @@ export const ProjectCard = ({
         <Badge size="sm" variant="outline">
           {projectTypeLabels[project.type]}
         </Badge>
-        <span className="font-mono text-[0.6875rem] text-muted-foreground uppercase tracking-[0.08em]">
+        <MonoLabel render={<span />} tracking="label">
           {project.period}
-        </span>
+        </MonoLabel>
       </div>
       <div className="space-y-1.5 pr-8">
         <h3 className="font-heading text-xl font-semibold tracking-[-0.03em] text-balance">
@@ -796,44 +797,50 @@ export const PostRow = ({
   post: Post;
   showGraphic?: boolean;
 }) => (
-  <Link
-    className={cn(
-      "group flex flex-col gap-3 rounded-xl border border-transparent px-4 py-4 transition-[background-color,border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-border hover:bg-card hover:shadow-elevation-1 sm:flex-row sm:items-center sm:justify-between",
-      className
-    )}
-    params={{ slug: post.slug }}
-    to="/posts/$slug"
+  <Card
+    className={cn("px-4 py-4 hover:-translate-y-0.5", className)}
+    variant="interactive"
   >
-    <div className="flex min-w-0 items-center gap-3">
-      {showGraphic ? <PostGraphic /> : null}
-      <div className="min-w-0 space-y-1.5">
-        <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-heading font-semibold tracking-[-0.02em] transition-colors group-hover:text-info">
-            {post.title}
-          </h3>
-          {compact
-            ? null
-            : post.tags?.map((tag) => (
-                <Badge key={tag} size="sm" variant="outline">
-                  {tag}
-                </Badge>
-              ))}
+    <Link
+      className="group flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+      params={{ slug: post.slug }}
+      to="/posts/$slug"
+    >
+      <div className="flex min-w-0 items-center gap-3">
+        {showGraphic ? <PostGraphic /> : null}
+        <div className="min-w-0 space-y-1.5">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-heading font-semibold tracking-[-0.02em] transition-colors group-hover:text-info">
+              {post.title}
+            </h3>
+            {compact
+              ? null
+              : post.tags?.map((tag) => (
+                  <Badge key={tag} size="sm" variant="outline">
+                    {tag}
+                  </Badge>
+                ))}
+          </div>
+          {post.description ? (
+            <p className="line-clamp-1 text-muted-foreground text-sm">
+              {post.description}
+            </p>
+          ) : null}
         </div>
-        {post.description ? (
-          <p className="line-clamp-1 text-muted-foreground text-sm">
-            {post.description}
-          </p>
-        ) : null}
       </div>
-    </div>
-    <div className="flex shrink-0 items-center gap-3 font-mono text-[0.6875rem] text-muted-foreground uppercase tracking-[0.08em]">
-      {commentCount > 0 ? (
-        <span className="flex items-center gap-1">
-          <MessageCircle className="size-3.5" />
-          {commentCount}
-        </span>
-      ) : null}
-      <span>{post.date}</span>
-    </div>
-  </Link>
+      <MonoLabel
+        className="flex shrink-0 items-center gap-3"
+        render={<div />}
+        tracking="label"
+      >
+        {commentCount > 0 ? (
+          <span className="flex items-center gap-1">
+            <MessageCircle className="size-3.5" />
+            {commentCount}
+          </span>
+        ) : null}
+        <span>{post.date}</span>
+      </MonoLabel>
+    </Link>
+  </Card>
 );

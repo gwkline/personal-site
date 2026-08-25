@@ -52,7 +52,7 @@ export const ReactionBar = ({
           <button
             className={cn(
               "flex items-center gap-0.5 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30",
-              compact ? "px-1 py-0.5 text-[10px]" : "px-1.5 py-0.5 text-xs",
+              compact ? "px-1 py-0.5 text-nano" : "px-1.5 py-0.5 text-xs",
               hasReacted
                 ? "border-primary/30 bg-primary/12 text-foreground"
                 : "border-border/70 bg-card text-muted-foreground hover:bg-muted hover:text-foreground",

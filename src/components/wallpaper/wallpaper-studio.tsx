@@ -393,7 +393,7 @@ const StudioFader = ({
         />
       </div>
       <span
-        className="line-clamp-2 min-h-6 text-[0.625rem] font-medium leading-3 text-muted-foreground"
+        className="line-clamp-2 min-h-6 text-nano font-medium leading-3 text-muted-foreground"
         title={label}
       >
         {label}
@@ -410,7 +410,7 @@ const PanelLabel = ({
   detail?: React.ReactNode;
 }) => (
   <div className="flex items-center justify-between gap-3">
-    <h2 className="font-mono text-[0.6875rem] font-medium text-primary uppercase tracking-[0.16em]">
+    <h2 className="font-mono text-micro font-medium text-primary uppercase tracking-[0.16em]">
       {children}
     </h2>
     {detail}
@@ -435,7 +435,7 @@ const ModeDock = ({
         <button
           aria-pressed={isActive}
           className={cn(
-            "flex min-w-fit items-center justify-center gap-1.5 rounded-sm px-2.5 py-2 text-[0.6875rem] font-semibold transition-[color,background-color,transform] duration-150 active:scale-[0.97]",
+            "flex min-w-fit items-center justify-center gap-1.5 rounded-sm px-2.5 py-2 text-micro font-semibold transition-[color,background-color,transform] duration-150 active:scale-[0.97]",
             isActive
               ? "bg-white/15 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.16)]"
               : "text-white/50 hover:bg-white/8 hover:text-white/85"
@@ -511,7 +511,7 @@ const Inspector = ({
               <h2 className="font-heading text-lg font-semibold tracking-[-0.035em]">
                 {activeMode.name}
               </h2>
-              <p className="mt-0.5 text-[0.6875rem] leading-relaxed text-muted-foreground">
+              <p className="mt-0.5 text-micro leading-relaxed text-muted-foreground">
                 {activeMode.description}
               </p>
             </div>
@@ -545,7 +545,7 @@ const Inspector = ({
                   <span className="block text-xs font-semibold">
                     {config.ecoMode ? "Adaptive" : "High fidelity"}
                   </span>
-                  <span className="block text-[0.625rem] text-muted-foreground">
+                  <span className="block text-nano text-muted-foreground">
                     {config.ecoMode
                       ? "30 fps · capped DPR"
                       : "60 fps · full DPR"}
@@ -627,7 +627,7 @@ const Inspector = ({
                       type="color"
                       value={customPalette.colors[index]}
                     />
-                    <span className="truncate text-[0.5625rem] text-muted-foreground">
+                    <span className="truncate text-pico text-muted-foreground">
                       {CUSTOM_COLOR_LABELS[index]}
                     </span>
                   </label>
@@ -995,7 +995,7 @@ export const WallpaperStudio = () => {
               <h1 className="truncate font-heading text-sm font-semibold tracking-tight">
                 Motion canvas
               </h1>
-              <p className="hidden font-mono text-[0.5rem] text-muted-foreground uppercase tracking-[0.13em] sm:block">
+              <p className="hidden font-mono text-femto text-muted-foreground uppercase tracking-[0.13em] sm:block">
                 Generative wallpaper studio
               </p>
             </div>

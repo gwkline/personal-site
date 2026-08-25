@@ -13,7 +13,6 @@ const cardVariants = cva(
     variants: {
       variant: {
         default: "bg-card shadow-elevation-1",
-        feature: "rounded-2xl bg-card shadow-elevation-2 ring-1 ring-primary/8",
         glass:
           "border-foreground/10 bg-card/78 shadow-elevation-2 backdrop-blur-xl",
         interactive:
@@ -30,16 +29,22 @@ const Card = ({
   className,
   size = "default",
   variant = "default",
+  elevated = false,
   ...props
 }: React.ComponentProps<"div"> &
   VariantProps<typeof cardVariants> & {
     size?: "default" | "sm";
+    elevated?: boolean;
   }) => (
   <div
     data-slot="card"
     data-size={size}
     data-variant={variant}
-    className={cn(cardVariants({ variant }), className)}
+    className={cn(
+      cardVariants({ variant }),
+      elevated && "rounded-2xl ring-1 ring-primary/8 shadow-elevation-2",
+      className
+    )}
     {...props}
   />
 );

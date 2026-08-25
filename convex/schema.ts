@@ -44,6 +44,31 @@ export default defineSchema({
     .index("by_created", ["createdAt"])
     .index("by_run", ["runId"])
     .index("by_score", ["score"]),
+  // Cached snapshot of public GitHub activity, refreshed by cron.
+  githubSnapshots: defineTable({
+    events: v.array(
+      v.object({
+        createdAt: v.number(),
+        id: v.string(),
+        kind: v.string(),
+        message: v.string(),
+        repo: v.string(),
+        url: v.optional(v.string()),
+      })
+    ),
+    fetchedAt: v.number(),
+    key: v.string(),
+    repos: v.array(
+      v.object({
+        description: v.optional(v.string()),
+        language: v.optional(v.string()),
+        name: v.string(),
+        pushedAt: v.number(),
+        stars: v.number(),
+        url: v.string(),
+      })
+    ),
+  }).index("by_key", ["key"]),
   hard75Challenges: defineTable({
     createdAt: v.number(),
     endDate: v.string(),

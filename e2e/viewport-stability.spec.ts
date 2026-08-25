@@ -10,8 +10,8 @@ import {
 } from "./lib/viewport";
 
 test.describe("mobile viewport", () => {
-  test.beforeEach((_, testInfo) => {
-    test.skip(!isMobile(testInfo.project.name), "mobile / tablet only");
+  test.beforeEach(() => {
+    test.skip(!isMobile(test.info().project.name), "mobile / tablet only");
   });
 
   test("scroll and tap stay unshifted", async ({ page }) => {

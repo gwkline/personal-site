@@ -10,8 +10,10 @@
 
 import type * as auth from "../auth.js";
 import type * as comments from "../comments.js";
+import type * as crons from "../crons.js";
 import type * as depths from "../depths.js";
 import type * as depthsData from "../depthsData.js";
+import type * as github from "../github.js";
 import type * as hard75 from "../hard75.js";
 import type * as http from "../http.js";
 import type * as lib_owner from "../lib/owner.js";
@@ -26,8 +28,10 @@ import type {
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   comments: typeof comments;
+  crons: typeof crons;
   depths: typeof depths;
   depthsData: typeof depthsData;
+  github: typeof github;
   hard75: typeof hard75;
   http: typeof http;
   "lib/owner": typeof lib_owner;

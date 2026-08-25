@@ -33,7 +33,7 @@ export const Stat = ({
   value: React.ReactNode;
 } & VariantProps<typeof statVariants>) => (
   <div className={cn(statVariants({ variant }), className)} data-slot="stat">
-    <p className="flex items-center justify-between gap-2 font-medium text-[0.6875rem] text-muted-foreground uppercase tracking-[0.08em]">
+    <p className="flex items-center justify-between gap-2 font-medium text-micro text-muted-foreground uppercase tracking-[0.08em]">
       {label}
       {icon}
     </p>

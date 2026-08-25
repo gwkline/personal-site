@@ -25,6 +25,8 @@ The site is served at [http://localhost:3000](http://localhost:3000).
 
 Convex creates the required local environment files during project setup. The application expects `VITE_CONVEX_URL` and `VITE_CONVEX_SITE_URL` when exercising data-backed or authentication routes. Set `OWNER_EMAIL` in the Convex deployment to the Better Auth email allowed to edit The Long Game tracker; all other visitors receive the public, read-only view.
 
+The home page GitHub widget is powered by an hourly Convex cron (`convex/crons.ts`) and works out of the box for the `gwkline` account. Optionally set `GITHUB_USERNAME` to point at a different account and `GITHUB_TOKEN` (a classic PAT with no scopes is enough) in the Convex deployment to raise API rate limits: `npx convex env set GITHUB_TOKEN ghp_...`.
+
 ## Scripts
 
 - `bun run dev` — initialize Convex, then run Vite+ and Convex together

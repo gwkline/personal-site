@@ -30,7 +30,7 @@ const FallbackLayout = ({ children }: { children: React.ReactNode }) => (
 
 const NotFoundFallback = () => (
   <FallbackLayout>
-    <Card className="w-full" variant="feature">
+    <Card className="w-full" elevated>
       <CardHeader>
         <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-info/12 text-info ring-1 ring-info/18">
           <SearchX aria-hidden="true" className="size-5" />
@@ -57,7 +57,7 @@ const NotFoundFallback = () => (
 
 const ErrorFallback = ({ error, reset }: ErrorComponentProps) => (
   <FallbackLayout>
-    <Card className="w-full" variant="feature">
+    <Card className="w-full" elevated>
       <CardHeader>
         <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-destructive/10 text-destructive ring-1 ring-destructive/15">
           <TriangleAlert aria-hidden="true" className="size-5" />

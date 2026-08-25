@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/page-header";
 import { PlaygroundCard } from "@/components/playground-card";
 import { Badge } from "@/components/ui/badge";
+import { Grid } from "@/components/ui/grid";
 import { playgroundItems } from "@/lib/playground";
 
 const PlaygroundPage = () => (
@@ -14,7 +15,7 @@ const PlaygroundPage = () => (
       title="Playground"
     />
 
-    <div className="grid gap-4 md:grid-cols-2">
+    <Grid cols="2" from="md">
       {playgroundItems.map((item, index) => (
         <PlaygroundCard
           className={
@@ -24,7 +25,7 @@ const PlaygroundPage = () => (
           key={item.to}
         />
       ))}
-    </div>
+    </Grid>
   </div>
 );
 export const Route = createFileRoute("/playground")({

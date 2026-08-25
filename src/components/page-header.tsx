@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 
+import { MonoLabel } from "@/components/ui/mono-label";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
@@ -27,15 +28,9 @@ export const Eyebrow = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <p
-    className={cn(
-      "font-mono text-[0.6875rem] font-medium text-primary uppercase tracking-[0.16em]",
-      className
-    )}
-    data-slot="eyebrow"
-  >
+  <MonoLabel className={className} tone="primary" tracking="eyebrow">
     {children}
-  </p>
+  </MonoLabel>
 );
 
 export const PageHeader = ({

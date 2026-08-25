@@ -7,9 +7,9 @@ import { RESPONSIVE_WIDTHS, SITE_PAGES } from "./lib/routes";
 import { expectStableViewport } from "./lib/viewport";
 
 test.describe("responsive widths", () => {
-  test.beforeEach((_, testInfo) => {
+  test.beforeEach(() => {
     test.skip(
-      testInfo.project.name !== "Desktop Chrome",
+      test.info().project.name !== "Desktop Chrome",
       "Desktop Chrome only"
     );
   });

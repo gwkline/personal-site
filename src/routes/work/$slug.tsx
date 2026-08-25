@@ -12,9 +12,11 @@ import { ProjectGraphic } from "@/components/content-preview";
 import { Eyebrow } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { gridVariants } from "@/components/ui/grid";
 import { SectionHeader } from "@/components/ui/section-header";
 import { getProjectBySlug } from "@/lib/projects";
 import type { Project } from "@/lib/projects";
+import { cn } from "@/lib/utils";
 
 const routeApi = getRouteApi("/work/$slug");
 const getProjectTypeLabel = (type: Project["type"]): string => {
@@ -54,7 +56,12 @@ const ProjectDetailPage = () => {
         Back to work
       </Button>
 
-      <section className="grid gap-6 border-b pb-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,0.78fr)] lg:items-center">
+      <section
+        className={cn(
+          "border-b pb-8",
+          gridVariants({ gap: "loose", split: "hero" })
+        )}
+      >
         <div className="space-y-4">
           <Eyebrow>{`${getProjectTypeLabel(project.type)} · ${project.period}`}</Eyebrow>
           <div className="space-y-3">
@@ -124,7 +131,7 @@ const ProjectDetailPage = () => {
       </section>
 
       {project.description ? (
-        <section className="grid gap-6 lg:grid-cols-[0.26fr_1fr] lg:gap-12">
+        <section className={gridVariants({ gap: "loose", split: "rail" })}>
           <SectionHeader
             eyebrow="Case study"
             size="compact"

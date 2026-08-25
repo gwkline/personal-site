@@ -12,7 +12,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:full": "PLAYWRIGHT_FULL_MATRIX=1 playwright test",
     "test:e2e:report": "playwright show-report",
-    "check": "ultracite check && tsc --noEmit",
+    "check": "ultracite check && tsc --noEmit && bun scripts/check-style-hygiene.ts",
     "fix": "ultracite fix",
     "typecheck": "tsc --noEmit"
   },

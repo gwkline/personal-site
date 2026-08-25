@@ -107,7 +107,7 @@ export const TrackerGrid = ({
           {day.isComplete ? (
             <Check className="absolute right-1.5 bottom-1.5 size-3.5 opacity-80" />
           ) : (
-            <span className="absolute right-1.5 bottom-1.5 text-[9px] opacity-70">
+            <span className="absolute right-1.5 bottom-1.5 text-pico opacity-70">
               {day.isFuture
                 ? "—"
                 : `${day.completedCount}/${REQUIREMENT_COUNT}`}

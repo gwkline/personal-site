@@ -143,7 +143,7 @@ const CommentActions = ({
     <ReactionBar commentId={commentId} compact={compact} />
     {!isReply && isSignedIn ? (
       <Button
-        className={cn("h-6 gap-1 px-2", compact ? "text-[10px]" : "text-xs")}
+        className={cn("h-6 gap-1 px-2", compact ? "text-nano" : "text-xs")}
         onClick={onToggleReplyForm}
         size="sm"
         variant="ghost"
@@ -154,7 +154,7 @@ const CommentActions = ({
     ) : null}
     {hasReplies && !isReply ? (
       <Button
-        className={cn("h-6 gap-1 px-2", compact ? "text-[10px]" : "text-xs")}
+        className={cn("h-6 gap-1 px-2", compact ? "text-nano" : "text-xs")}
         onClick={onToggleReplies}
         size="sm"
         variant="ghost"
@@ -203,7 +203,7 @@ const getCommentStyles = (compact: boolean) => ({
   container: compact ? "p-3" : "p-4",
   content: compact ? "text-xs" : "text-sm",
   fallback: compact ? "text-xs" : "",
-  metadata: compact ? "text-[10px]" : "text-xs",
+  metadata: compact ? "text-nano" : "text-xs",
   name: compact ? "text-xs" : "text-sm",
 });
 const CommentItem = ({
@@ -236,13 +236,14 @@ const CommentItem = ({
   const hasReplies = (comment.replyCount ?? 0) > 0;
   const styles = getCommentStyles(compact);
   return (
-    <article
+    <Card
       className={cn(
-        "group rounded-xl border bg-card shadow-elevation-1 transition-[border-color,box-shadow] hover:border-primary/20 hover:shadow-elevation-2",
+        "group",
         styles.container,
         isReply && "ml-8 border-l-2 border-l-info/35 bg-card/80"
       )}
       id={`comment-${comment._id}`}
+      variant="interactive"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
@@ -314,7 +315,7 @@ const CommentItem = ({
           ))}
         </div>
       )}
-    </article>
+    </Card>
   );
 };
 export const Comments = ({
@@ -453,7 +454,10 @@ export const Comments = ({
     ));
   };
   return (
-    <section className={cn("space-y-6", compact && "space-y-4")}>
+    <section
+      className={cn("space-y-6", compact && "space-y-4")}
+      data-testid="comments-thread"
+    >
       {!compact && (
         <SectionHeader
           action={

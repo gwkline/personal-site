@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import {
   ArrowUpRight,
+  Component,
   DoorOpen,
   Route as RouteIcon,
   Waves,
@@ -55,17 +56,18 @@ const accentStyles = {
 const graphicIcons = {
   depths: DoorOpen,
   endurance: RouteIcon,
+  storybook: Component,
   wallpaper: Waves,
 } satisfies Record<PlaygroundGraphic, LucideIcon>;
 
 const WallpaperVisual = () => (
   <div
     aria-hidden="true"
-    className="relative my-7 h-32 overflow-hidden rounded-xl border bg-[#070914]"
+    className="relative my-7 h-32 overflow-hidden rounded-xl border bg-lab-night"
   >
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(247,241,227,0.1),transparent_30%),radial-gradient(circle_at_82%_74%,rgba(255,92,53,0.12),transparent_36%),linear-gradient(135deg,#070914_0%,#0d0c14_46%,#16100f_100%)]" />
-    <div className="absolute -top-16 left-4 h-36 w-64 rotate-[-18deg] rounded-full bg-[#f7f1e3]/8 blur-2xl transition-transform duration-300 ease-out group-hover/card:translate-x-4" />
-    <div className="absolute right-0 -bottom-14 h-32 w-56 rotate-[16deg] rounded-full bg-[#ff5c35]/12 blur-2xl transition-transform duration-300 ease-out group-hover/card:-translate-x-3" />
+    <div className="absolute -top-16 left-4 h-36 w-64 rotate-[-18deg] rounded-full bg-lab-cream/8 blur-2xl transition-transform duration-300 ease-out group-hover/card:translate-x-4" />
+    <div className="absolute right-0 -bottom-14 h-32 w-56 rotate-[16deg] rounded-full bg-lab-flame/12 blur-2xl transition-transform duration-300 ease-out group-hover/card:-translate-x-3" />
     <svg
       className="absolute inset-0 size-full"
       preserveAspectRatio="none"
@@ -129,7 +131,7 @@ const WallpaperVisual = () => (
       </g>
     </svg>
     <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent_0,transparent_2px,rgba(247,241,227,0.035)_3px)] opacity-70 mix-blend-screen" />
-    <span className="absolute top-3 left-3 font-mono text-[0.5625rem] text-[#ffc857] uppercase tracking-[0.14em]">
+    <span className="absolute top-3 left-3 font-mono text-pico text-lab-amber uppercase tracking-[0.14em]">
       Flow / granite field
     </span>
     <div className="absolute right-3 bottom-3 flex gap-1.5">
@@ -188,10 +190,10 @@ const EnduranceVisual = () => (
         strokeWidth="1.5"
       />
     </svg>
-    <span className="absolute top-3 left-3 font-mono text-[0.5625rem] text-primary uppercase tracking-[0.14em]">
+    <span className="absolute top-3 left-3 font-mono text-pico text-primary uppercase tracking-[0.14em]">
       NYC / 26.2 miles
     </span>
-    <span className="absolute right-3 bottom-3 rounded-md border bg-card/80 px-2 py-1 font-mono text-[0.5625rem] text-muted-foreground backdrop-blur">
+    <span className="absolute right-3 bottom-3 rounded-md border bg-card/80 px-2 py-1 font-mono text-pico text-muted-foreground backdrop-blur">
       DAY 01 → 75
     </span>
   </div>
@@ -235,9 +237,33 @@ const DepthsVisual = () => (
         strokeOpacity="0.28"
       />
     </svg>
-    <span className="absolute top-3 left-3 font-mono text-[0.5625rem] text-amber-700 uppercase tracking-[0.14em] dark:text-amber-200">
+    <span className="absolute top-3 left-3 font-mono text-pico text-amber-700 uppercase tracking-[0.14em] dark:text-amber-200">
       Choose a door
     </span>
+  </div>
+);
+
+const StorybookVisual = () => (
+  <div
+    aria-hidden="true"
+    className="relative my-7 h-32 overflow-hidden rounded-xl border bg-surface-sunken"
+  >
+    <div className="absolute inset-y-2 left-2 w-10 rounded-md border bg-card p-1.5">
+      <span className="block h-1 w-5 rounded-full bg-primary/60" />
+      <span className="mt-1.5 block h-1 w-6 rounded-full bg-muted-foreground/25" />
+      <span className="mt-1.5 block h-1 w-4 rounded-full bg-muted-foreground/20" />
+      <span className="mt-1.5 block h-1 w-6 rounded-full bg-muted-foreground/20" />
+      <span className="mt-1.5 block h-1 w-5 rounded-full bg-muted-foreground/20" />
+    </div>
+    <div className="absolute inset-y-2 left-15 right-2 rounded-md border bg-card p-2 [background-image:radial-gradient(color-mix(in_oklch,var(--border)_80%,transparent)_1px,transparent_1px)] [background-size:8px_8px]">
+      <span className="block h-6 w-16 rounded-md bg-primary shadow-elevation-1 transition-transform duration-300 ease-out group-hover/card:-translate-y-0.5" />
+      <span className="mt-1.5 flex gap-1.5">
+        <span className="h-4 w-9 rounded-full bg-info/25 ring-1 ring-info/30" />
+        <span className="h-4 w-12 rounded-full bg-success/20 ring-1 ring-success/25" />
+        <span className="h-4 w-7 rounded-full bg-destructive/15 ring-1 ring-destructive/25" />
+      </span>
+      <span className="mt-2 block h-8 rounded-md border bg-surface-sunken/60" />
+    </div>
   </div>
 );
 
@@ -251,6 +277,9 @@ const PlaygroundVisual = ({ graphic }: { graphic: PlaygroundGraphic }) => {
     }
     case "depths": {
       return <DepthsVisual />;
+    }
+    case "storybook": {
+      return <StorybookVisual />;
     }
     default: {
       const exhaustiveGraphic: never = graphic;
@@ -309,7 +338,7 @@ export const PlaygroundCard = ({
 
       <p
         className={cn(
-          "mb-2 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.16em]",
+          "mb-2 font-mono text-micro font-medium uppercase tracking-[0.16em]",
           styles.eyebrow
         )}
       >

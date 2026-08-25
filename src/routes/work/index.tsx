@@ -2,6 +2,7 @@ import { createFileRoute, getRouteApi } from "@tanstack/react-router";
 
 import { ProjectCard } from "@/components/content-preview";
 import { PageHeader } from "@/components/page-header";
+import { Grid } from "@/components/ui/grid";
 import { SectionHeader } from "@/components/ui/section-header";
 import { getProjects } from "@/lib/projects";
 
@@ -26,11 +27,11 @@ const WorkPage = () => {
             eyebrow="Professional"
             title="Systems built for real-world use"
           />
-          <div className="grid gap-4 md:grid-cols-2">
+          <Grid cols="2" from="md">
             {workProjects.map((project) => (
               <ProjectCard key={project.slug} project={project} showGraphic />
             ))}
-          </div>
+          </Grid>
         </section>
       )}
 
@@ -41,11 +42,11 @@ const WorkPage = () => {
             eyebrow="Personal"
             title="Ideas taken all the way to code"
           />
-          <div className="grid gap-4 md:grid-cols-2">
+          <Grid cols="2" from="md">
             {personalProjects.map((project) => (
               <ProjectCard key={project.slug} project={project} showGraphic />
             ))}
-          </div>
+          </Grid>
         </section>
       )}
 
@@ -56,11 +57,11 @@ const WorkPage = () => {
             eyebrow="Open source"
             title="Useful work, shared"
           />
-          <div className="grid gap-4 md:grid-cols-2">
+          <Grid cols="2" from="md">
             {ossProjects.map((project) => (
               <ProjectCard key={project.slug} project={project} showGraphic />
             ))}
-          </div>
+          </Grid>
         </section>
       )}
     </div>

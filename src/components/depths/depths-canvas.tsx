@@ -30,7 +30,7 @@ export const DepthsCanvas = ({ onSession }: DepthsCanvasProps) => {
   return (
     <canvas
       aria-label="Depths procedurally generated dungeon"
-      className="block size-full touch-none bg-[#100f1c] [image-rendering:pixelated]"
+      className="block size-full touch-none bg-depths-abyss [image-rendering:pixelated]"
       data-testid="depths-canvas"
       ref={canvasRef}
       tabIndex={0}

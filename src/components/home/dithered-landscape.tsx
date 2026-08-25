@@ -440,7 +440,7 @@ export const DitheredLandscape = () => {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 overflow-hidden bg-[#061633]"
+      className="absolute inset-0 overflow-hidden bg-hero-night"
       data-testid="dithered-landscape"
     >
       <img

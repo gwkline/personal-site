@@ -11,7 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Grid, gridVariants } from "@/components/ui/grid";
 import { SectionHeader } from "@/components/ui/section-header";
+import { cn } from "@/lib/utils";
 
 const skills = [
   "Go",
@@ -63,7 +65,7 @@ const AboutPage = () => (
         eyebrow="Background"
         title="Across the stack and close to the work"
       />
-      <div className="grid gap-4 lg:grid-cols-2">
+      <Grid cols="2" from="lg">
         <Card variant="muted">
           <CardHeader>
             <CardTitle variant="section">A fast start</CardTitle>
@@ -80,7 +82,7 @@ const AboutPage = () => (
           </CardContent>
         </Card>
 
-        <Card variant="feature">
+        <Card elevated>
           <CardHeader>
             <CardTitle variant="section">Leading at GovDash</CardTitle>
             <CardDescription size="lg">
@@ -96,8 +98,8 @@ const AboutPage = () => (
             Capture and Discover.
           </CardContent>
         </Card>
-      </div>
-      <p className="max-w-3xl text-muted-foreground leading-relaxed">
+      </Grid>
+      <p className="max-w-article text-muted-foreground leading-relaxed">
         Previously, I built marketplace infrastructure at Whop supporting more
         than 1M monthly active users, served as VP of Software Engineering at
         Gorjian Acquisitions, and developed mission-critical software at CACI
@@ -106,7 +108,10 @@ const AboutPage = () => (
     </section>
 
     <section
-      className="scroll-mt-24 grid gap-7 lg:grid-cols-[0.7fr_1.3fr] lg:items-start"
+      className={cn(
+        "scroll-mt-24",
+        gridVariants({ gap: "section", split: "sidebar-left" })
+      )}
       id="working-style"
     >
       <SectionHeader

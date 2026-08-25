@@ -69,7 +69,7 @@ export const ChallengeHero = ({
   return (
     <Card
       className="relative overflow-hidden bg-[radial-gradient(circle_at_85%_0%,color-mix(in_oklch,var(--primary)_14%,transparent),transparent_42%),var(--card)]"
-      variant="feature"
+      elevated
     >
       <div className="absolute inset-x-8 top-0 h-px bg-linear-to-r from-transparent via-primary/70 to-transparent" />
       <CardHeader>

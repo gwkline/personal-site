@@ -58,7 +58,7 @@ type NavSubitem =
   | {
       description: string;
       title: string;
-      to: "/75-hard" | "/depths" | "/wallpaper-lab";
+      to: "/75-hard" | "/depths" | "/storybook" | "/wallpaper-lab";
     }
   | {
       description: string;
@@ -201,10 +201,10 @@ const NavGraphicPreview = ({ path }: Pick<NavItem, "path">) => {
         aria-hidden="true"
         className="relative grid h-20 place-content-center overflow-hidden rounded-xl border bg-[radial-gradient(circle_at_center,color-mix(in_oklch,var(--primary)_18%,transparent),transparent_65%),var(--surface-sunken)]"
       >
-        <span className="absolute top-2 left-2 rounded border bg-card/80 px-1.5 py-0.5 font-mono text-[0.5rem] text-muted-foreground shadow-sm">
+        <span className="absolute top-2 left-2 rounded border bg-card/80 px-1.5 py-0.5 font-mono text-femto text-muted-foreground shadow-sm">
           TS
         </span>
-        <span className="absolute right-2 bottom-2 rounded border bg-card/80 px-1.5 py-0.5 font-mono text-[0.5rem] text-muted-foreground shadow-sm">
+        <span className="absolute right-2 bottom-2 rounded border bg-card/80 px-1.5 py-0.5 font-mono text-femto text-muted-foreground shadow-sm">
           AI
         </span>
         <span className="grid size-10 place-content-center rounded-xl border bg-card shadow-elevation-2">
@@ -435,7 +435,7 @@ const NavHoverCard = ({ item }: { item: NavItem }) => (
               <item.icon className="size-4" />
             </span>
             <div className="min-w-0">
-              <p className="font-mono text-[0.625rem] font-medium text-primary uppercase tracking-[0.16em]">
+              <p className="font-mono text-nano font-medium text-primary uppercase tracking-[0.16em]">
                 {item.eyebrow}
               </p>
               <p className="mt-1 font-heading text-base font-semibold tracking-[-0.02em]">

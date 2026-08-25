@@ -262,7 +262,7 @@ export const MarathonCourseGraphic = ({
         strokeWidth="1"
       />
 
-      <g className="fill-muted-foreground font-mono text-[7px] uppercase tracking-[0.16em]">
+      <g className="fill-muted-foreground font-mono text-femto uppercase tracking-[0.16em]">
         <text x="18" y="315">
           Staten Island
         </text>
@@ -369,6 +369,7 @@ export const MarathonCourseGraphic = ({
 
       <g
         className="pointer-events-none text-primary transition-transform duration-700 ease-in-out will-change-transform motion-reduce:transition-none"
+        data-testid="marathon-runner"
         filter="url(#runner-shadow)"
         style={{ transform: `translate(${runner.x}px, ${runner.y}px)` }}
       >
@@ -387,7 +388,7 @@ export const MarathonCourseGraphic = ({
         <circle className="fill-current" r="3" />
       </g>
 
-      <g className="fill-muted-foreground font-mono text-[7px] uppercase tracking-wider">
+      <g className="fill-muted-foreground font-mono text-femto uppercase tracking-wider">
         <circle className="fill-primary" cx="48" cy="296" r="3" />
         <text x="16" y="285">
           Start
@@ -404,7 +405,7 @@ export const MarathonCourseGraphic = ({
           transform={`translate(${tooltip.x} ${tooltip.y})`}
         >
           <rect className="fill-foreground" height="27" rx="7" width="112" />
-          <text className="fill-background font-mono text-[8px]" x="8" y="17">
+          <text className="fill-background font-mono text-femto" x="8" y="17">
             Day {hoveredDay.dayIndex} · {getMarkerLabel(hoveredDay)}
           </text>
         </g>
