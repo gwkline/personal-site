@@ -88,11 +88,11 @@ const callOnce = async (
   const { apiKey, baseUrl } = llmConfig();
   const response = await fetch(`${baseUrl}/chat/completions`, {
     body: JSON.stringify({
-      // Full-plan adjust drafts measured ~4.1k completion tokens and
-      // truncated at the previous 4096 cap, failing JSON parse on every
-      // attempt (audit log: completionTokens 4096/4096, "JSON parse failed").
-      // 16k leaves 4x headroom; small calls like "today" are unaffected.
-      max_tokens: 16_384,
+      // GLM reasoning can consume the whole budget before it emits the
+      // full-plan JSON: 4,096 truncated the draft, and 16,384 still produced
+      // empty or incomplete content on adjust calls. Leave room for reasoning
+      // plus the seven-day plan; small calls like "today" are unaffected.
+      max_tokens: 32_768,
       messages,
       model,
       response_format: { type: "json_object" },
