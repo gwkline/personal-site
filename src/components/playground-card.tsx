@@ -3,6 +3,7 @@ import {
   ArrowUpRight,
   Component,
   DoorOpen,
+  Dumbbell,
   Route as RouteIcon,
   Waves,
 } from "lucide-react";
@@ -56,6 +57,7 @@ const accentStyles = {
 
 const graphicIcons = {
   depths: DoorOpen,
+  dumbbell: Dumbbell,
   endurance: RouteIcon,
   storybook: Component,
   wallpaper: Waves,
@@ -268,6 +270,39 @@ const StorybookVisual = () => (
   </div>
 );
 
+const DumbbellVisual = () => (
+  <div
+    aria-hidden="true"
+    className="relative my-7 h-32 overflow-hidden rounded-xl border bg-surface-sunken"
+  >
+    <svg className="absolute inset-0 size-full" viewBox="0 0 320 128">
+      <g stroke="var(--border)" strokeWidth="1">
+        <path d="M20 40H300M20 88H300" fill="none" />
+      </g>
+      <g
+        className="transition-transform duration-300 ease-out group-hover/card:-translate-x-1.5"
+        stroke="var(--primary)"
+        strokeLinecap="round"
+      >
+        <path d="M132 64H188" strokeWidth="5" />
+        <path d="M118 44V84M126 52V76" strokeWidth="4" />
+        <path d="M202 44V84M194 52V76" strokeWidth="4" />
+        <path d="M112 56V72M108 60V68" strokeWidth="3.5" opacity="0.7" />
+        <path d="M208 56V72M212 60V68" strokeWidth="3.5" opacity="0.7" />
+      </g>
+      <g fill="none" stroke="var(--muted-foreground)" strokeLinecap="round">
+        <path
+          d="M232 96C248 84 258 72 274 84"
+          opacity="0.45"
+          strokeDasharray="2 3"
+          strokeWidth="1.5"
+        />
+      </g>
+      <circle cx="274" cy="84" fill="var(--primary)" r="4" />
+    </svg>
+  </div>
+);
+
 const PlaygroundVisual = ({ graphic }: { graphic: PlaygroundGraphic }) => {
   switch (graphic) {
     case "wallpaper": {
@@ -281,6 +316,9 @@ const PlaygroundVisual = ({ graphic }: { graphic: PlaygroundGraphic }) => {
     }
     case "storybook": {
       return <StorybookVisual />;
+    }
+    case "dumbbell": {
+      return <DumbbellVisual />;
     }
     default: {
       const exhaustiveGraphic: never = graphic;

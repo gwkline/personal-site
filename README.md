@@ -33,6 +33,20 @@ Copy `.env.example` to `.env.local` for a checklist of every environment variabl
 
 The home page GitHub widget is powered by an hourly Convex cron (`convex/crons.ts`) and works out of the box for the `gwkline` account. Optionally set `GITHUB_USERNAME` to point at a different account and `GITHUB_TOKEN` (a classic PAT with no scopes is enough) in the Convex deployment to raise API rate limits: `npx convex env set GITHUB_TOKEN ghp_...`.
 
+## Gym tracker (`/gym`)
+
+The workout routine tracker at `/gym` follows the same trust model as the 75 Hard tracker: public dashboard, owner-only editing (same `OWNER_EMAIL`). Design docs live in `docs/gym/`.
+
+Its LLM coach calls **GLM-5.3 over the opencode-go subscription** (OpenAI-compatible at `https://opencode.ai/zen/go/v1`). Set the key once in the Convex deployment — it is a Convex env var, never a Vite one, so it never reaches the browser:
+
+```sh
+bunx convex env set OPENCODE_GO_API_KEY <key>
+```
+
+The coach proposes plan adjustments and today's session; applying a draft always goes through the validated, owner-gated mutation, and every call is audited in the `gymCoachLogs` table. With the key unset, everything else works — the coach surfaces a clear configuration error instead.
+
+The accountability nudge ships **off** (`gymSettings.nudgeEnabled`). Flipped on by the owner from the Coach panel, `bun run gym:nudge` texts the day's open session through the existing `hermes send` path and stays silent when the flag is off. Scheduling it is deliberately left to a reviewed follow-up (see `docs/gym/04-roadmap.md`).
+
 ## Scripts
 
 - `bun run dev` — initialize Convex, then run Vite+ and Convex together
