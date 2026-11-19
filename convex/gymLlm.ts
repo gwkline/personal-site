@@ -37,25 +37,39 @@ const sleep = (ms: number) =>
   });
 
 /** Parse LLM content into a JSON object; returns the error message instead
- * of throwing so the retry loop can log and hint on failure. */
+ * of throwing so the retry loop can log and hint on failure. Tolerates
+ * markdown fences and surrounding commentary before giving up; a truncated
+ * response still fails and relies on the retry loop. */
 const parseJsonObject = (
   content: string
 ):
   | { error: string; parsed: null }
   | { error: null; parsed: Record<string, unknown> } => {
-  try {
-    const parsed = JSON.parse(content) as Record<string, unknown>;
-    if (
-      typeof parsed !== "object" ||
-      parsed === null ||
-      Array.isArray(parsed)
-    ) {
-      return { error: "Response is not a JSON object", parsed: null };
-    }
-    return { error: null, parsed };
-  } catch {
-    return { error: "JSON parse failed", parsed: null };
+  const candidates: string[] = [content];
+  const fenced = content.match(/```(?:json)?\s*(?<json>[\s\S]*?)```/u);
+  if (fenced?.groups?.json) {
+    candidates.push(fenced.groups.json);
   }
+  const firstBrace = content.indexOf("{");
+  const lastBrace = content.lastIndexOf("}");
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    candidates.push(content.slice(firstBrace, lastBrace + 1));
+  }
+  for (const candidate of candidates) {
+    try {
+      const parsed = JSON.parse(candidate.trim()) as Record<string, unknown>;
+      if (
+        typeof parsed === "object" &&
+        parsed !== null &&
+        !Array.isArray(parsed)
+      ) {
+        return { error: null, parsed };
+      }
+    } catch {
+      // Try the next, more aggressively extracted candidate.
+    }
+  }
+  return { error: "JSON parse failed", parsed: null };
 };
 
 const llmConfig = () => ({
@@ -74,7 +88,11 @@ const callOnce = async (
   const { apiKey, baseUrl } = llmConfig();
   const response = await fetch(`${baseUrl}/chat/completions`, {
     body: JSON.stringify({
-      max_tokens: 4096,
+      // Full-plan adjust drafts measured ~4.1k completion tokens and
+      // truncated at the previous 4096 cap, failing JSON parse on every
+      // attempt (audit log: completionTokens 4096/4096, "JSON parse failed").
+      // 16k leaves 4x headroom; small calls like "today" are unaffected.
+      max_tokens: 16_384,
       messages,
       model,
       response_format: { type: "json_object" },
