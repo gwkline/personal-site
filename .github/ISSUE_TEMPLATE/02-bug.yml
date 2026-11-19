@@ -1,0 +1,56 @@
+name: Bug report
+description: Something on the site is broken or behaves incorrectly
+labels: ["kind:bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What's broken
+      description: What happens, and where — page or route, build step, or cron.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What proves the bug is fixed — the class of failure, not just the one instance.
+      placeholder: |
+        - [ ] The steps above no longer fail
+        - [ ] An e2e or unit test covers the regression
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Device and browser, or the commit SHA for a build or test failure. Say whether you were in the public view or the edit-authenticated (OWNER_EMAIL) view.
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Where the work lands. Grooming applies the matching area label.
+      multiple: true
+      options:
+        - site
+        - gym-app
+        - content
+        - not sure
+    validations:
+      required: true
