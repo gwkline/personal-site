@@ -1,0 +1,45 @@
+name: Ops / chore
+description: Maintenance, tooling, docs, and cleanup — no user-visible feature
+labels: ["kind:chore"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What needs doing
+      description: And why now — what gets worse if it waits.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: |
+        - [ ] ...
+        - [ ] `bun run check` passes on the PR
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Where the work lands. Grooming applies the matching area label.
+      multiple: true
+      options:
+        - site
+        - gym-app
+        - content
+        - not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Suggested priority
+      description: Optional. The PM loop assigns the final priority label.
+      options:
+        - "P0 — must be fixed before relying on the system"
+        - P1 — next up
+        - P2 — valuable follow-up
+        - P3 — later or optional
+    validations:
+      required: false

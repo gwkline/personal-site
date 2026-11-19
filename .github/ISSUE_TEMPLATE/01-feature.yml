@@ -1,0 +1,70 @@
+name: Feature request
+description: Propose a new capability for the site or the gym app
+labels: ["kind:product"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One issue per deliverable. If the request needs several separately
+        shippable pieces, say so under **Context** — the grooming loop will
+        split it and link the parts.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What is wrong or missing today? Who feels it, and how often?
+      placeholder: |
+        Today I have to ... every time I want to ...
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Proposed outcome
+      description: What it looks like from the user side once this ships.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: |
+        The checklist that proves this issue is done. Write each line so
+        someone other than the author can check it.
+      placeholder: |
+        - [ ] ...
+        - [ ] `bun run check` and `bun run test:e2e` pass on the PR; visual baselines updated if pixels shifted
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and constraints
+      description: Links, prior art, device targets, performance limits — anything an implementer should know before starting.
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Where the work lands. Grooming applies the matching area label.
+      multiple: true
+      options:
+        - site
+        - gym-app
+        - content
+        - not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Suggested priority
+      description: Optional. The PM loop assigns the final priority label.
+      options:
+        - "P0 — must be fixed before relying on the system"
+        - P1 — next up
+        - P2 — valuable follow-up
+        - P3 — later or optional
+    validations:
+      required: false
