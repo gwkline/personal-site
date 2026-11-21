@@ -30,6 +30,15 @@ work live on this page.
 
 See /work for shipped projects and /posts for writing.
 `,
+  "/gym": `# Gym tracker
+
+A weekly workout routine tracker with an LLM coach. One active plan
+balances lifting and running (with asthma-aware intensity notes),
+sessions are logged per day, goal progress is computed from the logs,
+and a coach powered by GLM-5.3 answers "what should I do today" and
+proposes plan adjustments with written explanations. Adjustments apply
+only after review, and every LLM call is audited.
+`,
   "/playground": `# Playground
 
 Interactive toys and experiments, including a generative wallpaper

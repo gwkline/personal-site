@@ -37,6 +37,11 @@ export const SITE_PAGES: SitePage[] = [
   },
   { id: "75-hard", path: "/75-hard", ready: "main" },
   {
+    id: "gym",
+    path: "/gym",
+    ready: "main h1",
+  },
+  {
     id: "post-01-hello-world",
     path: "/posts/01-hello-world",
     ready: "main h1",

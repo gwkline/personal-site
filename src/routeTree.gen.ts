@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as R75HardRouteImport } from './routes/75-hard'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DepthsRouteImport } from './routes/depths'
+import { Route as GymRouteImport } from './routes/gym'
 import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as StorybookRouteImport } from './routes/storybook'
 import { Route as WallpaperLabRouteImport } from './routes/wallpaper-lab'
@@ -41,6 +42,11 @@ const AboutRoute = AboutRouteImport.update({
 const DepthsRoute = DepthsRouteImport.update({
   id: '/depths',
   path: '/depths',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GymRoute = GymRouteImport.update({
+  id: '/gym',
+  path: '/gym',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaygroundRoute = PlaygroundRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/depths': typeof DepthsRoute
+  '/gym': typeof GymRoute
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/depths': typeof DepthsRoute
+  '/gym': typeof GymRoute
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/75-hard': typeof R75HardRoute
   '/about': typeof AboutRoute
   '/depths': typeof DepthsRoute
+  '/gym': typeof GymRoute
   '/playground': typeof PlaygroundRoute
   '/storybook': typeof StorybookRoute
   '/wallpaper-lab': typeof WallpaperLabRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/75-hard'
     | '/about'
     | '/depths'
+    | '/gym'
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/75-hard'
     | '/about'
     | '/depths'
+    | '/gym'
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/75-hard'
     | '/about'
     | '/depths'
+    | '/gym'
     | '/playground'
     | '/storybook'
     | '/wallpaper-lab'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   R75HardRoute: typeof R75HardRoute
   AboutRoute: typeof AboutRoute
   DepthsRoute: typeof DepthsRoute
+  GymRoute: typeof GymRoute
   PlaygroundRoute: typeof PlaygroundRoute
   StorybookRoute: typeof StorybookRoute
   WallpaperLabRoute: typeof WallpaperLabRoute
@@ -227,6 +240,13 @@ declare module '@tanstack/react-router' {
       path: '/depths'
       fullPath: '/depths'
       preLoaderRoute: typeof DepthsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gym': {
+      id: '/gym'
+      path: '/gym'
+      fullPath: '/gym'
+      preLoaderRoute: typeof GymRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playground': {
@@ -300,6 +320,7 @@ const rootRouteChildren: RootRouteChildren = {
   R75HardRoute: R75HardRoute,
   AboutRoute: AboutRoute,
   DepthsRoute: DepthsRoute,
+  GymRoute: GymRoute,
   PlaygroundRoute: PlaygroundRoute,
   StorybookRoute: StorybookRoute,
   WallpaperLabRoute: WallpaperLabRoute,

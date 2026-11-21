@@ -59,7 +59,7 @@ type NavSubitem =
   | {
       description: string;
       title: string;
-      to: "/75-hard" | "/depths" | "/storybook" | "/wallpaper-lab";
+      to: "/75-hard" | "/depths" | "/gym" | "/storybook" | "/wallpaper-lab";
     }
   | {
       description: string;
@@ -291,6 +291,37 @@ const NavSubitemGraphic = ({ item }: { item: NavSubitem }) => {
             r="3.25"
             stroke="var(--primary)"
             strokeOpacity="0.65"
+          />
+        </svg>
+      </span>
+    );
+  }
+  if (item.to === "/gym") {
+    return (
+      <span
+        aria-hidden="true"
+        className="size-9 shrink-0 overflow-hidden rounded-md border bg-surface-sunken"
+      >
+        <svg className="size-full" viewBox="0 0 36 36">
+          <path
+            d="M14 18H22"
+            stroke="var(--primary)"
+            strokeLinecap="round"
+            strokeWidth="1.6"
+          />
+          <path
+            d="M12.5 12.5V23.5M15 15V21M23.5 12.5V23.5M21 15V21"
+            fill="none"
+            stroke="var(--primary)"
+            strokeLinecap="round"
+            strokeWidth="1.6"
+          />
+          <path
+            d="M8 28H28"
+            stroke="var(--muted-foreground)"
+            strokeOpacity="0.35"
+            strokeLinecap="round"
+            strokeWidth="1.25"
           />
         </svg>
       </span>

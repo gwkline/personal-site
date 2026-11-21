@@ -14,7 +14,7 @@ export default defineConfig({
   ],
   overrides: [
     {
-      files: ["convex/depthsData.ts"],
+      files: ["convex/depthsData.ts", "convex/gymCoach.ts", "convex/gymLlm.ts"],
       rules: {
         "unicorn/filename-case": "off",
       },

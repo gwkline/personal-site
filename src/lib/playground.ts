@@ -2,6 +2,7 @@ export type PlaygroundAccent = "amber" | "info" | "primary";
 
 export type PlaygroundGraphic =
   | "depths"
+  | "dumbbell"
   | "endurance"
   | "storybook"
   | "wallpaper";
@@ -9,6 +10,7 @@ export type PlaygroundGraphic =
 export type PlaygroundRoute =
   | "/75-hard"
   | "/depths"
+  | "/gym"
   | "/storybook"
   | "/wallpaper-lab";
 
@@ -23,6 +25,17 @@ export interface PlaygroundItem {
 }
 
 export const playgroundItems: readonly PlaygroundItem[] = [
+  {
+    accent: "primary",
+    description:
+      "A weekly training plan with runs and lifting in balance, logged sessions, goal bars, and a GLM coach that explains every adjustment.",
+    eyebrow: "Live · LLM coach",
+    graphic: "dumbbell",
+    navDescription:
+      "Weekly plan, session logs, goal bars, and a coach that explains changes.",
+    title: "Gym tracker",
+    to: "/gym",
+  },
   {
     accent: "info",
     description:
