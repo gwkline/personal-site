@@ -75,7 +75,9 @@ const ErrorFallback = ({ error, reset }: ErrorComponentProps) => (
           className="rounded-lg bg-surface-sunken px-3 py-2 text-muted-foreground text-sm"
           role="alert"
         >
-          {error.message || "An unexpected error occurred."}
+          {error instanceof Error && error.message
+            ? error.message
+            : "An unexpected error occurred."}
         </p>
       </CardContent>
       <CardFooter className="flex flex-wrap gap-2">
