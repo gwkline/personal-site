@@ -9,43 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WallpaperLabRouteImport } from './routes/wallpaper-lab'
-import { Route as StorybookRouteImport } from './routes/storybook'
-import { Route as PlaygroundRouteImport } from './routes/playground'
-import { Route as DepthsRouteImport } from './routes/depths'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as R75HardRouteImport } from './routes/75-hard'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WorkIndexRouteImport } from './routes/work/index'
-import { Route as PostsIndexRouteImport } from './routes/posts/index'
-import { Route as WorkSlugRouteImport } from './routes/work/$slug'
-import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
+import { Route as R75HardRouteImport } from './routes/75-hard'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as DepthsRouteImport } from './routes/depths'
+import { Route as PlaygroundRouteImport } from './routes/playground'
+import { Route as StorybookRouteImport } from './routes/storybook'
+import { Route as WallpaperLabRouteImport } from './routes/wallpaper-lab'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
+import { Route as PostsIndexRouteImport } from './routes/posts/index'
+import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
+import { Route as WorkIndexRouteImport } from './routes/work/index'
+import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
-const WallpaperLabRoute = WallpaperLabRouteImport.update({
-  id: '/wallpaper-lab',
-  path: '/wallpaper-lab',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StorybookRoute = StorybookRouteImport.update({
-  id: '/storybook',
-  path: '/storybook',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlaygroundRoute = PlaygroundRouteImport.update({
-  id: '/playground',
-  path: '/playground',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DepthsRoute = DepthsRouteImport.update({
-  id: '/depths',
-  path: '/depths',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const R75HardRoute = R75HardRouteImport.update({
@@ -53,14 +33,34 @@ const R75HardRoute = R75HardRouteImport.update({
   path: '/75-hard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkIndexRoute = WorkIndexRouteImport.update({
-  id: '/work/',
-  path: '/work/',
+const DepthsRoute = DepthsRouteImport.update({
+  id: '/depths',
+  path: '/depths',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaygroundRoute = PlaygroundRouteImport.update({
+  id: '/playground',
+  path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StorybookRoute = StorybookRouteImport.update({
+  id: '/storybook',
+  path: '/storybook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WallpaperLabRoute = WallpaperLabRouteImport.update({
+  id: '/wallpaper-lab',
+  path: '/wallpaper-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PostsIndexRoute = PostsIndexRouteImport.update({
@@ -68,19 +68,19 @@ const PostsIndexRoute = PostsIndexRouteImport.update({
   path: '/posts/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkSlugRoute = WorkSlugRouteImport.update({
-  id: '/work/$slug',
-  path: '/work/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PostsSlugRoute = PostsSlugRouteImport.update({
   id: '/posts/$slug',
   path: '/posts/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiHealthRoute = ApiHealthRouteImport.update({
-  id: '/api/health',
-  path: '/api/health',
+const WorkIndexRoute = WorkIndexRouteImport.update({
+  id: '/work/',
+  path: '/work/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkSlugRoute = WorkSlugRouteImport.update({
+  id: '/work/$slug',
+  path: '/work/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -201,39 +201,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/wallpaper-lab': {
-      id: '/wallpaper-lab'
-      path: '/wallpaper-lab'
-      fullPath: '/wallpaper-lab'
-      preLoaderRoute: typeof WallpaperLabRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/storybook': {
-      id: '/storybook'
-      path: '/storybook'
-      fullPath: '/storybook'
-      preLoaderRoute: typeof StorybookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/playground': {
-      id: '/playground'
-      path: '/playground'
-      fullPath: '/playground'
-      preLoaderRoute: typeof PlaygroundRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/depths': {
-      id: '/depths'
-      path: '/depths'
-      fullPath: '/depths'
-      preLoaderRoute: typeof DepthsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/75-hard': {
@@ -243,18 +215,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof R75HardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/work/': {
-      id: '/work/'
-      path: '/work'
-      fullPath: '/work/'
-      preLoaderRoute: typeof WorkIndexRouteImport
+    '/depths': {
+      id: '/depths'
+      path: '/depths'
+      fullPath: '/depths'
+      preLoaderRoute: typeof DepthsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playground': {
+      id: '/playground'
+      path: '/playground'
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/storybook': {
+      id: '/storybook'
+      path: '/storybook'
+      fullPath: '/storybook'
+      preLoaderRoute: typeof StorybookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wallpaper-lab': {
+      id: '/wallpaper-lab'
+      path: '/wallpaper-lab'
+      fullPath: '/wallpaper-lab'
+      preLoaderRoute: typeof WallpaperLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/posts/': {
@@ -264,13 +264,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/work/$slug': {
-      id: '/work/$slug'
-      path: '/work/$slug'
-      fullPath: '/work/$slug'
-      preLoaderRoute: typeof WorkSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/posts/$slug': {
       id: '/posts/$slug'
       path: '/posts/$slug'
@@ -278,11 +271,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/health': {
-      id: '/api/health'
-      path: '/api/health'
-      fullPath: '/api/health'
-      preLoaderRoute: typeof ApiHealthRouteImport
+    '/work/': {
+      id: '/work/'
+      path: '/work'
+      fullPath: '/work/'
+      preLoaderRoute: typeof WorkIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/$slug': {
+      id: '/work/$slug'
+      path: '/work/$slug'
+      fullPath: '/work/$slug'
+      preLoaderRoute: typeof WorkSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
